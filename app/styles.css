@@ -143,7 +143,7 @@ a {
   grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
   gap: clamp(1rem, 4vw, 3rem);
   align-items: center;
-  padding: clamp(1.6rem, 4vw, 3.2rem);
+  padding: clamp(1.4rem, 3vw, 2.4rem);
   border-radius: 24px;
   color: #fff;
   background:
@@ -188,8 +188,8 @@ a {
 }
 
 .hero h1 {
-  margin: 0.75rem 0 0.55rem;
-  font-size: clamp(2.3rem, 5vw, 4.2rem);
+  margin: 0.55rem 0 0.45rem;
+  font-size: clamp(2.1rem, 4.5vw, 3.4rem);
   line-height: 0.95;
   letter-spacing: -0.045em;
 }
@@ -198,8 +198,8 @@ a {
   margin: 0;
   max-width: 680px;
   color: rgba(255, 255, 255, 0.82);
-  font-size: clamp(0.95rem, 1.4vw, 1.08rem);
-  line-height: 1.6;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  line-height: 1.55;
 }
 
 .hero-stats {
@@ -207,13 +207,13 @@ a {
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-top: 1.35rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .hero-stat {
-  min-width: 112px;
-  padding: 0.7rem 0.85rem;
+  min-width: 100px;
+  padding: 0.55rem 0.7rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 13px;
   background: rgba(255, 255, 255, 0.1);
@@ -222,7 +222,7 @@ a {
 
 .hero-stat strong {
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   letter-spacing: -0.02em;
 }
 
@@ -421,30 +421,6 @@ a {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.55rem 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #fff;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-  user-select: none;
-  box-shadow: var(--shadow-sm);
-}
-
-.switch input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--burgundy);
-  cursor: pointer;
-}
-
 .results-count {
   margin: 0 0 0.85rem;
   color: var(--muted);
@@ -455,20 +431,145 @@ a {
   color: var(--ink);
 }
 
+/* Cursos desplegables */
+
+.year-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.year-group {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.year-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.year-summary::-webkit-details-marker {
+  display: none;
+}
+
+.year-summary::marker {
+  content: "";
+}
+
+.year-summary:hover {
+  background: #fbfcfe;
+}
+
+.year-summary:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.28);
+  outline-offset: -3px;
+}
+
+.year-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  min-width: 0;
+}
+
+.year-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.year-meta {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.year-chevron {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  margin-right: 0.2rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.year-group[open] .year-chevron {
+  transform: rotate(-135deg);
+}
+
+.year-body {
+  padding: 1rem 1.15rem 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.subject-block + .subject-block {
+  margin-top: 1.2rem;
+}
+
+.subject-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.65rem;
+}
+
+.subject-head h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.subject-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, var(--burgundy));
+}
+
+.subject-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: #f2f4f7;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
 /* Rejilla de exámenes */
 
 .exam-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
-  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 0.75rem;
 }
 
 .exam-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 205px;
-  padding: 1.05rem;
+  min-height: 165px;
+  padding: 0.95rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--card);
@@ -506,11 +607,10 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 
 .subject-pill,
-.year-pill,
 .lang-pill {
   display: inline-flex;
   align-items: center;
@@ -528,7 +628,7 @@ a {
   background: color-mix(in srgb, var(--accent, var(--burgundy)) 10%, white);
 }
 
-.year-pill {
+.lang-pill {
   padding: 0.3rem 0.55rem;
   color: var(--muted);
   background: #f2f4f7;
@@ -536,26 +636,24 @@ a {
 
 .exam-card h3 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.25;
   letter-spacing: -0.015em;
-}
-
-.card-sub {
-  margin: 0.25rem 0 0;
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.45;
 }
 
 .card-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 0.7rem;
-  margin-top: 0.7rem;
+  gap: 0.25rem 0.65rem;
+  margin-top: 0.55rem;
   color: #475467;
   font-size: 0.74rem;
   font-weight: 600;
+}
+
+.card-note {
+  color: var(--muted);
+  font-weight: 500;
 }
 
 .card-meta span {
@@ -570,7 +668,7 @@ a {
   justify-content: space-between;
   gap: 0.5rem;
   margin-top: auto;
-  padding-top: 0.9rem;
+  padding-top: 0.7rem;
 }
 
 .badge {
@@ -1646,12 +1744,12 @@ a {
   }
 
   .hero {
-    padding: 1.35rem;
+    padding: 1.2rem;
     border-radius: 18px;
   }
 
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.1rem;
   }
 
   .hero p {
@@ -1672,9 +1770,20 @@ a {
     flex-basis: 100%;
   }
 
-  .switch {
-    order: 3;
-    align-self: flex-start;
+  .year-summary {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .year-body {
+    padding: 0.85rem 0.9rem 1rem;
+  }
+
+  .year-name {
+    font-size: 1.05rem;
+  }
+
+  .year-meta {
+    font-size: 0.7rem;
   }
 
   .exam-grid {

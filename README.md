@@ -12,7 +12,7 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 
 ## Características
 
-- **180 exámenes** de las tres asignaturas, ordenados por curso y prueba.
+- **180 exámenes** de las tres asignaturas, organizados en cursos desplegables y ordenados por prueba (P1, P2, recuperaciones y extraordinarias).
 - **162 exámenes corregibles** con un total de **2.867 preguntas tipo test**.
 - 18 exámenes en **modo lectura** (PDFs escaneados o sin solución reconocible).
 - Respuesta haciendo clic en el propio PDF o desde la hoja de respuestas lateral.

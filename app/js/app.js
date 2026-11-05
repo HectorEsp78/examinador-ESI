@@ -17,6 +17,8 @@ const SUBJECT_META = {
   ssdd: { name: "Sistemas Distribuidos", color: "#b45309" },
 };
 
+const SUBJECT_ORDER = { redes1: 0, redes2: 1, ssdd: 2 };
+
 const STORAGE_PREFIX = "examinador:v1:";
 
 const state = {
@@ -26,7 +28,7 @@ const state = {
   corrected: false,
   result: null,
   panelOpen: false,
-  filter: { subject: "all", query: "", onlyInteractive: false },
+  filter: { subject: "all", query: "" },
   renderToken: 0,
   pdfDoc: null,
   zoom: 1,
@@ -208,9 +210,8 @@ function renderCatalog() {
         <span class="eyebrow">Práctica de exámenes</span>
         <h1>Examinador</h1>
         <p>
-          Resuelve los exámenes de Redes I, Redes II y Sistemas Distribuidos
-          directamente sobre el PDF. Marca tus opciones con un clic y, al terminar,
-          corrige para ver aciertos, fallos, respuestas correctas y puntuación.
+          Elige un curso, abre una prueba y responde directamente sobre el PDF.
+          Al terminar, corrige para ver aciertos, fallos y puntuación.
         </p>
         <div class="hero-stats">
           <div class="hero-stat">
@@ -274,14 +275,10 @@ function renderCatalog() {
           value="${escapeHtml(state.filter.query)}"
         />
       </div>
-      <label class="switch">
-        <input type="checkbox" id="only-interactive" ${state.filter.onlyInteractive ? "checked" : ""} />
-        Solo corregibles
-      </label>
     </div>
 
     <p class="results-count" id="results-count"></p>
-    <div class="exam-grid" id="exam-grid"></div>
+    <div class="year-list" id="exam-grid"></div>
 
     <footer class="site-footer">
       <p>
@@ -315,12 +312,59 @@ function renderCatalog() {
     renderGrid();
   });
 
-  $("#only-interactive").addEventListener("change", (event) => {
-    state.filter.onlyInteractive = event.target.checked;
-    renderGrid();
-  });
-
   renderGrid();
+}
+
+function examTypeRank(exam) {
+  const code = String(exam.code || "").toUpperCase();
+  if (/^(EXTRA-)?P1X/.test(code)) return 50;
+  if (/^(EXTRA-)?P2X/.test(code)) return 60;
+  if (/^P1R/.test(code)) return 30;
+  if (/^P2R/.test(code)) return 40;
+  if (/^P1/.test(code)) return 10;
+  if (/^P2/.test(code)) return 20;
+  if (/^P3/.test(code)) return 70;
+  if (/^C[123]/.test(code)) return 80;
+  if (/^(FINAL|ORDINARIO)/.test(code)) return 90;
+  return 100;
+}
+
+function renderExamCard(exam) {
+  const meta = SUBJECT_META[exam.subject] || {
+    name: exam.subjectName,
+    color: "#8b1e3f",
+  };
+  const details = exam.interactive
+    ? `${plural(exam.questionCount, "pregunta", "preguntas")} · ${formatPoints(exam.maxScore)} pts`
+    : plural(exam.pageCount, "página", "páginas");
+  const hasNonTest =
+    exam.interactive &&
+    exam.declaredTotal &&
+    Math.abs(exam.declaredTotal - exam.maxScore) > 0.01;
+  const language = exam.language === "en" ? '<span class="lang-pill">EN</span>' : "";
+
+  return `
+    <a
+      class="exam-card"
+      href="#/exam/${encodeURIComponent(exam.id)}"
+      style="--accent:${meta.color}"
+    >
+      <div class="card-top">
+        <span class="subject-pill">${escapeHtml(meta.name)}</span>
+        ${language}
+      </div>
+      <h3>${escapeHtml(exam.codeLabel)}</h3>
+      <div class="card-meta">
+        <span>${details}</span>
+        ${hasNonTest ? '<span class="card-note">incluye parte no tipo test</span>' : ""}
+      </div>
+      <div class="card-footer">
+        <span class="badge ${exam.interactive ? "ok" : "readonly"}">
+          ${exam.interactive ? "Corregible" : "Solo lectura"}
+        </span>
+        <span class="card-cta">Abrir →</span>
+      </div>
+    </a>`;
 }
 
 function renderGrid() {
@@ -329,11 +373,11 @@ function renderGrid() {
   if (!grid || !state.data) return;
 
   const query = fold(state.filter.query.trim());
+  const searching = Boolean(query);
   const list = state.data.exams.filter((exam) => {
     if (state.filter.subject !== "all" && exam.subject !== state.filter.subject) {
       return false;
     }
-    if (state.filter.onlyInteractive && !exam.interactive) return false;
     if (!query) return true;
     const haystack = fold(
       [
@@ -349,53 +393,112 @@ function renderGrid() {
     return haystack.includes(query);
   });
 
-  count.innerHTML = `<strong>${list.length}</strong> ${list.length === 1 ? "examen" : "exámenes"} encontrados`;
+  list.sort(
+    (a, b) =>
+      b.yearSort - a.yearSort ||
+      (SUBJECT_ORDER[a.subject] ?? 9) - (SUBJECT_ORDER[b.subject] ?? 9) ||
+      examTypeRank(a) - examTypeRank(b) ||
+      a.codeLabel.localeCompare(b.codeLabel, "es") ||
+      a.language.localeCompare(b.language) ||
+      a.id.localeCompare(b.id)
+  );
+
+  const byYear = new Map();
+  for (const exam of list) {
+    const year = exam.year || "Sin curso";
+    if (!byYear.has(year)) byYear.set(year, []);
+    byYear.get(year).push(exam);
+  }
+
+  const examWord = list.length === 1 ? "examen" : "exámenes";
+  const yearWord = byYear.size === 1 ? "año" : "años";
+  count.innerHTML = `<strong>${list.length}</strong> ${examWord} en <strong>${byYear.size}</strong> ${yearWord}`;
 
   if (!list.length) {
     grid.innerHTML = `
       <div class="empty-state">
         No hay exámenes que coincidan con el filtro.
       </div>`;
+    grid.dataset.rendered = "true";
+    grid.dataset.searching = String(searching);
     return;
   }
 
-  grid.innerHTML = list
-    .map((exam) => {
-      const meta = SUBJECT_META[exam.subject] || {
-        name: exam.subjectName,
-        color: "#8b1e3f",
-      };
-      const language = exam.language === "en" ? "Inglés" : "Español";
-      const details = exam.interactive
-        ? `${plural(exam.questionCount, "pregunta", "preguntas")} · ${formatPoints(exam.maxScore)} pts`
-        : `${plural(exam.pageCount, "página", "páginas")} · Solo lectura`;
+  const openYears = new Set(
+    $$(".year-group[open]", grid).map((group) => group.dataset.year)
+  );
+  const firstYear = byYear.keys().next().value;
+  const noOpenYear = ![...openYears].some((year) => byYear.has(year));
+  if (
+    !grid.dataset.rendered ||
+    (grid.dataset.searching === "true" && !searching) ||
+    noOpenYear
+  ) {
+    openYears.clear();
+    if (firstYear) openYears.add(firstYear);
+  }
+  if (searching) {
+    for (const year of byYear.keys()) openYears.add(year);
+  }
+
+  grid.innerHTML = [...byYear.entries()]
+    .map(([year, yearExams]) => {
+      const interactiveCount = yearExams.filter((exam) => exam.interactive).length;
+      const bySubject = new Map();
+      for (const exam of yearExams) {
+        if (!bySubject.has(exam.subject)) bySubject.set(exam.subject, []);
+        bySubject.get(exam.subject).push(exam);
+      }
+
+      const showSubjectHeadings = state.filter.subject === "all";
+      const subjectBlocks = state.data.subjects
+        .map((subject) => {
+          const subjectExams = bySubject.get(subject.id);
+          if (!subjectExams?.length) return "";
+          const meta = SUBJECT_META[subject.id] || {
+            name: subject.name,
+            color: "#8b1e3f",
+          };
+          const cards = subjectExams.map(renderExamCard).join("");
+          if (!showSubjectHeadings) {
+            return `<div class="exam-grid">${cards}</div>`;
+          }
+          return `
+            <section class="subject-block" style="--accent:${meta.color}">
+              <div class="subject-head">
+                <span class="subject-dot" aria-hidden="true"></span>
+                <h3>${escapeHtml(subject.name)}</h3>
+                <span class="subject-count">${subjectExams.length}</span>
+              </div>
+              <div class="exam-grid">${cards}</div>
+            </section>`;
+        })
+        .join("");
+
       return `
-        <a
-          class="exam-card"
-          href="#/exam/${encodeURIComponent(exam.id)}"
-          style="--accent:${meta.color}"
-        >
-          <div class="card-top">
-            <span class="subject-pill">${escapeHtml(meta.name)}</span>
-            <span class="year-pill">${escapeHtml(exam.year || "—")}</span>
-          </div>
-          <h3>${escapeHtml(exam.codeLabel)}</h3>
-          <p class="card-sub">
-            ${escapeHtml(exam.subjectName)} · ${language}
-            ${exam.declaredTotal && Math.abs(exam.declaredTotal - exam.maxScore) > 0.01 ? " · incluye parte no tipo test" : ""}
-          </p>
-          <div class="card-meta">
-            <span>${details}</span>
-          </div>
-          <div class="card-footer">
-            <span class="badge ${exam.interactive ? "ok" : "readonly"}">
-              ${exam.interactive ? "Corregible" : "Solo lectura"}
+        <details class="year-group" data-year="${escapeHtml(year)}"${
+          openYears.has(year) ? " open" : ""
+        }>
+          <summary class="year-summary">
+            <span class="year-title">
+              <span class="year-name">${escapeHtml(year)}</span>
+              <span class="year-meta">${plural(
+                yearExams.length,
+                "examen",
+                "exámenes"
+              )} · ${interactiveCount} ${
+                interactiveCount === 1 ? "corregible" : "corregibles"
+              }</span>
             </span>
-            <span class="card-cta">Abrir →</span>
-          </div>
-        </a>`;
+            <span class="year-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="year-body">${subjectBlocks}</div>
+        </details>`;
     })
     .join("");
+
+  grid.dataset.rendered = "true";
+  grid.dataset.searching = String(searching);
 }
 
 /* --------------------------------------------------------------------------
