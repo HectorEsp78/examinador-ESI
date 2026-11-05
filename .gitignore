@@ -1,0 +1,15 @@
+# Repositorio de exámenes originales (clon anidado, no se publica)
+past-exams/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Dependencias de desarrollo
+node_modules/
