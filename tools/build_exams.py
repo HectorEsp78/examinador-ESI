@@ -764,9 +764,7 @@ def main() -> int:
         return 1
     OUT_PDFS.mkdir(parents=True, exist_ok=True)
     OUT_DATA.parent.mkdir(parents=True, exist_ok=True)
-    # Evita dejar PDFs antiguos si se renombra o elimina un examen.
-    for old_pdf in OUT_PDFS.glob("*.pdf"):
-        old_pdf.unlink()
+    new_pdf_names: set[str] = set()
 
     # 1. Reunir archivos de las tres asignaturas.
     found: list[Path] = []
@@ -850,6 +848,7 @@ def main() -> int:
             n += 1
         used_slugs.add(slug)
         pdf_name = slug + ".pdf"
+        new_pdf_names.add(pdf_name)
         shutil.copy2(display, OUT_PDFS / pdf_name)
 
         exam_id = slug
@@ -893,6 +892,11 @@ def main() -> int:
             e["id"],
         )
     )
+
+    # Elimina PDFs antiguos solo cuando el catálogo nuevo ya está completo.
+    for old_pdf in OUT_PDFS.glob("*.pdf"):
+        if old_pdf.name not in new_pdf_names:
+            old_pdf.unlink()
 
     payload = {
         "generatedAt": __import__("datetime").datetime.now().isoformat(timespec="seconds"),
