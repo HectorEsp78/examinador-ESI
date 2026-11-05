@@ -21,6 +21,15 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 - Soporte de preguntas de **opción múltiple**.
 - Penalizaciones leídas del enunciado: sin penalización, cada N fallos, por fallo
   o fracción de la nota de la pregunta.
+- **Historial de intentos**: cada vez que corriges un examen se guarda un intento
+  nuevo; al reiniciar el examen se borran las respuestas actuales, pero no el
+  historial.
+- **Progreso por asignatura** en la portada: porcentaje de exámenes aprobados
+  (mejor intento ≥ 50 %) sobre exámenes resueltos, número de intentos y mejor
+  resultado de cada examen.
+- **Temario de Sistemas Distribuidos**: cada pregunta de SSDD puede abrir las
+  diapositivas relacionadas del temario, con un visor PDF y un explorador por
+  tema y página.
 - Progreso guardado en `localStorage`: puedes cerrar y volver más tarde.
 - No necesita backend: todo se sirve como archivos estáticos desde el mismo sitio.
 - Preparada para publicarse gratis con **GitHub Pages**.
@@ -34,9 +43,13 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 │   ├── styles.css
 │   ├── js/app.js             # Catálogo, visor PDF.js, respuestas y corrección
 │   ├── data/exams.json       # Catálogo, preguntas, opciones y soluciones
+│   ├── data/ssdd_temario.json# Índice de diapositivas y sugerencias por pregunta
 │   ├── pdfs/                 # Copias de los PDFs que muestra la app
+│   ├── temario/ssdd/         # Copia de las diapositivas de SSDD
 │   └── vendor/pdfjs/         # PDF.js, cmaps y fuentes estándar
+├── temario/ssdd/             # PDFs originales del temario de SSDD
 ├── tools/build_exams.py      # Genera data/exams.json y copia los PDFs
+├── tools/build_temario.py    # Genera ssdd_temario.json y copia las diapositivas
 ├── past-exams/               # Clon original de UCLM-ESI/past-exams (no se sube)
 ├── .github/workflows/pages.yml
 ├── LICENSE
@@ -44,7 +57,8 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 ```
 
 `past-exams/` está en `.gitignore` porque es un repositorio anidado. La app es
-autocontenida: los PDFs que necesita ya están copiados en `app/pdfs/`.
+autocontenida: los PDFs y las diapositivas que necesita ya están copiados dentro
+de `app/`.
 
 ## Ver la app en local
 
@@ -130,9 +144,10 @@ que funciona tanto en la raíz de un dominio como en un subdirectorio de proyect
 
 ### Tamaño del repositorio
 
-La app ocupa unos **63 MB**, principalmente por los PDFs (55 MB). Ningún archivo
-supera los 100 MB, el límite de GitHub. El repositorio queda muy por debajo del
-límite blando de 1 GB.
+La app ocupa unos **67 MB**, principalmente por los PDFs de examen (55 MB), las
+diapositivas de SSDD (3,7 MB) y PDF.js (4,1 MB). Ningún archivo supera los
+100 MB, el límite de GitHub. El repositorio queda muy por debajo del límite
+blando de 1 GB.
 
 ## Cómo se calcula la nota
 
@@ -150,6 +165,57 @@ límite blando de 1 GB.
 - Algunos PDFs antiguos tienen erratas en los puntos por pregunta (por ejemplo,
   marcan `(5p)` en un test de 8 puntos). En esos casos la puntuación se normaliza
   al total declarado en el enunciado.
+
+## Historial, intentos y tasa de aprobados
+
+Cada vez que pulsas **Corregir** se añade un intento al historial del examen.
+El historial se guarda en la misma entrada de `localStorage` que las respuestas,
+así que no se pierde al cerrar el navegador. **Reiniciar** borra las respuestas
+actuales y el resultado en pantalla, pero conserva los intentos anteriores.
+
+La portada muestra tres tarjetas, una por asignatura. El porcentaje se calcula
+así:
+
+- **Numerador:** exámenes corregibles distintos cuyo mejor intento alcanza el
+  50 % o más.
+- **Denominador:** exámenes corregibles distintos con al menos un intento
+  guardado.
+- Un examen con varios intentos cuenta una sola vez; para saber si está aprobado
+  se usa su mejor intento.
+
+El histórico de un examen concreto muestra la fecha, la puntuación, el porcentaje,
+la etiqueta Aprobado/Suspenso y el desglose de aciertos, fallos y preguntas en
+blanco. Las correcciones antiguas guardadas antes de existir el historial se
+migran como primer intento al abrir el examen.
+
+## Temario de Sistemas Distribuidos
+
+La app incluye cuatro temas de SSDD en `app/temario/ssdd/`:
+
+- Introducción y conceptos básicos.
+- Comunicación indirecta.
+- Diseño de protocolos.
+- Invocación remota.
+
+Cada pregunta de SSDD muestra un botón **Temario** en la hoja de respuestas. Al
+pulsarlo se abre un visor con hasta tres diapositivas sugeridas y un explorador
+para cambiar de tema o de página. Las sugerencias se generan con un mapeo
+heurístico bilingüe (español/inglés) a partir del texto de la pregunta y de la
+respuesta correcta. No es una correspondencia manual: puede haber preguntas sin
+sugerencias claras (por ejemplo, temas que no están en estos cuatro temas) y
+alguna sugerencia aproximada. En esos casos se puede explorar el temario completo
+desde el selector.
+
+Para regenerar el índice y copiar las diapositivas a la app:
+
+```bash
+python3 tools/build_temario.py
+```
+
+El script necesita los PDFs originales en `temario/ssdd/` y las herramientas
+`pdfinfo` y `pdftotext` de poppler-utils. Escribe
+`app/data/ssdd_temario.json` y copia los PDFs a `app/temario/ssdd/`. Si añades o
+cambias diapositivas, actualiza la lista `DECKS` del script y vuelve a ejecutarlo.
 
 ## Añadir nuevos exámenes
 

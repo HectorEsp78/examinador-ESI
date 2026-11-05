@@ -20,6 +20,7 @@ const SUBJECT_META = {
 const SUBJECT_ORDER = { redes1: 0, redes2: 1, ssdd: 2 };
 
 const STORAGE_PREFIX = "examinador:v1:";
+const PASS_PERCENTAGE = 50;
 
 const state = {
   data: null,
@@ -27,12 +28,17 @@ const state = {
   answers: {},
   corrected: false,
   result: null,
+  attempts: [],
+  attemptsByExam: new Map(),
   panelOpen: false,
   filter: { subject: "all", query: "" },
   renderToken: 0,
   pdfDoc: null,
   zoom: 1,
   toastTimer: null,
+  temario: null,
+  temarioDocs: new Map(),
+  temarioToken: 0,
 };
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -99,17 +105,43 @@ function normaliseAnswers(exam, raw) {
   return answers;
 }
 
+function normaliseAttempt(exam, raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const percentage = Number(raw.percentage);
+  if (!Number.isFinite(percentage)) return null;
+  const score = Number(raw.score);
+  const maxScore = Number(raw.maxScore);
+  return {
+    at: typeof raw.at === "string" ? raw.at : "",
+    score: Number.isFinite(score) ? score : 0,
+    maxScore: Number.isFinite(maxScore) ? maxScore : exam.maxScore || 0,
+    percentage: Math.max(0, Math.min(100, percentage)),
+    correct: Number(raw.correct) || 0,
+    wrong: Number(raw.wrong) || 0,
+    blank: Number(raw.blank) || 0,
+    penaltyPoints: Number(raw.penaltyPoints) || 0,
+    passed: Boolean(raw.passed ?? percentage >= PASS_PERCENTAGE),
+    answers: normaliseAnswers(exam, raw.answers),
+  };
+}
+
 function loadProgress(exam) {
   try {
     const raw = localStorage.getItem(STORAGE_PREFIX + exam.id);
-    if (!raw) return { answers: {}, corrected: false };
+    if (!raw) return { answers: {}, corrected: false, attempts: [] };
     const parsed = JSON.parse(raw);
+    const attempts = Array.isArray(parsed.attempts)
+      ? parsed.attempts
+          .map((attempt) => normaliseAttempt(exam, attempt))
+          .filter(Boolean)
+      : [];
     return {
       answers: normaliseAnswers(exam, parsed.answers),
       corrected: Boolean(parsed.corrected),
+      attempts,
     };
   } catch {
-    return { answers: {}, corrected: false };
+    return { answers: {}, corrected: false, attempts: [] };
   }
 }
 
@@ -121,12 +153,78 @@ function saveProgress() {
       JSON.stringify({
         answers: state.answers,
         corrected: state.corrected,
+        attempts: state.attempts,
         updatedAt: new Date().toISOString(),
       })
     );
   } catch {
     /* almacenamiento lleno o bloqueado: la app sigue funcionando */
   }
+}
+
+function makeAttempt(result) {
+  if (!result) return null;
+  return {
+    at: new Date().toISOString(),
+    score: result.score,
+    maxScore: result.maxScore,
+    percentage: result.percentage,
+    correct: result.correct,
+    wrong: result.wrong,
+    blank: result.blank,
+    penaltyPoints: result.penaltyPoints,
+    passed: result.percentage >= PASS_PERCENTAGE,
+    answers: Object.fromEntries(
+      Object.entries(state.answers).map(([qid, letters]) => [qid, [...letters]])
+    ),
+  };
+}
+
+function recordAttempt(result) {
+  const attempt = makeAttempt(result);
+  if (!attempt) return null;
+  state.attempts.push(attempt);
+  return attempt;
+}
+
+function loadAllProgress() {
+  const cache = new Map();
+  if (!state.data) return cache;
+  for (const exam of state.data.exams) {
+    cache.set(exam.id, loadProgress(exam).attempts);
+  }
+  state.attemptsByExam = cache;
+  return cache;
+}
+
+function subjectProgress() {
+  const stats = Object.fromEntries(
+    state.data.subjects.map((subject) => [
+      subject.id,
+      { solved: 0, passed: 0, attempts: 0, best: 0 },
+    ])
+  );
+  for (const exam of state.data.exams) {
+    if (!exam.interactive) continue;
+    const attempts = state.attemptsByExam.get(exam.id) || [];
+    const stat = stats[exam.subject];
+    if (!stat || !attempts.length) continue;
+    stat.solved += 1;
+    stat.attempts += attempts.length;
+    const best = Math.max(...attempts.map((attempt) => attempt.percentage));
+    stat.best = Math.max(stat.best, best);
+    if (best >= PASS_PERCENTAGE) stat.passed += 1;
+  }
+  return stats;
+}
+
+function formatAttemptDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Sin fecha";
+  return date.toLocaleString("es-ES", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
 }
 
 function getExam(id) {
@@ -143,9 +241,19 @@ function pdfUrl(exam) {
 
 async function init() {
   try {
-    const response = await fetch("data/exams.json", { cache: "no-cache" });
+    const [response, temarioResponse] = await Promise.all([
+      fetch("data/exams.json", { cache: "no-cache" }),
+      fetch("data/ssdd_temario.json", { cache: "no-cache" }).catch(() => null),
+    ]);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     state.data = await response.json();
+    if (temarioResponse?.ok) {
+      try {
+        state.temario = await temarioResponse.json();
+      } catch {
+        state.temario = null;
+      }
+    }
   } catch (error) {
     $("#view").innerHTML = `
       <div class="empty-state" style="margin-top:2rem">
@@ -181,6 +289,57 @@ async function route() {
    Catálogo
    -------------------------------------------------------------------------- */
 
+function renderProgressSummary(progress) {
+  return `
+    <section class="progress-summary" aria-labelledby="progress-summary-title">
+      <div class="progress-summary-head">
+        <h2 id="progress-summary-title">Tu progreso</h2>
+        <span>Aprobado ≥ ${PASS_PERCENTAGE}% · sobre exámenes resueltos</span>
+      </div>
+      <div class="progress-summary-grid">
+        ${state.data.subjects
+          .map((subject) => {
+            const meta = SUBJECT_META[subject.id] || {
+              name: subject.name,
+              color: "#8b1e3f",
+            };
+            const stat = progress[subject.id] || {
+              solved: 0,
+              passed: 0,
+              attempts: 0,
+              best: 0,
+            };
+            const value = stat.solved
+              ? Math.round((stat.passed / stat.solved) * 100)
+              : null;
+            const detail = stat.solved
+              ? `${stat.passed} de ${stat.solved} aprobados · ${plural(
+                  stat.attempts,
+                  "intento",
+                  "intentos"
+                )}`
+              : "Sin exámenes resueltos";
+            return `
+              <article class="progress-card" style="--accent:${meta.color}">
+                <div class="progress-card-head">
+                  <span class="subject-dot" aria-hidden="true"></span>
+                  <h3>${escapeHtml(subject.name)}</h3>
+                </div>
+                <div class="progress-card-value">
+                  <strong>${value === null ? "—" : `${value}%`}</strong>
+                  <span>aprobados</span>
+                </div>
+                <div class="progress-track progress-card-track" aria-hidden="true">
+                  <span style="width:${value === null ? 0 : value}%"></span>
+                </div>
+                <p>${escapeHtml(detail)}</p>
+              </article>`;
+          })
+          .join("")}
+      </div>
+    </section>`;
+}
+
 function renderCatalog() {
   state.renderToken += 1;
   state.exam = null;
@@ -192,6 +351,8 @@ function renderCatalog() {
   closePanel();
   $("#topbar-right").innerHTML = "";
 
+  loadAllProgress();
+  const progressStats = subjectProgress();
   const exams = state.data.exams;
   const interactive = exams.filter((exam) => exam.interactive);
   const totalQuestions = interactive.reduce((sum, exam) => sum + exam.questionCount, 0);
@@ -245,6 +406,8 @@ function renderCatalog() {
         </div>
       </div>
     </section>
+
+    ${renderProgressSummary(progressStats)}
 
     <div class="catalog-toolbar">
       <div class="tabs" role="tablist" aria-label="Asignaturas">
@@ -342,6 +505,16 @@ function renderExamCard(exam) {
     exam.declaredTotal &&
     Math.abs(exam.declaredTotal - exam.maxScore) > 0.01;
   const language = exam.language === "en" ? '<span class="lang-pill">EN</span>' : "";
+  const attempts = state.attemptsByExam.get(exam.id) || [];
+  const best = attempts.length
+    ? Math.max(...attempts.map((attempt) => attempt.percentage))
+    : null;
+  const history =
+    best === null
+      ? ""
+      : `<span class="card-history ${best >= PASS_PERCENTAGE ? "passed" : ""}">
+          ${plural(attempts.length, "intento", "intentos")} · mejor ${Math.round(best)}%
+        </span>`;
 
   return `
     <a
@@ -357,6 +530,7 @@ function renderExamCard(exam) {
       <div class="card-meta">
         <span>${details}</span>
         ${hasNonTest ? '<span class="card-note">incluye parte no tipo test</span>' : ""}
+        ${history}
       </div>
       <div class="card-footer">
         <span class="badge ${exam.interactive ? "ok" : "readonly"}">
@@ -515,8 +689,18 @@ async function openExam(id) {
   const saved = loadProgress(exam);
   state.exam = exam;
   state.answers = saved.answers;
+  state.attempts = saved.attempts;
   state.corrected = Boolean(saved.corrected && exam.interactive);
   state.result = state.corrected ? gradeExam() : null;
+  if (
+    state.corrected &&
+    state.result?.answered > 0 &&
+    state.attempts.length === 0
+  ) {
+    // Migración de datos antiguos: conserva como primer intento la corrección ya guardada.
+    recordAttempt(state.result);
+    saveProgress();
+  }
   state.panelOpen = false;
   state.zoom = 1;
   state.renderToken += 1;
@@ -570,6 +754,9 @@ function renderExamShell(exam) {
             ? `<button class="btn ghost" id="btn-sheet" type="button">
                 Hoja <span class="long">de respuestas</span>
               </button>
+              <button class="btn ghost" id="btn-history" type="button" ${
+                state.attempts.length ? "" : "hidden"
+              }>Historial</button>
               <button class="btn ghost" id="btn-reset" type="button">Reiniciar</button>
               <button class="btn primary" id="btn-correct" type="button">Corregir</button>`
             : ""
@@ -627,12 +814,18 @@ function renderExamShell(exam) {
     });
     $("#btn-reset")?.addEventListener("click", resetAnswers);
     $("#btn-sheet")?.addEventListener("click", togglePanel);
+    $("#btn-history")?.addEventListener("click", showHistoryModal);
     $("#panel-close")?.addEventListener("click", closePanel);
     $("#document")?.addEventListener("click", (event) => {
       const zone = event.target.closest(".option-zone");
       if (zone) selectOption(zone.dataset.q, zone.dataset.letter);
     });
     $("#answers-panel")?.addEventListener("click", (event) => {
+      const temario = event.target.closest("[data-temario]");
+      if (temario) {
+        openTemario(temario.dataset.temario);
+        return;
+      }
       const option = event.target.closest(".q-opt");
       if (option) {
         selectOption(option.dataset.q, option.dataset.letter);
@@ -876,6 +1069,8 @@ function updatePanel() {
   const resultMap = new Map(
     (state.result?.details || []).map((detail) => [detail.qid, detail])
   );
+  const temarioAvailable =
+    state.exam.subject === "ssdd" && Boolean(state.temario?.decks?.length);
 
   panel.innerHTML = state.exam.questions
     .map((question) => {
@@ -919,6 +1114,13 @@ function updatePanel() {
           </button>
           <div class="q-text">${escapeHtml(question.text || `Pregunta ${question.number}`)}</div>
           <div class="q-options">${options}</div>
+          ${
+            temarioAvailable
+              ? `<button class="q-temario" type="button" data-temario="${question.id}">
+                  <span aria-hidden="true">▤</span> Temario
+                </button>`
+              : ""
+          }
         </div>`;
     })
     .join("");
@@ -958,6 +1160,14 @@ function updateToolbar() {
   if (reset) {
     reset.disabled =
       Object.keys(state.answers).length === 0 && !state.corrected;
+  }
+  const history = $("#btn-history");
+  if (history) {
+    history.hidden = state.attempts.length === 0;
+    history.textContent =
+      state.attempts.length > 1
+        ? `Historial (${state.attempts.length})`
+        : "Historial";
   }
 }
 
@@ -1084,6 +1294,9 @@ function correctNow() {
   const apply = () => {
     state.corrected = true;
     state.result = gradeExam();
+    if (state.result?.answered > 0) {
+      recordAttempt(state.result);
+    }
     saveProgress();
     updateAll();
     showResultModal();
@@ -1153,6 +1366,15 @@ function showResultModal() {
   const percentage = Math.round(result.percentage);
   const ringColor =
     percentage >= 60 ? "#15803d" : percentage >= 40 ? "#b45309" : "#dc2626";
+  const bestAttempt = state.attempts.length
+    ? Math.max(...state.attempts.map((attempt) => attempt.percentage))
+    : null;
+  const attemptNote = state.attempts.length
+    ? `<p class="attempt-note">
+        ${plural(state.attempts.length, "intento guardado", "intentos guardados")}
+        · mejor ${Math.round(bestAttempt)}%
+      </p>`
+    : "";
   const rows = result.details
     .map((detail) => {
       const status = detail.correct
@@ -1215,6 +1437,7 @@ function showResultModal() {
       </div>
 
       <p class="score-note">${escapeHtml(scoreNote(result))}</p>
+      ${attemptNote}
 
       <div class="result-list">${rows}</div>
 
@@ -1222,6 +1445,11 @@ function showResultModal() {
         ${
           result.correct < result.details.length
             ? `<button class="btn ghost" type="button" id="review-failures">Repasar fallos</button>`
+            : ""
+        }
+        ${
+          state.attempts.length
+            ? `<button class="btn ghost" type="button" id="result-history">Historial</button>`
             : ""
         }
         <button class="btn ghost" type="button" id="retry-exam">Reintentar</button>
@@ -1243,6 +1471,10 @@ function showResultModal() {
     close();
     resetAnswers();
   });
+  modal.querySelector("#result-history")?.addEventListener("click", () => {
+    close();
+    showHistoryModal();
+  });
   modal.querySelector("#review-failures")?.addEventListener("click", () => {
     const first = result.details.find((detail) => !detail.correct);
     close();
@@ -1255,6 +1487,68 @@ function showResultModal() {
       setTimeout(() => scrollToQuestion(qid), 80);
     });
   });
+}
+
+function showHistoryModal() {
+  if (!state.exam || !state.attempts.length) {
+    showToast("Todavía no hay intentos guardados.");
+    return;
+  }
+  closeModal();
+  const best = Math.max(
+    ...state.attempts.map((attempt) => attempt.percentage)
+  );
+  const rows = [...state.attempts]
+    .reverse()
+    .map((attempt, index) => {
+      const number = state.attempts.length - index;
+      const passed = attempt.percentage >= PASS_PERCENTAGE;
+      return `
+        <article class="history-row ${passed ? "passed" : ""}">
+          <div class="history-main">
+            <strong>Intento ${number}</strong>
+            <span>${escapeHtml(formatAttemptDate(attempt.at))}</span>
+          </div>
+          <div class="history-score">
+            <strong>${Math.round(attempt.percentage)}%</strong>
+            <span>${formatPoints(attempt.score)} / ${formatPoints(attempt.maxScore)} pts</span>
+          </div>
+          <span class="history-badge ${passed ? "ok" : "bad"}">
+            ${passed ? "Aprobado" : "Suspenso"}
+          </span>
+          <span class="history-detail">
+            ${attempt.correct} aciertos · ${attempt.wrong} fallos · ${attempt.blank} en blanco
+          </span>
+        </article>`;
+    })
+    .join("");
+
+  const modal = document.createElement("div");
+  modal.className = "modal-backdrop";
+  modal.innerHTML = `
+    <div class="modal history-modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+      <button class="modal-close" type="button" aria-label="Cerrar">×</button>
+      <h2 id="history-title">Historial de intentos</h2>
+      <p class="modal-sub">
+        ${escapeHtml(state.exam.codeLabel)} · ${escapeHtml(state.exam.subjectName)}
+        · ${plural(state.attempts.length, "intento", "intentos")} · mejor ${Math.round(best)}%
+      </p>
+      <div class="history-list">${rows}</div>
+      <div class="modal-actions">
+        <button class="btn primary" type="button" id="close-history">Cerrar</button>
+      </div>
+    </div>`;
+
+  document.body.appendChild(modal);
+  document.body.style.overflow = "hidden";
+  modal.querySelector(".modal-close")?.focus();
+
+  const close = () => closeModal();
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) close();
+  });
+  modal.querySelector(".modal-close")?.addEventListener("click", close);
+  modal.querySelector("#close-history")?.addEventListener("click", close);
 }
 
 function showConfirm({ title, message, confirmLabel, onConfirm }) {
@@ -1287,6 +1581,286 @@ function showConfirm({ title, message, confirmLabel, onConfirm }) {
   });
 }
 
+function temarioDeck(deckId) {
+  return (
+    state.temario?.decks?.find((deck) => deck.id === deckId) || null
+  );
+}
+
+function temarioUrl(deck) {
+  return new URL(deck.file, document.baseURI).href;
+}
+
+async function loadTemarioDoc(deck) {
+  if (state.temarioDocs.has(deck.id)) {
+    return state.temarioDocs.get(deck.id);
+  }
+  const task = pdfjsLib.getDocument({
+    url: temarioUrl(deck),
+    cMapUrl: CMAP_URL,
+    cMapPacked: true,
+    standardFontDataUrl: STANDARD_FONTS_URL,
+  });
+  const doc = await task.promise;
+  state.temarioDocs.set(deck.id, doc);
+  return doc;
+}
+
+function openTemario(qid) {
+  if (!state.temario?.decks?.length) {
+    showToast("El temario no está disponible.");
+    return;
+  }
+
+  const question = qid ? questionById(qid) : null;
+  const info = question
+    ? state.temario.questions?.[`${state.exam.id}::${question.id}`]
+    : null;
+  const suggestions = Array.isArray(info?.slides) ? info.slides : [];
+  const firstSuggestion = suggestions[0] || null;
+  // Si no hay sugerencias, empieza por el primer tema para poder explorar el
+  // temario completo; el tema detectado puede ser poco fiable sin diapositivas.
+  let currentDeckId = firstSuggestion?.deck || state.temario.decks[0].id;
+  if (!temarioDeck(currentDeckId)) {
+    currentDeckId = state.temario.decks[0].id;
+  }
+  let currentPage =
+    firstSuggestion?.deck === currentDeckId ? firstSuggestion.page : 1;
+
+  closeModal();
+  state.temarioToken += 1;
+  const modal = document.createElement("div");
+  modal.className = "modal-backdrop";
+  modal.innerHTML = `
+    <div class="modal temario-modal" role="dialog" aria-modal="true" aria-labelledby="temario-title">
+      <button class="modal-close" type="button" aria-label="Cerrar">×</button>
+      <h2 id="temario-title">Temario de Sistemas Distribuidos</h2>
+      <p class="modal-sub">
+        ${
+          question
+            ? `Pregunta ${escapeHtml(question.number)} · ${escapeHtml(
+                state.exam.codeLabel
+              )}`
+            : "Explora las diapositivas del temario"
+        }
+      </p>
+      ${
+        question
+          ? `<p class="temario-question">${escapeHtml(question.text)}</p>`
+          : ""
+      }
+      <p class="temario-hint">
+        Las sugerencias se generan automáticamente a partir del temario.
+        Puedes cambiar de tema o de página para buscar la explicación exacta.
+      </p>
+
+      <div class="temario-layout">
+        <aside class="temario-side">
+          <div class="temario-side-head">
+            <h3>Diapositivas sugeridas</h3>
+            <span>${suggestions.length ? plural(suggestions.length, "coincidencia", "coincidencias") : "Sin coincidencias claras"}</span>
+          </div>
+          <div class="temario-suggestions" id="temario-suggestions">
+            ${
+              suggestions.length
+                ? suggestions
+                    .map((slide) => {
+                      const deck = temarioDeck(slide.deck);
+                      const active =
+                        slide.deck === currentDeckId && slide.page === currentPage;
+                      return `<button
+                        class="temario-suggestion ${active ? "active" : ""}"
+                        type="button"
+                        data-deck="${escapeHtml(slide.deck)}"
+                        data-page="${slide.page}"
+                      >
+                        <span>${escapeHtml(deck?.title || slide.deck)}</span>
+                        <strong>${escapeHtml(
+                          slide.title || `Diapositiva ${slide.page}`
+                        )}</strong>
+                        <small>p. ${slide.page}</small>
+                      </button>`;
+                    })
+                    .join("")
+                : `<p class="temario-empty">
+                    No hay coincidencias claras para esta pregunta en los
+                    cuatro temas actuales. Puedes explorar el temario completo
+                    con el selector de tema.
+                  </p>`
+            }
+          </div>
+
+          <label class="temario-deck-label">
+            <span>Tema</span>
+            <select id="temario-deck">
+              ${state.temario.decks
+                .map(
+                  (deck) =>
+                    `<option value="${escapeHtml(deck.id)}">${escapeHtml(
+                      deck.title
+                    )}</option>`
+                )
+                .join("")}
+            </select>
+          </label>
+
+          <div class="temario-pages" id="temario-pages"></div>
+        </aside>
+
+        <section class="temario-main">
+          <div class="temario-viewer" id="temario-viewer">
+            <div class="pdf-loading">
+              <span class="spinner"></span> Cargando diapositiva…
+            </div>
+          </div>
+          <div class="temario-controls">
+            <button class="btn ghost small" id="temario-prev" type="button">
+              ← Anterior
+            </button>
+            <span id="temario-page-label"></span>
+            <button class="btn ghost small" id="temario-next" type="button">
+              Siguiente →
+            </button>
+            <a class="btn ghost small" id="temario-open" target="_blank" rel="noopener">
+              Abrir PDF
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>`;
+
+  document.body.appendChild(modal);
+  document.body.style.overflow = "hidden";
+  modal.querySelector(".modal-close")?.focus();
+
+  const viewer = $("#temario-viewer", modal);
+  const pagesEl = $("#temario-pages", modal);
+  const deckSelect = $("#temario-deck", modal);
+  const pageLabel = $("#temario-page-label", modal);
+  const prevButton = $("#temario-prev", modal);
+  const nextButton = $("#temario-next", modal);
+  const openLink = $("#temario-open", modal);
+  const suggestionsEl = $("#temario-suggestions", modal);
+
+  const currentDeck = () =>
+    temarioDeck(currentDeckId) || state.temario.decks[0];
+
+  const clampPage = (page, deck) =>
+    Math.max(1, Math.min(deck.pages, Number(page) || 1));
+
+  const renderChrome = () => {
+    const deck = currentDeck();
+    currentPage = clampPage(currentPage, deck);
+    deckSelect.value = deck.id;
+    pageLabel.textContent = `Diapositiva ${currentPage} de ${deck.pages}`;
+    prevButton.disabled = currentPage <= 1;
+    nextButton.disabled = currentPage >= deck.pages;
+    openLink.href = `${temarioUrl(deck)}#page=${currentPage}`;
+
+    suggestionsEl.querySelectorAll("[data-deck]").forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.dataset.deck === deck.id &&
+          Number(button.dataset.page) === currentPage
+      );
+    });
+
+    const pagesScroll = pagesEl.scrollTop;
+    pagesEl.innerHTML = deck.slides
+      .map(
+        (slide) => `<button
+          class="temario-page ${slide.page === currentPage ? "active" : ""}"
+          type="button"
+          data-page="${slide.page}"
+        >
+          <span>${slide.page}</span>
+          ${escapeHtml(slide.title || `Diapositiva ${slide.page}`)}
+        </button>`
+      )
+      .join("");
+    pagesEl.scrollTop = pagesScroll;
+  };
+
+  const renderPage = async () => {
+    const deck = currentDeck();
+    currentPage = clampPage(currentPage, deck);
+    renderChrome();
+    const token = ++state.temarioToken;
+    viewer.innerHTML = `
+      <div class="pdf-loading">
+        <span class="spinner"></span> Cargando diapositiva…
+      </div>`;
+
+    try {
+      const doc = await loadTemarioDoc(deck);
+      if (token !== state.temarioToken || !document.body.contains(modal)) return;
+      const page = await doc.getPage(currentPage);
+      if (token !== state.temarioToken || !document.body.contains(modal)) return;
+
+      const baseViewport = page.getViewport({ scale: 1 });
+      const availableWidth = Math.max(
+        240,
+        Math.min(viewer.clientWidth || 760, 1100)
+      );
+      const viewport = page.getViewport({
+        scale: availableWidth / baseViewport.width,
+      });
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.floor(viewport.width * dpr));
+      canvas.height = Math.max(1, Math.floor(viewport.height * dpr));
+      canvas.style.width = "100%";
+      canvas.style.height = "auto";
+      const context = canvas.getContext("2d", { alpha: false });
+      viewer.innerHTML = "";
+      viewer.appendChild(canvas);
+      await page.render({
+        canvasContext: context,
+        viewport,
+        transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null,
+      }).promise;
+    } catch (error) {
+      if (token !== state.temarioToken) return;
+      viewer.innerHTML = `
+        <div class="temario-error">
+          No se pudo cargar esta diapositiva. Puedes abrir el PDF original.
+        </div>`;
+      console.error(error);
+    }
+  };
+
+  const setDeck = (deckId, page = 1) => {
+    const deck = temarioDeck(deckId);
+    if (!deck) return;
+    currentDeckId = deck.id;
+    currentPage = clampPage(page, deck);
+    renderPage();
+  };
+
+  const setPage = (page) => {
+    currentPage = clampPage(page, currentDeck());
+    renderPage();
+  };
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+  modal.querySelector(".modal-close")?.addEventListener("click", closeModal);
+  deckSelect.addEventListener("change", () => setDeck(deckSelect.value, 1));
+  prevButton.addEventListener("click", () => setPage(currentPage - 1));
+  nextButton.addEventListener("click", () => setPage(currentPage + 1));
+  pagesEl.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-page]");
+    if (button) setPage(Number(button.dataset.page));
+  });
+  suggestionsEl.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-deck]");
+    if (button) setDeck(button.dataset.deck, Number(button.dataset.page));
+  });
+
+  renderPage();
+}
+
 function closeModal() {
   $$(".modal-backdrop").forEach((modal) => modal.remove());
   document.body.style.overflow = "";
@@ -1302,7 +1876,7 @@ function resetAnswers() {
   showConfirm({
     title: "Reiniciar examen",
     message:
-      "Se borrarán todas tus respuestas y el resultado de este examen. Esta acción no se puede deshacer.",
+      "Se borrarán tus respuestas actuales y el resultado en pantalla. El historial de intentos se conserva.",
     confirmLabel: "Reiniciar",
     onConfirm: () => {
       state.answers = {};
@@ -1331,7 +1905,11 @@ function openPanel() {
   if (!panel) return;
   state.panelOpen = true;
   panel.classList.add("open");
-  if (backdrop) backdrop.hidden = false;
+  // En escritorio la hoja de respuestas ya está visible; el fondo modal solo
+  // se necesita cuando el panel se convierte en cajón inferior en móvil.
+  if (backdrop) {
+    backdrop.hidden = !window.matchMedia("(max-width: 960px)").matches;
+  }
 }
 
 function closePanel() {
