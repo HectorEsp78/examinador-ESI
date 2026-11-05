@@ -960,10 +960,31 @@ function addPageOverlays(overlay, exam, pageIndex) {
     overlay.appendChild(cover);
   }
 
+  // Calcula zonas clicables que cubren también las respuestas partidas en dos
+  // líneas. La zona llega hasta la siguiente opción de la misma columna, sin
+  // invadir opciones de otras preguntas.
+  const zoneRects = new Map();
+  for (const { question, option } of options) {
+    const [zx, zy, zw, zh] = option.zone;
+    let nextTop = Infinity;
+    for (const other of options) {
+      if (other.question !== question) continue;
+      const [ox, oy, ow] = other.option.zone;
+      if (oy <= zy + 1) continue;
+      if (ox + ow <= zx || ox >= zx + zw) continue;
+      nextTop = Math.min(nextTop, oy);
+    }
+    const height =
+      Number.isFinite(nextTop) && nextTop > zy
+        ? Math.max(zh, Math.min(nextTop - zy, 90))
+        : zh;
+    zoneRects.set(option, [zx, zy, zw, height]);
+  }
+
   // Después las zonas clicables, por encima de las tapas.
   for (const { question, option } of options) {
     const [x, y, w, h] = option.rect;
-    const [zx, zy, zw, zh] = option.zone;
+    const [zx, zy, zw, zh] = zoneRects.get(option) || option.zone;
     const zone = document.createElement("button");
     zone.type = "button";
     zone.className = "option-zone";

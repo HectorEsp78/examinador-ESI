@@ -16,6 +16,8 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 - **162 exámenes corregibles** con un total de **2.867 preguntas tipo test**.
 - 18 exámenes en **modo lectura** (PDFs escaneados o sin solución reconocible).
 - Respuesta haciendo clic en el propio PDF o desde la hoja de respuestas lateral.
+- En móvil, las casillas del PDF se ocultan y la línea completa de cada respuesta
+  actúa como zona táctil; al seleccionarla se resalta el texto sin taparlo.
 - Zoom del PDF para leer mejor en pantallas pequeñas.
 - Corrección con respuesta marcada, respuesta correcta y puntuación.
 - Soporte de preguntas de **opción múltiple**.

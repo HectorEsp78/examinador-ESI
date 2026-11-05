@@ -998,6 +998,7 @@ a {
   z-index: 1;
   border-radius: 2px;
   background: #fff;
+  box-shadow: 0 0 0 1.5px #fff;
   pointer-events: none;
 }
 
@@ -2226,6 +2227,42 @@ a {
 
   .toolbar-actions .btn span.long {
     display: none;
+  }
+}
+
+/* En móvil y tablet táctil las casillas del PDF se ocultan: la línea completa
+   de la respuesta actúa como zona de toque y se resalta al seleccionarla. */
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
+  .option-zone {
+    touch-action: manipulation;
+  }
+
+  .option-box {
+    display: none;
+  }
+
+  .option-zone.selected {
+    border-radius: 2px;
+    background: rgba(37, 99, 235, 0.14);
+    box-shadow: inset 3px 0 0 rgba(37, 99, 235, 0.9);
+  }
+
+  .option-zone.correct {
+    border-radius: 2px;
+    background: rgba(21, 128, 61, 0.14);
+    box-shadow: inset 3px 0 0 var(--green);
+  }
+
+  .option-zone.wrong {
+    border-radius: 2px;
+    background: rgba(220, 38, 38, 0.14);
+    box-shadow: inset 3px 0 0 var(--red);
+  }
+
+  .option-zone.missed {
+    border-radius: 2px;
+    background: rgba(21, 128, 61, 0.11);
+    box-shadow: inset 3px 0 0 rgba(21, 128, 61, 0.75);
   }
 }
 
