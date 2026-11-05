@@ -399,7 +399,7 @@ function renderGrid() {
       (SUBJECT_ORDER[a.subject] ?? 9) - (SUBJECT_ORDER[b.subject] ?? 9) ||
       examTypeRank(a) - examTypeRank(b) ||
       a.codeLabel.localeCompare(b.codeLabel, "es") ||
-      (a.language === "en" ? 1 : 0) - (b.language === "en" ? 1 : 0) ||
+      a.language.localeCompare(b.language) ||
       a.id.localeCompare(b.id)
   );
 

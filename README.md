@@ -93,10 +93,6 @@ El script:
 Los PDFs de `past-exams/` que no empiezan por `redes1_`, `redes2_` o `ssdd_` se
 ignoran. Los duplicados exactos también se descartan.
 
-El curso lectivo se toma de la cabecera del PDF (por ejemplo, `Curso 24/25`); si
-no aparece, se usa el año del nombre del archivo. Así, un examen realizado en
-2025 pero perteneciente al curso 24/25 se agrupa en `2024/25`.
-
 ## Publicar en GitHub Pages
 
 Esta carpeta ya está inicializada como repositorio Git y tiene un commit inicial.
