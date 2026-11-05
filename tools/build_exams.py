@@ -448,6 +448,39 @@ def declared_total(first_page_text: str) -> float | None:
     return None
 
 
+def academic_year(first_page_text: str) -> str | None:
+    """Curso lectivo indicado en la cabecera (preferido al nombre del archivo)."""
+    text = re.sub(r"\b\d{4}\s*/\s*\d{1,2}\s*/\s*\d{1,2}\b", " ", first_page_text)
+    text = re.sub(r"\s+", " ", text)
+
+    match = re.search(
+        r"\b(?:curso|course)\s+(\d{2,4})\s*/\s*(\d{2,4})\b", text, re.I
+    )
+    if not match:
+        match = re.search(r"\b(20\d{2})\s*/\s*(\d{2,4})\b", text[:500])
+    if not match:
+        return None
+
+    start, end = match.group(1), match.group(2)
+    if len(start) == 2:
+        start = "20" + start
+    if len(end) > 2:
+        end = end[-2:]
+    if len(start) != 4 or len(end) != 2:
+        return None
+    return f"{start}/{end}"
+
+
+def detect_language(first_page_text: str) -> str | None:
+    """Detecta el idioma de la cabecera; algunos PDFs no llevan sufijo _en."""
+    head = first_page_text[:800].lower()
+    if "computer networks" in head or "this exam" in head or "this test" in head:
+        return "en"
+    if "redes de computadores" in head or "este examen" in head or "este test" in head:
+        return "es"
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Nombres y metadatos de archivos
 # ---------------------------------------------------------------------------
@@ -745,6 +778,8 @@ def analyze_exam(path: Path, meta: dict[str, Any]) -> dict[str, Any]:
         ],
         "questions": questions,
         "interactive": interactive,
+        "academicYear": academic_year(first_page_text),
+        "language": detect_language(first_page_text),
         "maxScore": max_score,
         "penalty": parse_penalty(first_page_text),
         "declaredTotal": declared,
@@ -854,18 +889,21 @@ def main() -> int:
         exam_id = slug
         subject = meta["subject"]
         title = f"{SUBJECTS[subject]} · {meta['codeLabel']}"
+        catalog_year = info.get("academicYear") or meta["year"]
+        catalog_year_sort = int(catalog_year[:4]) if catalog_year else 0
+        catalog_language = info.get("language") or meta["language"]
         catalog.append(
             {
                 "id": exam_id,
                 "subject": subject,
                 "subjectName": SUBJECTS[subject],
-                "year": meta["year"],
-                "yearSort": meta["yearSort"],
+                "year": catalog_year,
+                "yearSort": catalog_year_sort,
                 "code": meta["code"],
                 "codeLabel": meta["codeLabel"],
-                "language": meta["language"],
+                "language": catalog_language,
                 "title": title,
-                "subtitle": f"Curso {meta['year']}" if meta["year"] else "Examen",
+                "subtitle": f"Curso {catalog_year}" if catalog_year else "Examen",
                 "pdf": f"pdfs/{pdf_name}",
                 "original": display.name,
                 "solved": True,
