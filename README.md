@@ -16,13 +16,13 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 - **162 exámenes corregibles** con un total de **2.867 preguntas tipo test**.
 - 18 exámenes en **modo lectura** (PDFs escaneados o sin solución reconocible).
 - Respuesta haciendo clic en el propio PDF o desde la hoja de respuestas lateral.
+- Zoom del PDF para leer mejor en pantallas pequeñas.
 - Corrección con respuesta marcada, respuesta correcta y puntuación.
 - Soporte de preguntas de **opción múltiple**.
 - Penalizaciones leídas del enunciado: sin penalización, cada N fallos, por fallo
   o fracción de la nota de la pregunta.
 - Progreso guardado en `localStorage`: puedes cerrar y volver más tarde.
-- Funciona sin backend y sin conexión una vez cargada la página (los PDFs se
-  sirven desde el mismo sitio).
+- No necesita backend: todo se sirve como archivos estáticos desde el mismo sitio.
 - Preparada para publicarse gratis con **GitHub Pages**.
 
 ## Estructura
@@ -95,8 +95,18 @@ ignoran. Los duplicados exactos también se descartan.
 
 ## Publicar en GitHub Pages
 
+Esta carpeta ya está inicializada como repositorio Git y tiene un commit inicial.
+Solo falta asociarla a tu repositorio de GitHub:
+
 1. Crea un repositorio vacío en GitHub (por ejemplo, `examinador`).
 2. Desde la raíz de este proyecto:
+
+   ```bash
+   git remote add origin git@github.com:TU_USUARIO/examinador.git
+   git push -u origin main
+   ```
+
+   Si prefieres empezar de cero:
 
    ```bash
    git init -b main

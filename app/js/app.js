@@ -29,6 +29,7 @@ const state = {
   filter: { subject: "all", query: "", onlyInteractive: false },
   renderToken: 0,
   pdfDoc: null,
+  zoom: 1,
   toastTimer: null,
 };
 
@@ -414,6 +415,7 @@ async function openExam(id) {
   state.corrected = Boolean(saved.corrected && exam.interactive);
   state.result = state.corrected ? gradeExam() : null;
   state.panelOpen = false;
+  state.zoom = 1;
   state.renderToken += 1;
   const token = state.renderToken;
 
@@ -452,17 +454,24 @@ function renderExamShell(exam) {
           · ${plural(exam.pageCount, "página", "páginas")}
         </p>
       </div>
-      ${
-        interactive
-          ? `<div class="toolbar-actions">
-              <button class="btn ghost" id="btn-sheet" type="button">
+      <div class="toolbar-actions">
+        <div class="zoom-control" aria-label="Zoom del documento">
+          <button type="button" id="zoom-out" title="Alejar" aria-label="Alejar">−</button>
+          <button type="button" id="zoom-fit" title="Ajustar al ancho">
+            <span id="zoom-label">100%</span>
+          </button>
+          <button type="button" id="zoom-in" title="Acercar" aria-label="Acercar">+</button>
+        </div>
+        ${
+          interactive
+            ? `<button class="btn ghost" id="btn-sheet" type="button">
                 Hoja <span class="long">de respuestas</span>
               </button>
               <button class="btn ghost" id="btn-reset" type="button">Reiniciar</button>
-              <button class="btn primary" id="btn-correct" type="button">Corregir</button>
-            </div>`
-          : ""
-      }
+              <button class="btn primary" id="btn-correct" type="button">Corregir</button>`
+            : ""
+        }
+      </div>
     </div>
 
     ${
@@ -533,6 +542,11 @@ function renderExamShell(exam) {
       }
     });
   }
+
+  $("#zoom-out")?.addEventListener("click", () => setZoom(state.zoom - 0.25));
+  $("#zoom-in")?.addEventListener("click", () => setZoom(state.zoom + 0.25));
+  $("#zoom-fit")?.addEventListener("click", () => setZoom(1));
+  applyZoom();
 }
 
 /* --------------------------------------------------------------------------
@@ -590,7 +604,6 @@ async function renderPdfPage(pdf, pageNumber, exam, token, container) {
   pageEl.className = "pdf-page";
   pageEl.dataset.page = String(pageNumber - 1);
   pageEl.style.aspectRatio = `${baseViewport.width} / ${baseViewport.height}`;
-  pageEl.style.width = "100%";
 
   const canvas = document.createElement("canvas");
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -860,6 +873,20 @@ function scrollToQuestion(qid) {
     page.classList.add("page-highlight");
     setTimeout(() => page.classList.remove("page-highlight"), 1700);
   }
+}
+
+function setZoom(value) {
+  state.zoom = Math.max(1, Math.min(2.5, Math.round(value * 100) / 100));
+  applyZoom();
+}
+
+function applyZoom() {
+  const documentEl = $("#document");
+  if (documentEl) {
+    documentEl.style.setProperty("--pdf-zoom", String(state.zoom));
+  }
+  const label = $("#zoom-label");
+  if (label) label.textContent = `${Math.round(state.zoom * 100)}%`;
 }
 
 /* --------------------------------------------------------------------------

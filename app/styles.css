@@ -718,6 +718,42 @@ a {
   justify-content: flex-end;
 }
 
+.zoom-control {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.zoom-control button {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 36px;
+  padding: 0 0.3rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.zoom-control button:hover {
+  background: #f4f7fb;
+  color: var(--ink);
+}
+
+.zoom-control #zoom-fit {
+  min-width: 48px;
+  font-size: 0.7rem;
+  font-weight: 750;
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -827,10 +863,14 @@ a {
 
 .document {
   min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.25rem;
 }
 
 .pdf-page {
   position: relative;
+  width: calc(100% * var(--pdf-zoom, 1));
   margin: 0 auto 1rem;
   overflow: hidden;
   border: 1px solid #e0e3e9;
@@ -882,8 +922,8 @@ a {
   position: absolute;
   display: grid;
   place-items: center;
-  width: 18px;
-  height: 18px;
+  width: clamp(16px, calc(18px * var(--pdf-zoom, 1)), 30px);
+  height: clamp(16px, calc(18px * var(--pdf-zoom, 1)), 30px);
   border: 2px solid #64748b;
   border-radius: 4px;
   background: #fff;
@@ -1642,7 +1682,8 @@ a {
   }
 
   .exam-toolbar {
-    top: 58px;
+    position: static;
+    top: auto;
     flex-wrap: wrap;
     gap: 0.45rem;
     padding: 0.45rem 0;
@@ -1668,7 +1709,7 @@ a {
   }
 
   .exam-progress-wrap {
-    top: 118px;
+    top: 58px;
   }
 
   .pdf-page {
@@ -1676,8 +1717,6 @@ a {
   }
 
   .option-box {
-    width: 16px;
-    height: 16px;
     font-size: 10px;
   }
 
