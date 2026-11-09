@@ -1,1662 +1,3017 @@
 {
  "ssdd-2526-p1::q1": {
+  "text": "Es la definición de Coulouris: los componentes se comunican y coordinan solo mediante paso de mensajes. La memoria compartida física no existe entre nodos.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
-  ]
+  "page": 3
+ },
+ "ssdd-2526-p1::q2": {
+  "text": "Las demás opciones son falacias clásicas de los SD: red fiable, latencia cero y red segura. Lo único asumible es que la topología puede cambiar."
+ },
+ "ssdd-2526-p1::q3": {
+  "text": "El temario lista como ventaja la mayor disponibilidad gracias a la tolerancia a fallos. La interconexión, la seguridad de las comunicaciones y la complejidad del software aparecen como inconvenientes.",
+  "deck": "intro",
+  "page": 11
  },
  "ssdd-2526-p1::q4": {
+  "text": "El temario lo coloca entre la plataforma (SO y hardware) y las aplicaciones. No es un simple protocolo, y su función va mucho más allá de la seguridad.",
   "deck": "intro",
-  "page": 26,
-  "excerpt": [
-   "It supports various operating systems",
-   "They provide common structural services to all applications."
-  ]
+  "page": 27
+ },
+ "ssdd-2526-p1::q5": {
+  "text": "El intermediario añade un salto, y por tanto suele añadir latencia. El temario lo cita como sobrecarga por el nivel de indirección. Reducirla o no necesitar identidades no es cierto.",
+  "deck": "indirect",
+  "page": 6
+ },
+ "ssdd-2526-p1::q6": {
+  "text": "El temario define la semántica como el significado de los campos y sus valores permitidos.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-2526-p1::q7": {
+  "text": "Protocol Buffers es binario y con tipado fuerte, de modo que produce mensajes pequeños y rápidos de procesar. JSON y XML son textuales y más voluminosos.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-2526-p1::q8": {
+  "text": "Con 5 tipos de mensaje se necesitan ⌈log₂ 5⌉ = 3 bits. Dos bits solo codificarían 4 tipos.",
+  "deck": "protocol-design",
+  "page": 3
+ },
+ "ssdd-2526-p1::q10": {
+  "text": "El temario cita la extensibilidad entre los aspectos no funcionales del diseño. Un protocolo debe ser independiente de lenguajes y sistemas operativos concretos.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-2526-p1::q11": {
+  "text": "Cada incremento modifica el estado de otra forma: el temario pone counter.inc() como ejemplo de no idempotente. Consultar no cambia estado, y asignar un valor fijo produce el mismo efecto.",
+  "deck": "remote-invocation",
+  "page": 12
  },
  "ssdd-2526-p1::q12": {
+  "text": "Según el temario, el stub del servidor deserializa argumentos, llama al procedimiento y serializa el resultado. La lógica de negocio está en el sirviente o procedimiento real.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "Object references as arguments and return values",
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 32
  },
  "ssdd-2526-p1::q13": {
+  "text": "Marshalling convierte datos del programa a la representación transmisible por la red. Localizar o conectar es binding, y lo demás es trabajo del runtime.",
   "deck": "remote-invocation",
-  "page": 56,
-  "excerpt": [
-   "Across the network all converge to the round-trip time"
-  ]
+  "page": 56
  },
  "ssdd-2526-p1::q14": {
+  "text": "El binder registra referencias y permite que los clientes las encuentren a partir de un identificador. No ejecuta métodos ni hace marshalling.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "Object references as arguments and return values",
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 28
  },
  "ssdd-2526-p1::q15": {
+  "text": "El temario indica que la invocación asíncrona no bloquea al cliente y mejora la escalabilidad. No cambia la semántica ni los bytes, y complica el middleware.",
   "deck": "remote-invocation",
-  "page": 9,
-  "excerpt": [
-   "Typically a blocking request (client is blocked waiting for reply)",
-   "Server reply is like an ACK for client"
-  ]
+  "page": 9
+ },
+ "ssdd-2526-p1x-es::q1": {
+  "text": "El orden está invertido: las aplicaciones se ejecutan sobre el SD, no al revés. El temario lo dice así: «The DA runs on top a DS».",
+  "deck": "intro",
+  "page": 6
  },
  "ssdd-2526-p1x-es::q2": {
+  "text": "EC2 proporciona máquinas virtuales, y tú gestionas lo que corre en ellas. El temario pone AWS como ejemplo de IaaS.",
   "deck": "intro",
-  "page": 10,
-  "excerpt": [
-   "Platform as a Service (PaaS): The customer is only concerned with the application build. The provider manages the IT resources.",
-   "Software as a Service (SaaS): Both the infrastructure and the application itself are managed by the provider."
-  ]
+  "page": 27
  },
  "ssdd-2526-p1x-es::q3": {
+  "text": "Varios usuarios editan el mismo documento a la vez y cada uno trabaja como si estuviera solo. Es transparencia de concurrencia.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time."
-  ]
+  "page": 21
+ },
+ "ssdd-2526-p1x-es::q4": {
+  "text": "El temario atribuye al middleware las tres: centrarse en lo funcional, language bindings con interfaces comunes y referencias universales. Por eso son todas correctas.",
+  "deck": "intro",
+  "page": 11
  },
  "ssdd-2526-p1x-es::q5": {
+  "text": "Asíncrona significa que el emisor no espera: envía y continúa. Las dos primeras opciones hablan de mensajería síncrona, y por eso son contradictorias.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
+ },
+ "ssdd-2526-p1x-es::q6": {
+  "text": "JSON es texto legible, lo que facilita depurar. Protocol Buffers es binario y gana en tamaño y velocidad, justo lo contrario de la opción a).",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-2526-p1x-es::q7": {
+  "text": "El temario define protocolo como las reglas que permiten comunicarse a varias entidades. Su objetivo es que los procesos se entiendan y coordinen; el rendimiento es secundario."
+ },
+ "ssdd-2526-p1x-es::q8": {
+  "text": "Un código de estado o error informa del resultado de la operación. El temario lo muestra con los códigos de error de TFTP.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-2526-p1x-es::q9": {
+  "text": "oneof agrupa campos de los que, como máximo, uno tiene valor; asignar otro borra el anterior. Ahorra memoria y expresa alternativas excluyentes.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-2526-p1x-es::q10": {
+  "text": "Con push, el sensor notifica en cuanto detecta el cambio, de modo que se reacciona lo antes posible. Con pull, el retardo depende del periodo de consulta.",
+  "deck": "indirect",
+  "page": 24
  },
  "ssdd-2526-p1x-es::q11": {
+  "text": "Con red poco fiable hay que reintentar; pero al no ser idempotentes, no se puede reejecutar. At-most-once filtra duplicados y retransmite la respuesta. Exactly-once es posible, aunque caro.",
   "deck": "remote-invocation",
-  "page": 12,
-  "excerpt": [
-   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once."
-  ]
+  "page": 13
  },
  "ssdd-2526-p1x-es::q12": {
+  "text": "Es el orden del temario: cliente → proxy con su stub → red → adaptador de objetos → stub del servidor → sirviente.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Client stubs: Performs param marshalling and return value unmarshalling.",
-   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
-  ]
+  "page": 32
  },
  "ssdd-2526-p1x-es::q13": {
+  "text": "Según el temario, el servidor se registra en el portmapper (puerto 111) con programa, versión y puerto. El cliente le pregunta y recibe el puerto del servicio.",
   "deck": "remote-invocation",
-  "page": 44,
-  "excerpt": [
-   "Clients invoke portmapper giving program and version numbers",
-   "Portmapper reply with TCP/UDP port"
-  ]
+  "page": 44
+ },
+ "ssdd-2526-p1x-es::q14": {
+  "text": "Si el cliente cae tras pedir, el servidor sigue ejecutando una petición cuyo resultado nadie recogerá: eso es computación huérfana.",
+  "deck": "remote-invocation",
+  "page": 24
  },
  "ssdd-2526-p1x-es::q15": {
+  "text": "El temario lo aclara: son dos mecanismos independientes. AMI evita bloquear al cliente, mientras que AMD evita bloquear hilos del servidor hasta tener la respuesta.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 48
+ },
+ "ssdd-2526-p1r::q1": {
+  "text": "Sin tiempo común, los algoritmos no pueden ordenar eventos por hora y deben usar mensajes. Por eso condiciona el diseño de cualquier algoritmo distribuido.",
+  "deck": "protocol-design",
+  "page": 16
  },
  "ssdd-2526-p1r::q2": {
+  "text": "El temario sitúa el middleware entre las aplicaciones y la plataforma (hardware y SO): da servicios comunes a las primeras y se apoya en la segunda.",
   "deck": "intro",
-  "page": 26,
-  "excerpt": [
-   "They provide common structural services to all applications."
-  ]
+  "page": 27
  },
  "ssdd-2526-p1r::q3": {
+  "text": "El temario define la nube por ofrecer recursos bajo demanda, elásticos y con pago por uso. Los protocolos estándar o compartir recursos no son exclusivos de ella.",
   "deck": "intro",
-  "page": 10,
-  "excerpt": [
-   "Platform as a Service (PaaS): The customer is only concerned with the application build. The provider manages the IT resources."
-  ]
+  "page": 9
  },
  "ssdd-2526-p1r::q4": {
+  "text": "Según el temario, un servicio es la funcionalidad expuesta mediante operaciones; un servidor es el proceso que la implementa, y puede proveer varios servicios.",
   "deck": "intro",
-  "page": 13,
-  "excerpt": [
-   "SERVICE – a component managing a collection of related resources and provides functionality to users and applications"
-  ]
+  "page": 13
  },
  "ssdd-2526-p1r::q5": {
+  "text": "El temario define transparencia de fallo como ocultar los fallos a los clientes: el sistema sigue operando sin que se note. Eso no implica evitar todos.",
   "deck": "remote-invocation",
-  "page": 46,
-  "excerpt": [
-   "Connection fails: ask again and retry; a server can move with no exception"
-  ]
+  "page": 11
+ },
+ "ssdd-2526-p1r::q6": {
+  "text": "Protocol Buffers usa marshalling binario, mientras que XML, JSON y YAML son formatos de texto. El temario muestra 518 bytes frente a 789 de JSON.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-2526-p1r::q7": {
+  "text": "El temario define la sincronización justo así: patrones de intercambio de mensajes, fases, temporizadores y estados.",
+  "deck": "remote-invocation",
+  "page": 6
  },
  "ssdd-2526-p1r::q8": {
+  "text": "El temario lo atribuye al marshalling binario: mensajes pequeños y procesado rápido. No tiene nada que ver con TCP.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing"
-  ]
+  "page": 17
+ },
+ "ssdd-2526-p1r::q9": {
+  "text": "RRA intercambia tres mensajes (petición, respuesta y ack) y cada uno se serializa una vez antes de enviarse.",
+  "deck": "remote-invocation",
+  "page": 10
+ },
+ "ssdd-2526-p1r::q10": {
+  "text": "TCP ofrece transporte de bytes fiable, pero el diseño del protocolo de aplicación (formato, significado e intercambio) debes definirlo tú. La fiabilidad de TCP no resuelve ese diseño.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-2526-p1r::q11": {
+  "text": "Abrir una puerta ya abierta no cambia nada: es idempotente. Al no importar la repetición, basta reintentar sin filtrar, y at-least-once es la opción más barata que garantiza la acción."
  },
  "ssdd-2526-p1r::q12": {
+  "text": "Según el temario, el stub del cliente hace marshalling de la operación y argumentos y envía la petición. Es generado automáticamente a partir de la interfaz.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Client stubs: Performs param marshalling and return value unmarshalling.",
-   "Server stubs performs params unmarshalling and return value (or error) marshalling."
-  ]
+  "page": 31
  },
  "ssdd-2526-p1r::q13": {
+  "text": "Un sirviente puede tener métodos auxiliares locales. Solo los declarados en la interfaz remota se pueden invocar remotamente, y por eso d) es falsa.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "OO devel methodologies and tools",
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 32
  },
  "ssdd-2526-p1r::q14": {
+  "text": "El temario indica que el objetivo es que llamar a un procedimiento remoto se parezca lo máximo a una llamada local convencional. El coste y retardo son, de hecho, mayores.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good",
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
  },
  "ssdd-2526-p1r::q15": {
+  "text": "El temario dedica una diapositiva a «REST is not RPC»: no imita llamadas locales ni usa compilador de interfaces, y tiene semántica predefinida. Por tanto, a) es falsa.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST is an architectural style. An API that fulfills the principles of this style is a \"RESTful API\".",
-   "REST transfers representations of resource states"
-  ]
+  "page": 59
+ },
+ "ssdd-2526-p2::q1": {
+  "text": "El temario señala como desventaja de la comunicación indirecta la dificultad para lograr propiedades extremo a extremo, como la seguridad, porque hay un intermediario. La directa no lo tiene.",
+  "deck": "indirect",
+  "page": 4
  },
  "ssdd-2526-p2::q2": {
+  "text": "Push-pull describe cada tramo: el publicador empuja (push) al broker y el subscriptor pide (pull) los mensajes cuando quiere. Si el broker los enviara por su cuenta sería push-push.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-2526-p2::q3": {
+  "text": "La cola retiene los trabajos, así que productores y workers no necesitan estar activos a la vez ni ir al mismo ritmo.",
   "deck": "indirect",
-  "page": 30,
-  "excerpt": [
-   "RabbitMQ flexible binding work queues publish-subscribe topics routing"
-  ]
+  "page": 30
  },
  "ssdd-2526-p2::q4": {
+  "text": "El temario presenta cuatro modelos de subscripción: por canal, por tópico, por contenido y por tipo. Sesiones y conexiones no son modelos de subscripción.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
+ },
+ "ssdd-2526-p2::q5": {
+  "text": "La diferencia instantánea entre relojes es el sesgo (skew). La deriva es la velocidad con que cambia, y la resolución es el periodo entre incrementos."
+ },
+ "ssdd-2526-p2::q9": {
+  "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S321: 3 + 2 + 1 = 6 eventos."
+ },
+ "ssdd-2526-p2::q12": {
+  "text": "Safety significa que nunca ocurra nada malo: como máximo, un proceso en la sección crítica. Que las peticiones acaben teniendo éxito es liveness."
+ },
+ "ssdd-2526-p2::q13": {
+  "text": "Si dos mensajes son del mismo emisor, hay relación causal entre ellos. Por tanto, respetar la causalidad implica respetar el orden FIFO."
+ },
+ "ssdd-2526-p2::q16": {
+  "text": "Varios sensores deben acordar un único valor de velocidad, aun si alguno falla o da lecturas distintas. Eso es consenso distribuido, no elección ni exclusión."
+ },
+ "ssdd-2526-p2::q17": {
+  "text": "Con multi-master, varios nodos pueden atender escrituras, lo que reparte la carga. Primary backup o un único escritor concentran las escrituras en un solo nodo."
+ },
+ "ssdd-2526-p2::q18": {
+  "text": "Con multi-master asíncrono, cualquier nodo acepta la escritura y confirma sin esperar a nadie. Las otras opciones esperan a réplicas o un líder específico."
+ },
+ "ssdd-2526-p2::q19": {
+  "text": "Una lectura obsoleta devuelve un valor que no corresponde a la última escritura, por ejemplo en una réplica aún no actualizada."
  },
  "ssdd-2526-p2x-es::q1": {
+  "text": "Push-pull describe cada tramo: el publicador empuja (push) al broker y el subscriptor pide (pull) los mensajes cuando quiere. Si el broker los enviara por su cuenta sería push-push.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-2526-p2x-es::q2": {
+  "text": "La cola retiene los trabajos, así que productores y workers no necesitan estar activos a la vez ni ir al mismo ritmo.",
   "deck": "indirect",
-  "page": 30,
-  "excerpt": [
-   "RabbitMQ flexible binding work queues publish-subscribe topics routing"
-  ]
+  "page": 30
  },
  "ssdd-2526-p2x-es::q3": {
+  "text": "El temario presenta cuatro modelos de subscripción: por canal, por tópico, por contenido y por tipo. Sesiones y conexiones no son modelos de subscripción.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
  },
  "ssdd-2526-p2x-es::q4": {
+  "text": "En una cola de trabajo, cada mensaje va a un solo consumidor. El broker los reparte entre ellos, por defecto de forma rotatoria (round robin), sin mirar contenido ni velocidad.",
   "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "Queues: Temporarily store messages from publishers"
-  ]
+  "page": 26
  },
  "ssdd-2526-p2x-es::q5": {
+  "text": "En el modelo basado en tipo, la subscripción se define por tipos de evento y sus subtipos, como en broker.subscribe(NoiseEvent, callback) del temario.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Ex: DDS publisher E subscriber",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
+ },
+ "ssdd-2526-p2x-es::q6": {
+  "text": "El emisor envía el mensaje al grupo y este llega a todos sus miembros, sin que el emisor conozca sus identidades.",
+  "deck": "indirect",
+  "page": 9
  },
  "ssdd-2526-p2x-es::q7": {
+  "text": "Una subscripción persistente hace que el broker guarde los mensajes publicados mientras el subscriptor está desconectado, y se los entregue al volver. Es desacoplamiento en tiempo.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-2526-p2x-es::q8": {
+  "text": "Un exchange fanout difunde: reenvía una copia a todas las colas enlazadas, sin tener en cuenta la clave de enrutado.",
   "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "Publishers: send messages to an exchange",
-   "Queues: Temporarily store messages from publishers"
-  ]
+  "page": 26
+ },
+ "ssdd-2526-p2x-es::q10": {
+  "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S221: 2 + 2 + 1 = 5 eventos."
+ },
+ "ssdd-2526-p2x-es::q17": {
+  "text": "La grúa es un recurso físico que debe manejar un solo operador cada vez, con varios puestos separados. Es el caso típico de acceso exclusivo distribuido."
+ },
+ "ssdd-2526-p2x-es::q18": {
+  "text": "El anillo funciona solo si el testigo sigue circulando: si no lo necesita, el proceso lo pasa de inmediato al siguiente. Retenerlo bloquearía a los demás."
+ },
+ "ssdd-2526-p2x-es::q20": {
+  "text": "Liveness significa que el algoritmo progresa y termina con un resultado: si queda algún proceso vivo, habrá coordinador."
+ },
+ "ssdd-2526-p2x-es::q21": {
+  "text": "Para garantizar la exclusión, dos conjuntos de votación cualesquiera deben solaparse: el proceso común solo da su voto a uno. Por eso, una intersección vacía es falsa."
+ },
+ "ssdd-2526-p2x-es::q22": {
+  "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
+ },
+ "ssdd-2526-p2x-es::q24": {
+  "text": "Aunque se les llame «de coordinador», sirven para elegir un proceso para cualquier rol especial, no solo uno concreto."
+ },
+ "ssdd-2526-p2x-es::q25": {
+  "text": "Ricart y Agrawala resuelve exclusión mutua: un proceso entra en la sección crítica solo tras recibir el permiso de todos."
  },
  "ssdd-2526-p2x-es::q26": {
+  "text": "Dynamo prioriza la disponibilidad: acepta escrituras en cualquier réplica y estas convergen con el tiempo si cesan las actualizaciones. Eso es consistencia eventual.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Replication and caching: copies must follow the chosen consistency rules."
-  ]
+  "page": 22
+ },
+ "ssdd-2526-p2x-es::q27": {
+  "text": "La condición R + W > N garantiza que toda lectura solape con la última escritura en al menos una réplica, y por tanto vea el valor más reciente."
+ },
+ "ssdd-2526-p2x-es::q28": {
+  "text": "La carga, la latencia y el número de réplicas influyen en cuánto tarda en propagarse una escritura. El tipo de datos o el lenguaje no influyen en la ventana."
  },
  "ssdd-2526-p2x-es::q29": {
+  "text": "Esa es la lectura monotónica: una vez leído un valor, las lecturas siguientes del mismo cliente no pueden ver uno más antiguo.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Client stubs: Performs param marshalling and return value unmarshalling.",
-   "Server stubs performs params unmarshalling and return value (or error) marshalling."
-  ]
+  "page": 17
  },
  "ssdd-2526-p2x-es::q30": {
+  "text": "En la síncrona, el líder espera a los seguidores: datos actualizados, pero más latencia. En la asíncrona responde antes, a riesgo de lecturas desactualizadas.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
+ },
+ "ssdd-2526-p2x-es::q31": {
+  "text": "Si una réplica cae, otra puede responder, lo que aumenta la disponibilidad. A cambio, se complica la consistencia y aumenta el tráfico entre réplicas."
  },
  "ssdd-2425-p1::q1": {
+  "text": "Las falacias son suposiciones falsas, como «la red es segura» o «el coste de transporte es cero». Que la red sea heterogénea es cierto; la falacia es suponerla homogénea.",
   "deck": "intro",
-  "page": 12,
-  "excerpt": [
-   "Set of computers connected by an heterogeneous inter- network"
-  ]
+  "page": 19
  },
  "ssdd-2425-p1::q2": {
+  "text": "El temario los distingue por su objetivo: los distribuidos buscan compartir recursos en redes heterogéneas; los paralelos, alto rendimiento en arquitecturas dedicadas.",
   "deck": "intro",
-  "page": 7,
-  "excerpt": [
-   "Resource sharing: programs make local resources available remotely."
-  ]
+  "page": 12
  },
  "ssdd-2425-p1::q3": {
+  "text": "Varios usuarios editan el mismo documento a la vez y cada uno trabaja como si estuviera solo. Es transparencia de concurrencia.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time."
-  ]
+  "page": 21
+ },
+ "ssdd-2425-p1::q4": {
+  "text": "El temario enumera como paradigmas sockets, cliente/servidor, invocación remota (RPC/RMI) y comunicación indirecta. Las tres opciones son válidas."
  },
  "ssdd-2425-p1::q5": {
+  "text": "En un sistema asíncrono no hay cota de transmisión, de modo que un timeout no asegura nada: la respuesta puede venir tarde. Es la única afirmación que no se puede sostener.",
   "deck": "remote-invocation",
-  "page": 11,
-  "excerpt": [
-   "Client retransmit request message until reply/ACK is received"
-  ]
+  "page": 11
+ },
+ "ssdd-2425-p1::q6": {
+  "text": "Protocol Buffers gestiona el marshalling de tipos y estructuras a binario, pero no cifra. La confidencialidad queda fuera de su función.",
+  "deck": "protocol-design",
+  "page": 18
+ },
+ "ssdd-2425-p1::q7": {
+  "text": "El temario lo indica: el filtrado de duplicados requiere reintentos y requestId. El servidor reconoce una repetición por ese identificador."
+ },
+ "ssdd-2425-p1::q9": {
+  "text": "El temario define protocolo como las reglas que permiten comunicarse a varias entidades. Su objetivo es que los procesos se entiendan y coordinen; el rendimiento es secundario."
+ },
+ "ssdd-2425-p1::q10": {
+  "text": "El patrón de intercambio de mensajes es lo que el temario llama sincronización o temporización. La sintaxis trata del formato y la semántica, del significado."
+ },
+ "ssdd-2425-p1::q11": {
+  "text": "El temario sitúa RPC y RMI en la capa de middleware, sobre primitivas como sockets y paso de mensajes.",
+  "deck": "remote-invocation",
+  "page": 16
  },
  "ssdd-2425-p1::q12": {
+  "text": "protoc genera a partir de la interfaz los stubs para el cliente y el esqueleto del servidor. La interfaz .proto y los sirvientes los escribe el programador.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Sometimes called “skeleton”, because usually includes a skeleton for the servant implementation."
-  ]
+  "page": 26
+ },
+ "ssdd-2425-p1::q13": {
+  "text": "Maybe no hace reintentos, ni filtrado de duplicados ni historia, y por tanto gasta menos mensajes y memoria.",
+  "deck": "remote-invocation",
+  "page": 13
  },
  "ssdd-2425-p1::q14": {
+  "text": "Si repetirla tiene el mismo efecto, el duplicado no causa daño. El temario lo dice: las operaciones idempotentes no necesitan filtrado de duplicados.",
   "deck": "remote-invocation",
-  "page": 12,
-  "excerpt": [
-   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once.",
-   "Idempotent operations need no duplicate filtering, which simplifies the implementation."
-  ]
+  "page": 12
+ },
+ "ssdd-2425-p1::q15": {
+  "text": "Según el temario, el adaptador de objetos es el dispatcher: localiza el sirviente correspondiente y lo invoca al llegar la petición.",
+  "deck": "remote-invocation",
+  "page": 32
+ },
+ "ssdd-2425-p1x::q1": {
+  "text": "El temario la recomienda para diseminar eventos a muchos destinatarios desconocidos y cambiantes. El algoritmo de Cristian sincroniza relojes, no es un modelo de comunicación.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-2425-p1x::q2": {
+  "text": "Un SD mejora disponibilidad, escalabilidad y soporte de heterogeneidad, pero el temario cita el software más complejo como desventaja. No son más simples."
+ },
+ "ssdd-2425-p1x::q3": {
+  "text": "Los modelos de fallos hablan de omisión, parada (crash) y bizantinos o arbitrarios. «De datos» no es una categoría."
+ },
+ "ssdd-2425-p1x::q4": {
+  "text": "El temario define los sockets como mecanismo IPC. RPC no se basa en colas, y RMI es comunicación directa, no indirecta.",
+  "deck": "intro",
+  "page": 32
  },
  "ssdd-2425-p1x::q5": {
+  "text": "Sin cotas de tiempo ni reloj común, lo único que relaciona a dos procesos es el paso de mensajes: el envío precede a la recepción. Por eso esa es la vía de sincronización.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
+ },
+ "ssdd-2425-p1x::q6": {
+  "text": "TCP ofrece transporte de bytes fiable, pero el diseño del protocolo de aplicación (formato, significado e intercambio) debes definirlo tú. La fiabilidad de TCP no resuelve ese diseño.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-2425-p1x::q8": {
+  "text": "CRC o checksum permite detectar que el contenido se ha alterado, y el temario relaciona la integridad con la detección de errores. Por sí mismo no recupera ni elimina duplicados.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-2425-p1x::q9": {
+  "text": "La cabecera contiene metadatos sobre el mensaje, como longitud, CRC o tipo. El payload son los datos transportados, no un campo de cabecera."
+ },
+ "ssdd-2425-p1x::q10": {
+  "text": "El temario enumera herencia de interfaces, referencias a objetos como argumentos, y patrones y herramientas OO. Por eso son todas correctas.",
+  "deck": "remote-invocation",
+  "page": 28
+ },
+ "ssdd-2425-p1x::q11": {
+  "text": "En la tabla del temario, maybe no aplica reintento, filtrado ni retransmisión: no usa ninguna medida de tolerancia a fallos.",
+  "deck": "remote-invocation",
+  "page": 13
  },
  "ssdd-2425-p1x::q12": {
+  "text": "Si repetirla tiene el mismo efecto, el duplicado no causa daño. El temario lo dice: las operaciones idempotentes no necesitan filtrado de duplicados.",
   "deck": "remote-invocation",
-  "page": 12,
-  "excerpt": [
-   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once.",
-   "Idempotent operations need no duplicate filtering, which simplifies the implementation."
-  ]
+  "page": 12
  },
  "ssdd-2425-p1x::q13": {
+  "text": "El temario lo indica: las invocaciones entre procesos también son «remotas», aunque estén en la misma máquina. Lo que cuenta es cruzar el límite de proceso.",
   "deck": "remote-invocation",
-  "page": 33,
-  "excerpt": [
-   "Remote objects may be called \"locally\": remote object process remote Data interface",
-   "Invocations among processes are also “remote” remote local C invocation invocation local E remote invocation invocation F"
-  ]
+  "page": 33
  },
  "ssdd-2425-p1x::q14": {
+  "text": "Según el temario, RRA soporta retransmisión de resultados en el servidor, que guarda la respuesta en una historia hasta recibir el ack.",
   "deck": "remote-invocation",
-  "page": 11,
-  "excerpt": [
-   "Client retransmit request message until reply/ACK is received",
-   "Server retransmit reply message without re-executing"
-  ]
+  "page": 11
  },
  "ssdd-2425-p1r::q1": {
+  "text": "La opción c) solo añade un byte de fin frente a 2 de longitud, sin relleno de tamaño fijo. Es el formato mínimo.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 5
+ },
+ "ssdd-2425-p1r::q2": {
+  "text": "Para ordenar se necesita un identificador o número de secuencia. CRC y checksum detectan errores, y el tamaño solo delimita el payload.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-2425-p1r::q4": {
+  "text": "Concurrencia, ausencia de reloj global y fallos independientes son las tres características principales. La ausencia de coordinador central no figura entre ellas: de hecho, muchos SD usan uno."
+ },
+ "ssdd-2425-p1r::q5": {
+  "text": "Es lo que dice el temario: ejecución concurrente, falta de reloj global y fallos independientes. La memoria compartida no forma parte de ello."
+ },
+ "ssdd-2425-p1r::q6": {
+  "text": "El temario define semántica como el significado de los campos y sus valores permitidos. La sintaxis es la estructura y la temporización, el patrón de intercambio.",
+  "deck": "protocol-design",
+  "page": 6
  },
  "ssdd-2425-p1r::q7": {
+  "text": "Según el temario, la aplicación se ejecuta sobre el SD y varias pueden compartir el mismo. El gestor de recursos es el SD, no la aplicación.",
   "deck": "intro",
-  "page": 30,
-  "excerpt": [
-   "Services exchange messages defined for each specific application."
-  ]
+  "page": 6
+ },
+ "ssdd-2425-p1r::q8": {
+  "text": "El temario describe los sistemas de eventos como comunicación indirecta, un estilo más desacoplado y reactivo que RPC o RMI.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-2425-p1r::q9": {
+  "text": "Es lo que dice el temario: los protocolos abiertos desacoplan implementaciones, proporcionan transparencia y aseguran la interoperabilidad.",
+  "deck": "protocol-design",
+  "page": 23
+ },
+ "ssdd-2425-p1r::q10": {
+  "text": "Sobre una misma conexión pueden viajar invocaciones concurrentes. El identificador asocia cada respuesta con su petición, algo que TCP no hace.",
+  "deck": "remote-invocation",
+  "page": 51
+ },
+ "ssdd-2425-p1r::q11": {
+  "text": "El temario sitúa sockets, paso de mensajes y multicast como primitivas IPC. La comunicación indirecta es un paradigma construido por encima de ellas.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-2425-p1r::q13": {
+  "text": "Según la tabla del temario, solo at-most-once filtra duplicados (y retransmite la respuesta). Maybe no reintenta, y at-least-once reejecuta.",
+  "deck": "remote-invocation",
+  "page": 13
  },
  "ssdd-2425-p1r::q14": {
+  "text": "Según el temario, el sirviente contiene la implementación real de los métodos. El proxy es el sustituto local y los stubs hacen marshalling.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
-  ]
+  "page": 31
+ },
+ "ssdd-2425-p1r::q15": {
+  "text": "El endpoint de Ice indica protocolo, host y puerto (p. ej. tcp -h 192.168.8.120 -p 7070). La codificación es un detalle opcional de conexión, no uno de sus elementos básicos."
+ },
+ "ssdd-2425-p2::q1": {
+  "text": "Subscribe, notify y advertise son operaciones de este paradigma: subscribirse, recibir notificación de un evento y anunciar qué eventos se van a publicar.",
+  "deck": "indirect",
+  "page": 11
  },
  "ssdd-2425-p2::q2": {
+  "text": "En las colas, el emisor deposita y un único receptor retira cada mensaje, determinado por el sistema. La recepción de copias por varios receptores es propia de publicación-subscripción.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
+ },
+ "ssdd-2425-p2::q3": {
+  "text": "El temario indica que IceStorm está orientado a invocaciones (publicar es invocar un método oneway), mientras que lo habitual es orientarse a datos. Siempre usa broker.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-2425-p2::q4": {
+  "text": "Según el temario, ni emisor ni receptor necesitan conocer la identidad o dirección del otro. Es en ambos sentidos, y no depende de en qué nodo se ejecuten.",
+  "deck": "indirect",
+  "page": 13
+ },
+ "ssdd-2425-p2::q13": {
+  "text": "Liveness significa que el algoritmo progresa y termina: todos deciden un resultado. Las opciones a) y d) hablan de sección crítica, propia de exclusión mutua."
+ },
+ "ssdd-2425-p2::q15": {
+  "text": "El óptimo teórico de Maekawa es un tamaño de subconjunto de aproximadamente √N, con el que cada acceso cuesta unos 3√N mensajes."
+ },
+ "ssdd-2425-p2::q16": {
+  "text": "Varios sensores deben acordar si disparar, aunque alguno dé valores erróneos o contradictorios. Eso es acuerdo con fallos arbitrarios: generales bizantinos."
+ },
+ "ssdd-2425-p2::q17": {
+  "text": "Multicast fiable se define con integridad, validez y acuerdo. Seguridad no forma parte de esas propiedades.",
+  "deck": "protocol-design",
+  "page": 16
  },
  "ssdd-2425-p2::q18": {
+  "text": "Dynamo prioriza la disponibilidad: acepta escrituras en cualquier réplica y estas convergen con el tiempo si cesan las actualizaciones. Eso es consistencia eventual.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Replication and caching: copies must follow the chosen consistency rules."
-  ]
+  "page": 22
  },
  "ssdd-2425-p2::q19": {
+  "text": "Los modelos débiles distinguen operaciones de datos (lectura/escritura normal) y de sincronización. La consistencia solo se garantiza en los puntos de sincronización.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Coordination: processes exchange messages to synchronize their actions."
-  ]
+  "page": 22
+ },
+ "ssdd-2425-p2::q20": {
+  "text": "Consistencia estricta significa que toda lectura ve el último valor escrito. En la secuencial todos deben ver el mismo orden, y la causal no se basa en relojes físicos."
+ },
+ "ssdd-2425-p2x::q1": {
+  "text": "AMQP es un protocolo de aplicación estándar que usan brokers como RabbitMQ. Es decir, el protocolo no es el broker, y sirve para comunicación indirecta, no directa.",
+  "deck": "indirect",
+  "page": 4
  },
  "ssdd-2425-p2x::q2": {
+  "text": "El temario define el modelo basado en contenido con un filtro que es una consulta compuesta de restricciones sobre valores de atributos del evento.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
  },
  "ssdd-2425-p2x::q3": {
+  "text": "Con cortes intermitentes conviene que emisor y receptor no tengan que coexistir. El broker aporta ese desacoplamiento temporal, y por eso MQTT es tan habitual en IoT.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Ex: DDS publisher E subscriber",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
  },
  "ssdd-2425-p2x::q4": {
+  "text": "El broker desacopla en espacio: los publicadores solo le entregan eventos, sin conocer a los subscriptores. Quien gestiona las subscripciones es el broker.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
- "ssdd-2324-p1::q1": {
-  "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Replication and caching: copies must follow the chosen consistency rules."
-  ]
+ "ssdd-2425-p2x::q5": {
+  "text": "Si una réplica cae, otra puede responder, lo que aumenta la disponibilidad. A cambio, se complica la consistencia. La latencia de lectura incluso puede bajar."
+ },
+ "ssdd-2425-p2x::q6": {
+  "text": "Replicar es mantener copias consistentes de datos o servicios en varios nodos conectados. Una copia de seguridad centralizada o en el mismo servidor no lo es."
+ },
+ "ssdd-2425-p2x::q7": {
+  "text": "En los modelos débiles, las réplicas pueden divergir un tiempo, a cambio de mejor rendimiento. Devolver siempre el último valor es propio de los fuertes."
+ },
+ "ssdd-2425-p2x::q8": {
+  "text": "CAP significa Consistencia, Disponibilidad y Tolerancia a particiones. No incluye ninguna ventana de inconsistencia."
+ },
+ "ssdd-2425-p2x::q14": {
+  "text": "Pagando por uso de la red, el testigo del anillo circula incluso sin peticiones y genera tráfico constante. Las otras opciones solo envían mensajes al pedir acceso."
+ },
+ "ssdd-2425-p2x::q15": {
+  "text": "Aunque se les llame «de coordinador», sirven para elegir un proceso para cualquier rol especial, no solo uno concreto."
+ },
+ "ssdd-2425-p2x::q16": {
+  "text": "Liveness significa que toda petición acaba teniendo éxito, sin interbloqueo ni inanición. Que solo uno entre es safety, y conceder por orden es ordering."
+ },
+ "ssdd-2425-p2x::q17": {
+  "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S221: 2 + 2 + 1 = 5 eventos."
  },
  "ssdd-2324-p1::q2": {
+  "text": "Asíncrona significa que el emisor no espera: envía y continúa. Las dos primeras opciones hablan de mensajería síncrona, y por eso son contradictorias.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
  },
  "ssdd-2324-p1::q3": {
+  "text": "La definición clave es que los componentes están en nodos en red y se coordinan. Un nodo central o un punto único de fallo no definen a un SD, y son más bien lo que se quiere evitar.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Partial failure: one component may fail while others keep running."
-  ]
+  "page": 23
  },
  "ssdd-2324-p1::q4": {
+  "text": "Según el temario, RPC/RMI se apoyan en protocolos de petición-respuesta. Publicador-subscriptor, colas y tuplas son formas de comunicación indirecta.",
   "deck": "remote-invocation",
-  "page": 7,
-  "excerpt": [
-   "RRA Request Reply Acknowledge reply"
-  ]
+  "page": 7
  },
  "ssdd-2324-p1::q5": {
+  "text": "El temario insiste en que los componentes se comunican y coordinan únicamente mediante paso de mensajes. Una definición que lo omite queda incompleta.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
-  ]
+  "page": 3
+ },
+ "ssdd-2324-p1::q6": {
+  "text": "El temario define la sincronización como los patrones válidos de intercambio de mensajes, fases, temporizadores y estados. La representación de campos es sintaxis.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-2324-p1::q7": {
+  "text": "En Protocol Buffers, repeated define un campo que aparece cualquier número de veces, como repeated string interests del ejemplo del temario."
  },
  "ssdd-2324-p1::q9": {
+  "text": "El binder traduce un nombre estable a un endpoint variable, de modo que el cliente nombra el servicio sin indicar dónde está. Es lo que el temario llama transparencia de localización.",
   "deck": "remote-invocation",
-  "page": 44,
-  "excerpt": [
-   "Portmapper is the binder used by ONC RPC",
-   "Any RPC server register itself on portmapper"
-  ]
+  "page": 44
+ },
+ "ssdd-2324-p1::q10": {
+  "text": "La capa inferior agrupa las primitivas (paso de mensajes, sockets, multicast). Sobre ellas, el temario sitúa la invocación remota y la comunicación indirecta. De las opciones, encaja la invocación remota."
+ },
+ "ssdd-2324-p1::q11": {
+  "text": "Es una pregunta trampa: el binder suele ser un servicio más, accesible con el propio middleware (rpcbind es un servidor RPC y el Registry, de RMI).",
+  "deck": "remote-invocation",
+  "page": 41
+ },
+ "ssdd-2324-p1::q12": {
+  "text": "Según el temario, en REST «la misma interfaz se usa para cualquier recurso»: un conjunto predefinido de métodos (GET, POST, PUT, DELETE).",
+  "deck": "remote-invocation",
+  "page": 57
  },
  "ssdd-2324-p1::q13": {
+  "text": "El temario señala que RPC busca parecerse a la programación convencional, y una llamada local también bloquea hasta terminar.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good",
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
  },
  "ssdd-2324-p1::q14": {
+  "text": "Un objeto remoto implementa una interfaz remota y se puede invocar desde otro proceso. A uno local solo se le invoca desde su propio proceso.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
-  ]
+  "page": 31
  },
  "ssdd-2324-p1::q15": {
+  "text": "rmiregistry es el binder de Java RMI: los servidores registran objetos con rebind y los clientes obtienen sus referencias con lookup.",
   "deck": "remote-invocation",
-  "page": 46,
-  "excerpt": [
-   "Java RMI: the programmer calls rebind; the Registry stores the whole stub",
-   "Ice: the object adapter registers itself; the runtime picks the port"
-  ]
+  "page": 46
  },
  "ssdd-2324-p1x::q1": {
+  "text": "Los componentes están en distintos nodos, pero cooperan para ofrecer un servicio integrado. Si trabajasen de forma independiente no habría sistema común.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
-  ]
+  "page": 3
  },
  "ssdd-2324-p1x::q2": {
+  "text": "La compartición de recursos (hardware, software, datos) es el origen y objetivo de los SD. La centralización es lo contrario, y no se limitan a redes privadas.",
   "deck": "intro",
-  "page": 7,
-  "excerpt": [
-   "Resource sharing: programs make local resources available remotely."
-  ]
+  "page": 7
+ },
+ "ssdd-2324-p1x::q3": {
+  "text": "Es la propiedad que refleja si los nodos ven el mismo valor de un dato. El temario la relaciona con qué valores pueden observar los lectores tras una actualización."
  },
  "ssdd-2324-p1x::q4": {
+  "text": "Con procesos concurrentes, sin reloj global y con fallos parciales, coordinar y sincronizar componentes es el reto central. Depurar es difícil, y la latencia no es nula.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
-  ]
+  "page": 3
  },
  "ssdd-2324-p1x::q5": {
+  "text": "Un sistema escala si mantiene su efectividad cuando crecen los recursos o usuarios; es decir, puede ampliarse sin que el rendimiento se resienta.",
   "deck": "intro",
-  "page": 20,
-  "excerpt": [
-   "A system has the capacity to grow (scalability) if it maintains its effectiveness when the number of resources or users increases significantly",
-   "A system with n users is scalable if the amount of resources needed to support it is proportional to n (O(n))"
-  ]
+  "page": 20
+ },
+ "ssdd-2324-p1x::q6": {
+  "text": "TFTP significa Trivial File Transfer Protocol: un protocolo sencillo de transferencia de archivos sobre UDP, ejemplo central del tema.",
+  "deck": "protocol-design",
+  "page": 4
  },
  "ssdd-2324-p1x::q7": {
+  "text": "La temporización o sincronización especifica los patrones válidos de intercambio de mensajes. No se refiere a relojes ni a frecuencia de envío.",
   "deck": "protocol-design",
-  "page": 15,
-  "excerpt": [
-   "A protocol design is not much different to an API or class interface design."
-  ]
+  "page": 15
+ },
+ "ssdd-2324-p1x::q8": {
+  "text": "SOCK_STREAM da transporte TCP de bytes, sin ninguna estructura. Sintaxis, semántica y temporización del protocolo de aplicación siguen por definir.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-2324-p1x::q9": {
+  "text": "El temario lo indica: el filtrado de duplicados requiere reintentos y requestId. El servidor reconoce una repetición por ese identificador."
+ },
+ "ssdd-2324-p1x::q10": {
+  "text": "Protobuf es binario y usa números en vez de nombres de campo. En el ejemplo del temario ocupa 518 bytes frente a 789 de JSON."
  },
  "ssdd-2324-p1x::q11": {
+  "text": "Según el temario, el servidor deserializa argumentos, ejecuta y serializa el resultado (paso 7). Serializar argumentos y enviar la petición lo hace el cliente.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
+ },
+ "ssdd-2324-p1x::q12": {
+  "text": "Una señal periódica se repite por sí sola: perder una no importa. Maybe evita sobrecarga, y justo así funciona un heartbeat."
  },
  "ssdd-2324-p1x::q13": {
+  "text": "Según el temario, cada recurso se identifica con un URI único.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST transfers representations of resource states",
-   "Each resource is identified by a unique URI."
-  ]
+  "page": 57
+ },
+ "ssdd-2324-p1x::q14": {
+  "text": "Un IDL define operaciones, parámetros y tipos, es decir, sintaxis. No indica el significado de cada operación ni el orden de invocarlas.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-2324-p1x::q15": {
+  "text": "HTTP aporta la semántica de sus métodos, el formato de sus mensajes y su patrón de petición-respuesta. REST con HTTP deja definidos los tres aspectos."
+ },
+ "ssdd-2324-p1r::q1": {
+  "text": "Es la definición del temario: componente que gestiona recursos y da funcionalidad mediante una interfaz. La opción b) describe un servidor y la d) una interfaz.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-2324-p1r::q2": {
+  "text": "Un cliente y un servidor con sockets son procesos independientes que se comunican mediante mensajes, y eso encaja en la definición, sin requerir tecnologías distintas ni nodos separados.",
+  "deck": "intro",
+  "page": 34
+ },
+ "ssdd-2324-p1r::q3": {
+  "text": "En DNS interesa ocultar réplicas, fallos y dónde está el recurso. La movilidad, con cambios continuos de ubicación, encaja mal con un sistema basado en cachés con TTL."
+ },
+ "ssdd-2324-p1r::q4": {
+  "text": "El jitter es la variación del retardo de entrega. Si es grande, el audio no llega a ritmo constante y se oye mal."
  },
  "ssdd-2324-p1r::q5": {
+  "text": "Una interfaz especifica las operaciones que un proceso exporta y puede recibir. El temario la considera el contrato entre las partes.",
   "deck": "remote-invocation",
-  "page": 33,
-  "excerpt": [
-   "Remote objects may be called \"locally\": remote object process remote Data interface",
-   "Invocations among processes are also “remote” remote local C invocation invocation local E remote invocation invocation F"
-  ]
+  "page": 29
+ },
+ "ssdd-2324-p1r::q6": {
+  "text": "El temario define protocolo como las reglas que permiten comunicarse a varias entidades. Su objetivo es coordinar esa comunicación; el rendimiento es secundario."
+ },
+ "ssdd-2324-p1r::q7": {
+  "text": "Para que los datos sean consistentes, una actualización debe aplicarse por completo o no aplicarse. Eso es atomicidad; las otras opciones no lo garantizan."
+ },
+ "ssdd-2324-p1r::q8": {
+  "text": "Los algoritmos de consenso permiten a los procesos correctos acordar el estado o quién toma el relevo pese a los fallos. Las otras opciones son técnicas de seguridad o de eficiencia."
+ },
+ "ssdd-2324-p1r::q9": {
+  "text": "Un algoritmo de elección elige un proceso para un rol especial, como coordinador. No trata de ordenar mensajes ni de optimizar la red."
+ },
+ "ssdd-2324-p1r::q10": {
+  "text": "Los relojes físicos sincronizados sirven para tareas de gestión, como auditoría o registros. Para decidir con garantías sobre el orden de eventos, se usan relojes lógicos."
  },
  "ssdd-2324-p1r::q11": {
+  "text": "El temario define la invocación remota como los paradigmas que permiten llamar a bloques de código de un proceso remoto, ya sea RPC o RMI.",
   "deck": "intro",
-  "page": 35,
-  "excerpt": [
-   "Conceptually the same as invoking a local (same node) procedure"
-  ]
+  "page": 35
  },
  "ssdd-2324-p1r::q12": {
+  "text": "El temario indica que la asíncrona desacopla la invocación de la recogida del resultado: el cliente no se bloquea al invocar.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
+ },
+ "ssdd-2324-p1r::q13": {
+  "text": "El temario describe los stubs como código generado que hace marshalling y unmarshalling, de modo que la llamada remota parezca local.",
+  "deck": "remote-invocation",
+  "page": 18
  },
  "ssdd-2324-p1r::q14": {
+  "text": "Serializar (marshalling) convierte datos o estructuras del lenguaje en una secuencia de bytes transmisible, y el receptor hace la operación inversa.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 5
  },
- "ssdd-2324-p2::q1": {
+ "ssdd-2324-p1r::q15": {
+  "text": "Más nodos y saltos intermedios en la ruta añaden retardo y complejidad a cada invocación. La topología sí influye, porque la red está por debajo de RPC/RMI.",
   "deck": "indirect",
-  "page": 9,
-  "excerpt": [
-   "Disseminate events to multiple recipients through an intermediary (the event broker)."
-  ]
+  "page": 16
+ },
+ "ssdd-2324-p2::q2": {
+  "text": "Si el publicador da una callback, el broker le pide los datos cuando los necesita (pull); si la da el subscriptor, el broker se los entrega al llegar (push).",
+  "deck": "indirect",
+  "page": 13
+ },
+ "ssdd-2324-p2::q3": {
+  "text": "El productor solo conoce el exchange, no al consumidor (espacio), y la cola guarda los mensajes aunque el consumidor no esté activo (tiempo).",
+  "deck": "indirect",
+  "page": 5
  },
  "ssdd-2324-p2::q4": {
+  "text": "El temario define el modelo basado en contenido con un filtro que es una consulta compuesta de restricciones sobre valores de atributos del evento.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
+ },
+ "ssdd-2324-p2::q5": {
+  "text": "En recepción push, el receptor registra una función u objeto invocable y el runtime la llama cuando llega un mensaje, como la función callback de los ejemplos de RabbitMQ."
+ },
+ "ssdd-2324-p2::q6": {
+  "text": "El consenso distribuido permite que los nodos decidan sin un único coordinador, evitando un cuello de botella y un punto de fallo."
+ },
+ "ssdd-2324-p2::q8": {
+  "text": "Maekawa evita preguntar a todos: cada proceso solicita permiso a un subconjunto que se solapa con los demás, y así se garantiza la exclusión con menos mensajes."
+ },
+ "ssdd-2324-p2::q9": {
+  "text": "El servidor central es sencillo, pero al depender de un único nodo, este es punto único de fallo y cuello de botella."
+ },
+ "ssdd-2324-p2::q10": {
+  "text": "Elegir un líder centraliza decisiones en un nodo y simplifica la coordinación. Si cae, se elige otro. La exclusión mutua es otro problema distinto."
  },
  "ssdd-2324-p2::q11": {
+  "text": "Tolerar fallos no es que no los haya ni que se cumpla todo: el sistema sigue funcionando, quizá degradado, a pesar de ellos.",
   "deck": "remote-invocation",
-  "page": 46,
-  "excerpt": [
-   "Connection fails: ask again and retry; a server can move with no exception"
-  ]
+  "page": 11
+ },
+ "ssdd-2324-p2::q12": {
+  "text": "La consistencia estricta exige ver cada escritura de inmediato en todas partes, como si hubiera una sola copia. La lineal y la secuencial permiten un margen."
+ },
+ "ssdd-2324-p2::q13": {
+  "text": "Cuanto mayor es la latencia, la carga o el número de réplicas por actualizar, más tarda en propagarse la escritura, y por tanto más dura la ventana."
+ },
+ "ssdd-2324-p2::q14": {
+  "text": "La replicación asíncrona confirma antes de propagar, y ofrece baja latencia y consistencia eventual. Eso no garantiza ACID: se pueden ver datos antiguos o perder escrituras."
+ },
+ "ssdd-2324-p2::q15": {
+  "text": "Con N = 7 debe cumplirse R + W > 7 y W > 3,5. R = 1, W = 7 cumple las dos y hace las lecturas muy baratas; las opciones a) y c) no cumplen R + W > N."
  },
  "ssdd-2324-p2x::q1": {
+  "text": "El temario la define como comunicación entre emisor y receptor a través de un intermediario.",
   "deck": "indirect",
-  "page": 9,
-  "excerpt": [
-   "Disseminate events to multiple recipients through an intermediary (the event broker)."
-  ]
+  "page": 9
  },
  "ssdd-2324-p2x::q2": {
+  "text": "En las colas el emisor deposita mensajes en un intermediario, sin conocer al receptor. RPC y sockets son comunicación directa, punto a punto.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
  },
  "ssdd-2324-p2x::q3": {
+  "text": "Los productores publican en un intermediario y este entrega copia a todos los consumidores interesados, en una comunicación uno a muchos.",
   "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Subscriber expresses interest in particular events through subscriptions to an event service",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 10
+ },
+ "ssdd-2324-p2x::q4": {
+  "text": "Los sockets conectan directamente dos procesos que deben conocerse y coexistir. Las otras opciones usan un intermediario o espacio compartido.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-2324-p2x::q5": {
+  "text": "Su ventaja es el desacoplamiento en espacio y tiempo, a cambio de sobrecarga. No es más rápida: añade un intermediario y reduce el acoplamiento.",
+  "deck": "indirect",
+  "page": 5
+ },
+ "ssdd-2324-p2x::q6": {
+  "text": "Ricart y Agrawala resuelve exclusión mutua: un proceso entra en la sección crítica solo tras recibir el permiso de todos."
+ },
+ "ssdd-2324-p2x::q7": {
+  "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
+ },
+ "ssdd-2324-p2x::q9": {
+  "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
+ },
+ "ssdd-2324-p2x::q10": {
+  "text": "Un grupo cerrado solo admite mensajes de sus miembros; uno abierto admite también los de procesos externos."
+ },
+ "ssdd-2324-p2x::q11": {
+  "text": "Un quórum debe cumplir R + W > N y W > N/2. Con N = 7, solo W = 4 y R = 7 cumple las dos: las otras opciones no llegan."
+ },
+ "ssdd-2324-p2x::q12": {
+  "text": "Los métodos optimistas dejan actualizar por separado y resuelven conflictos después, de modo que las réplicas divergen temporalmente: no hay consistencia estricta."
+ },
+ "ssdd-2324-p2x::q13": {
+  "text": "A mayor carga, el sistema se satura y responde menos peticiones, de modo que baja la disponibilidad. La redundancia y la fiabilidad, en cambio, la favorecen."
+ },
+ "ssdd-2324-p2x::q14": {
+  "text": "Si una réplica cae, otra puede responder, lo que aumenta la disponibilidad. A cambio, se complica la consistencia. La latencia de lectura incluso puede bajar."
+ },
+ "ssdd-2324-p2x::q15": {
+  "text": "Si dejan de producirse escrituras, todas las réplicas acaban convergiendo y las lecturas devuelven el último valor. No exige sincronización inmediata ni transacciones."
  },
  "ssdd-2324-p2x::q16": {
+  "text": "Los relojes lógicos, como los de Lamport, no miden tiempo real: asignan marcas que permiten ordenar eventos según la relación de causalidad.",
   "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Distributed Event-based systems implement ●",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 10
+ },
+ "ssdd-2324-p2x::q17": {
+  "text": "Los relojes vectoriales capturan la causalidad: comparando vectores se sabe si un evento precede a otro o si son concurrentes, a diferencia de Lamport."
+ },
+ "ssdd-2324-p2x::q18": {
+  "text": "NTP sincroniza relojes de nodos en red con UTC. No tiene relación con seguridad, recuperación ni reparto de carga."
+ },
+ "ssdd-2324-p2x::q19": {
+  "text": "El abusón (bully) es un algoritmo de elección de líder: elige al proceso activo de mayor identificador para que realice una tarea, como coordinar."
+ },
+ "ssdd-2324-p2x::q20": {
+  "text": "Con una resolución limitada y deriva entre máquinas, dos eventos pueden recibir marcas iguales o invertidas respecto al orden real, llevando a inconsistencias."
+ },
+ "ssdd-2223-p1::q1": {
+  "text": "Es lo que dice el temario: ejecución concurrente, falta de reloj global y fallos independientes. La memoria compartida no forma parte de ello."
+ },
+ "ssdd-2223-p1::q2": {
+  "text": "Entre las falacias clásicas están «la red es fiable», «es segura» y «es homogénea». «La red es transparente» no forma parte de esa lista.",
+  "deck": "intro",
+  "page": 25
+ },
+ "ssdd-2223-p1::q3": {
+  "text": "El temario responde a «¿cómo resolvemos la heterogeneidad?» con sistemas abiertos: interfaces públicas y estándares permiten integrar tecnologías diferentes.",
+  "deck": "intro",
+  "page": 19
  },
  "ssdd-2223-p1::q4": {
+  "text": "Acceso, localización y concurrencia son transparencias que aparecen en el temario. Las demás opciones mezclan términos que no son tipos de transparencia, como trazabilidad, tiempo o persistencia.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time."
-  ]
+  "page": 24
+ },
+ "ssdd-2223-p1::q5": {
+  "text": "El temario lo relaciona: una interfaz de comunicación, compuesta por un conjunto de operaciones, es lo que se llama API.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-2223-p1::q6": {
+  "text": "Si el dispositivo no puede permitirse TCP, la fiabilidad se logra con ACKs y timeouts propios. UDP por sí solo no ofrece fiabilidad. El temario pone TFTP como ejemplo.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-2223-p1::q7": {
+  "text": "SOCK_STREAM da transporte TCP de bytes, sin ninguna estructura. Sintaxis, semántica y temporización del protocolo de aplicación siguen por definir.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-2223-p1::q8": {
+  "text": "Serializar (marshalling) es codificar los datos de usuario en el formato de red usado en los mensajes. No trata de versiones ni de ordenar peticiones."
+ },
+ "ssdd-2223-p1::q9": {
+  "text": "UDP no ofrece reintentos, ACK ni filtrado de duplicados. Sin añadir nada, el mensaje puede llegar o no: eso es maybe."
  },
  "ssdd-2223-p1::q10": {
+  "text": "Hay que devolver un resultado, así que hace falta respuesta. Al ser idempotente, se puede reejecutar sin guardar historia, y RR es suficiente, sin el ack de RRA.",
   "deck": "remote-invocation",
-  "page": 9,
-  "excerpt": [
-   "Typically a blocking request (client is blocked waiting for reply)"
-  ]
+  "page": 9
+ },
+ "ssdd-2223-p1::q11": {
+  "text": "Si la lectura de presión debe llegar, hacen falta reintentos, y un duplicado no causa daño porque solo notifica una medida. At-least-once cubre eso sin el coste de filtrar."
+ },
+ "ssdd-2223-p1::q12": {
+  "text": "El temario lo indica: el binder de ONC RPC es el proceso portmapper (rpcbind), que escucha en el puerto 111. Los tres enteros identifican la petición, no resuelven el enlace.",
+  "deck": "remote-invocation",
+  "page": 43
+ },
+ "ssdd-2223-p1::q13": {
+  "text": "La capa inferior agrupa las primitivas (paso de mensajes, sockets, multicast). Sobre ellas, el temario sitúa la invocación remota y la comunicación indirecta. De las opciones, encaja la invocación remota."
  },
  "ssdd-2223-p1::q14": {
+  "text": "El temario define el binding persistente como reutilizar las referencias en llamadas posteriores, lo que conviene si estas son frecuentes.",
   "deck": "remote-invocation",
-  "page": 41,
-  "excerpt": [
-   "Servers register their references (addresses) in a name server (binder)",
-   "Find a reference from a service identifier"
-  ]
+  "page": 41
+ },
+ "ssdd-2223-p1::q15": {
+  "text": "El temario muestra que RRA inserta la respuesta en la historia y la retira al llegar el ack. Así el servidor puede retransmitir sin reejecutar.",
+  "deck": "remote-invocation",
+  "page": 10
  },
  "ssdd-2223-p1x::q1": {
+  "text": "Sin tiempo común, solo paso de mensajes y fallos parciales son rasgos definitorios de un SD. La independencia del lenguaje es algo que aporta un middleware, no parte de la definición.",
   "deck": "intro",
-  "page": 4,
-  "excerpt": [
-   "Client and server are independent processes potentially running on different nodes. They may have particular circumstances and restrictions."
-  ]
+  "page": 4
+ },
+ "ssdd-2223-p1x::q2": {
+  "text": "La red puede perder o corromper mensajes y sufrir caídas. Es una falacia porque no se debe suponer ausencia de fallos, lo que no tiene que ver con ataques."
  },
  "ssdd-2223-p1x::q3": {
+  "text": "El temario indica que la meta de los SD es compartir recursos. El alto rendimiento es la meta de los sistemas paralelos, y la disponibilidad es una ventaja, no el fin principal.",
   "deck": "intro",
-  "page": 7,
-  "excerpt": [
-   "Resource sharing: programs make local resources available remotely."
-  ]
+  "page": 7
+ },
+ "ssdd-2223-p1x::q4": {
+  "text": "La heterogeneidad se resuelve con sistemas abiertos, estándares y middleware. Las tecnologías propietarias dificultan la integración, así que no van encaminadas a resolverla.",
+  "deck": "intro",
+  "page": 19
  },
  "ssdd-2223-p1x::q5": {
+  "text": "La concurrencia de un SD significa que varios procesos se ejecutan y progresan a la vez, cada uno en su nodo. Es una de sus tres características principales, junto a la falta de reloj global y los fallos independientes.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time.",
-   "Coordination: processes exchange messages to synchronize their actions."
-  ]
+  "page": 22
+ },
+ "ssdd-2223-p1x::q6": {
+  "text": "Según el temario, una especificación de protocolo requiere sintaxis, semántica y sincronización o temporización.",
+  "deck": "protocol-design",
+  "page": 3
  },
  "ssdd-2223-p1x::q7": {
+  "text": "El temario indica que gestiona el marshalling entre estructuras del lenguaje y secuencias binarias, y viceversa. No define operaciones ni sincroniza mensajes.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing"
-  ]
+  "page": 17
+ },
+ "ssdd-2223-p1x::q8": {
+  "text": "El temario lo indica: el filtrado de duplicados requiere reintentos y requestId. El servidor reconoce una repetición por ese identificador."
  },
  "ssdd-2223-p1x::q9": {
+  "text": "Enviar solo cuando cambia el valor evita mensajes innecesarios: ni consulta continua del cliente ni envío periódico sin novedades.",
   "deck": "protocol-design",
-  "page": 6,
-  "excerpt": [
-   "TFTP message types: opcode operation"
-  ]
+  "page": 6
+ },
+ "ssdd-2223-p1x::q10": {
+  "text": "La serialización produce una representación común en la red, independiente del lenguaje. Justamente eso permite comunicar implementaciones en lenguajes distintos.",
+  "deck": "protocol-design",
+  "page": 23
+ },
+ "ssdd-2223-p1x::q11": {
+  "text": "Según el temario, la capa inferior del middleware son las primitivas: sockets, paso de mensajes, soporte multicast y redes overlay. RPC y RMI pertenecen a la superior.",
+  "deck": "indirect",
+  "page": 3
  },
  "ssdd-2223-p1x::q12": {
+  "text": "Cada operación necesita garantías distintas según su coste y si es idempotente: el temario pone ejemplos para cada semántica. No hay una mejor en general.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "OO devel methodologies and tools",
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 28
+ },
+ "ssdd-2223-p1x::q13": {
+  "text": "At-least-once requiere reintentos, por lo que necesita respuesta para saber cuándo parar. RR es suficiente, mientras que RRA solo hace falta para la historia de respuestas."
+ },
+ "ssdd-2223-p1x::q15": {
+  "text": "Según el temario, en REST «se usa la misma interfaz para cualquier recurso», mientras que en RPC/RMI cada servicio define sus operaciones.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-2223-p1r::q1": {
+  "text": "Un cliente y un servidor con sockets son procesos independientes que se comunican mediante mensajes, y eso encaja en la definición, sin requerir tecnologías distintas ni redes separadas.",
+  "deck": "intro",
+  "page": 34
  },
  "ssdd-2223-p1r::q2": {
+  "text": "Sin referencia temporal común, los procesos no pueden ordenar acciones por hora y deben coordinarse intercambiando mensajes.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages.",
-   "Lack of a global clock"
-  ]
+  "page": 3
+ },
+ "ssdd-2223-p1r::q3": {
+  "text": "El temario lo define como fallo parcial: un componente puede fallar mientras los demás siguen funcionando."
  },
  "ssdd-2223-p1r::q4": {
+  "text": "El temario indica que la meta de los SD es compartir recursos. El alto rendimiento es la meta de los sistemas paralelos, y la disponibilidad es una ventaja, no el fin principal.",
   "deck": "intro",
-  "page": 7,
-  "excerpt": [
-   "Resource sharing: programs make local resources available remotely."
-  ]
+  "page": 7
  },
  "ssdd-2223-p1r::q5": {
+  "text": "El temario la define así: un sistema escala si conserva su efectividad cuando crecen significativamente los recursos o los usuarios.",
   "deck": "intro",
-  "page": 20,
-  "excerpt": [
-   "A system has the capacity to grow (scalability) if it maintains its effectiveness when the number of resources or users increases significantly",
-   "A system with n users is scalable if the amount of resources needed to support it is proportional to n (O(n))"
-  ]
+  "page": 20
+ },
+ "ssdd-2223-p1r::q6": {
+  "text": "Si el valor cambia, reejecutar podría dar otro resultado. At-most-once filtra duplicados y retransmite la respuesta guardada, y así hay una sola ejecución."
+ },
+ "ssdd-2223-p1r::q7": {
+  "text": "Serializar (marshalling) es codificar los datos de aplicación en el formato usado en los mensajes. No trata de ordenar mensajes ni de atender clientes.",
+  "deck": "remote-invocation",
+  "page": 16
  },
  "ssdd-2223-p1r::q8": {
+  "text": "La temporización o sincronización especifica los patrones válidos de intercambio de mensajes. No se refiere a relojes ni a frecuencia de envío.",
   "deck": "protocol-design",
-  "page": 15,
-  "excerpt": [
-   "A protocol design is not much different to an API or class interface design."
-  ]
+  "page": 15
  },
  "ssdd-2223-p1r::q9": {
+  "text": "Protocol Buffers serializa en binario, no en XML: el temario destaca el marshalling binario, con compatibilidad y soporte multilenguaje.",
   "deck": "protocol-design",
-  "page": 18,
-  "excerpt": [
-   "Manage marshaling from the programming language structures to binary sequences and viceversa."
-  ]
+  "page": 18
+ },
+ "ssdd-2223-p1r::q10": {
+  "text": "Protocol Buffers define solo estructuras de datos y su serialización. Para un servicio hacen falta operaciones, que aporta un middleware como gRPC."
+ },
+ "ssdd-2223-p1r::q11": {
+  "text": "El temario enumera entre los aspectos no funcionales del diseño de un protocolo la seguridad, la extensibilidad y la eficiencia.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-2223-p1r::q12": {
+  "text": "El runtime de RPC oculta conexión, marshalling y paso de mensajes, según el temario. Por tanto, de las tres cosas ya no te ocupas, y por eso la opción d) es la correcta."
+ },
+ "ssdd-2223-p1r::q13": {
+  "text": "El temario enumera herencia de interfaces, referencias a objetos como argumentos, y patrones y herramientas OO. Por eso son todas correctas.",
+  "deck": "remote-invocation",
+  "page": 28
+ },
+ "ssdd-2223-p1r::q14": {
+  "text": "El temario lo define así: en una llamada síncrona, el hilo del cliente queda bloqueado desde la petición hasta la respuesta.",
+  "deck": "remote-invocation",
+  "page": 47
  },
  "ssdd-2223-p1r::q15": {
+  "text": "Según el temario, RRA soporta retransmisión de resultados en el servidor, que guarda la respuesta en una historia hasta recibir el ack.",
   "deck": "remote-invocation",
-  "page": 11,
-  "excerpt": [
-   "Client retransmit request message until reply/ACK is received",
-   "Server retransmit reply message without re-executing"
-  ]
+  "page": 11
  },
  "ssdd-2223-p2::q1": {
+  "text": "Con AMD el sirviente retorna sin resultado, y el runtime responde cuando esté disponible. Eso permite dejar peticiones en una cola de trabajo y atenderlas con workers sin bloquear hilos.",
   "deck": "remote-invocation",
-  "page": 48,
-  "excerpt": [
-   "Asynchronous dispatching decouples incoming request and request dispatching."
-  ]
+  "page": 48
+ },
+ "ssdd-2223-p2::q2": {
+  "text": "En IP multicast el emisor envía a una dirección de grupo sin conocer a los receptores (desacoplado en espacio), pero estos deben estar activos en ese instante (acoplado en tiempo)."
  },
  "ssdd-2223-p2::q3": {
+  "text": "El temario lo define así: es parecido al modelo de canal, pero el topic se indica explícitamente como un campo del evento, como topic = \"temperature\".",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel."
-  ]
+  "page": 13
+ },
+ "ssdd-2223-p2::q4": {
+  "text": "El temario lo dice: un broker centralizado es sencillo de implementar, pero carece de resiliencia y escalabilidad, porque todo el tráfico pasa por un único nodo.",
+  "deck": "indirect",
+  "page": 15
+ },
+ "ssdd-2223-p2::q5": {
+  "text": "Una cola de mensajes es uno a uno: cada mensaje lo retira un único receptor, aunque haya varios consumidores esperando. En publicación-subscripción, en cambio, cada subscriptor recibe copia.",
+  "deck": "indirect",
+  "page": 22
+ },
+ "ssdd-2223-p2::q7": {
+  "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S221: 2 + 2 + 1 = 5 eventos."
  },
  "ssdd-2223-p2::q11": {
+  "text": "Con servidor central, todas las peticiones de entrada a la sección crítica pasan por él, y usa pocos mensajes. Al crecer el sistema, su problema es el cuello de botella.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST transfers representations of resource states"
-  ]
+  "page": 11
+ },
+ "ssdd-2223-p2::q15": {
+  "text": "El proceso envía N−1 peticiones y espera N−1 respuestas. En total, 2(N−1) mensajes sin multicast."
+ },
+ "ssdd-2223-p2::q18": {
+  "text": "García-Molina (abusón) está diseñado para que los procesos fallen en cualquier momento y se recupere la coordinación eligiendo a otro. El anillo básico no tolera esos fallos.",
+  "deck": "remote-invocation",
+  "page": 11
+ },
+ "ssdd-2223-p2::q19": {
+  "text": "CAP significa Consistencia, Disponibilidad y Tolerancia a particiones. No incluye ninguna ventana de inconsistencia."
+ },
+ "ssdd-2223-p2::q20": {
+  "text": "Es el tiempo desde una escritura hasta que se garantiza que cualquier lectura vea ese valor, es decir, lo que tarda en propagarse."
+ },
+ "ssdd-2223-p2::q21": {
+  "text": "En líder/seguidores, un nodo distinguido recibe las escrituras y las propaga. Si la propagación es asíncrona, los seguidores pueden ir retrasados, y de ahí la consistencia débil.",
+  "deck": "protocol-design",
+  "page": 3
+ },
+ "ssdd-2223-p2::q22": {
+  "text": "Debe cumplirse R + W > N y W > N/2. Con N = 6, R = 3 y W = 4 suman 7 y W > 3. Las demás opciones no cumplen alguna condición."
+ },
+ "ssdd-2223-p2::q23": {
+  "text": "El balanceo lo realiza el propio sistema, repartiendo las peticiones entre réplicas (p. ej. con un balanceador). Así el cliente no necesita conocer las réplicas ni su carga.",
+  "deck": "intro",
+  "page": 24
  },
  "ssdd-2223-p2x::q1": {
+  "text": "Es su rasgo definitorio según el temario: un intermediario desacopla en espacio y tiempo. RMI es directa, y las partes no necesitan estar en ejecución a la vez.",
   "deck": "indirect",
-  "page": 4,
-  "excerpt": [
-   "Participants must exist at same time.",
-   "Very inefficient when there are many participants."
-  ]
+  "page": 5
  },
  "ssdd-2223-p2x::q2": {
+  "text": "Las estaciones publican datos y muchos interesados los reciben sin conocerse. Publicador-subscriptor encaja: el temario cita la monitorización del tiempo como ejemplo.",
   "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Publisher publishes structured events to an event service",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 10
+ },
+ "ssdd-2223-p2x::q3": {
+  "text": "Toda comunicación indirecta desacopla en espacio: el emisor deja el mensaje al intermediario sin conocer identificadores de destinatarios. Por eso ninguno lo implica.",
+  "deck": "indirect",
+  "page": 9
  },
  "ssdd-2223-p2x::q4": {
+  "text": "El broker desacopla en espacio: los publicadores solo le entregan eventos, sin conocer a los subscriptores. Quien gestiona las subscripciones es el broker.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
+ },
+ "ssdd-2223-p2x::q5": {
+  "text": "Si el emisor espera el resultado, necesita un modelo petición-respuesta, como RPC. Las colas destacan justo cuando no hay coexistencia o se desea persistencia.",
+  "deck": "indirect",
+  "page": 22
  },
  "ssdd-2223-p2x::q6": {
+  "text": "En IceStorm, los publicadores envían a un topic con nombre y sus subscriptores reciben todo lo enviado a él, sin filtrar por contenido. Ojo: el temario lo llama «topic based», pero también lo cita como ejemplo de canal.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
+ },
+ "ssdd-2223-p2x::q8": {
+  "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S031: 0 + 3 + 1 = 4 eventos."
+ },
+ "ssdd-2223-p2x::q11": {
+  "text": "Registrar una recepción sin su envío es precisamente lo que hace inconsistente un estado. No es una propiedad, sino lo que se quiere evitar."
+ },
+ "ssdd-2223-p2x::q13": {
+  "text": "Si cae el servidor central, nadie puede asumir el papel por simple vecindad. Los demás deben ponerse de acuerdo con un algoritmo de elección."
+ },
+ "ssdd-2223-p2x::q14": {
+  "text": "Multicast causal: si hay relación causal entre dos envíos, su entrega debe respetar el orden. La opción a) describe FIFO."
+ },
+ "ssdd-2223-p2x::q15": {
+  "text": "Sin multicast, se envían N−1 peticiones individuales. Con multicast basta uno y N−1 respuestas: en total pasa de 2(N−1) a N."
+ },
+ "ssdd-2223-p2x::q16": {
+  "text": "Liveness significa que toda petición acaba teniendo éxito, sin interbloqueo ni inanición. Que solo uno entre es safety, y conceder por orden es ordering."
+ },
+ "ssdd-2223-p2x::q17": {
+  "text": "Un proceso difunde su petición con marca de Lamport a todos, y entra cuando todos responden. Las marcas deciden prioridades, sin testigo ni subconjuntos."
+ },
+ "ssdd-2223-p2x::q18": {
+  "text": "Es cuando la red se divide y un grupo de réplicas pierde conectividad con el resto. Es la P del teorema CAP."
+ },
+ "ssdd-2223-p2x::q19": {
+  "text": "Según el temario, la transparencia de replicación hace que los usuarios no sepan que hay réplicas. Por eso, que el cliente deba conocer el servidor va en contra de ella."
+ },
+ "ssdd-2223-p2x::q20": {
+  "text": "Las transacciones aplican la actualización a todas las réplicas de forma atómica. Replicación asíncrona o consistencia eventual admiten divergencias temporales."
  },
  "ssdd-2122-p1::q1": {
+  "text": "Sin tiempo común, solo paso de mensajes y fallos parciales son rasgos definitorios de un SD. La independencia del lenguaje es algo que aporta un middleware, no parte de la definición.",
   "deck": "intro",
-  "page": 4,
-  "excerpt": [
-   "Client and server are independent processes potentially running on different nodes. They may have particular circumstances and restrictions."
-  ]
+  "page": 4
+ },
+ "ssdd-2122-p1::q2": {
+  "text": "La I de seguridad CIA es integridad: los datos no deben alterarse o corromperse.",
+  "deck": "protocol-design",
+  "page": 16
  },
  "ssdd-2122-p1::q3": {
+  "text": "Las primitivas subyacentes del temario son sockets, paso de mensajes y soporte multicast. La memoria compartida no existe entre nodos: solo puede simularse sobre mensajes.",
   "deck": "intro",
-  "page": 7,
-  "excerpt": [
-   "Resource sharing: programs make local resources available remotely."
-  ]
+  "page": 32
+ },
+ "ssdd-2122-p1::q4": {
+  "text": "Se admite que el software es más complejo, de modo que la simplicidad no es una ventaja. El temario sí incluye coste/rendimiento, escalabilidad y disponibilidad."
  },
  "ssdd-2122-p1::q5": {
+  "text": "El temario lo expresa como «Concurrency → Consistency»: como varios procesos acceden a la vez a recursos compartidos, hay que definir qué valores puede ver un lector tras una actualización.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time."
-  ]
+  "page": 22
+ },
+ "ssdd-2122-p1::q6": {
+  "text": "Protocol Buffers define y serializa la estructura de los mensajes, que es la sintaxis. No indica qué significan los campos ni en qué orden se intercambian.",
+  "deck": "protocol-design",
+  "page": 17
  },
  "ssdd-2122-p1::q7": {
+  "text": "El temario dice de REST que «la semántica está predefinida»: GET, PUT o DELETE ya tienen un significado. En RPC o RMI, en cambio, la define cada interfaz.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST is an architectural style. An API that fulfills the principles of this style is a \"RESTful API\".",
-   "REST transfers representations of resource states"
-  ]
+  "page": 59
+ },
+ "ssdd-2122-p1::q8": {
+  "text": "El temario pone esto como ejemplo: un servidor puede ofrecer varias versiones, y los servicios evolucionan sin romper a clientes existentes.",
+  "deck": "remote-invocation",
+  "page": 29
  },
  "ssdd-2122-p1::q9": {
+  "text": "El temario indica que el objetivo es que llamar a un procedimiento remoto se parezca lo máximo a una llamada local convencional. El coste y retardo son, de hecho, mayores.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good",
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
+ },
+ "ssdd-2122-p1::q10": {
+  "text": "Es una pregunta trampa: el binder suele ser un servicio más, accesible con el propio middleware (rpcbind es un servidor RPC y el Registry, de RMI).",
+  "deck": "remote-invocation",
+  "page": 41
+ },
+ "ssdd-2122-p1::q11": {
+  "text": "El temario indica que con Request el cliente no espera ni requiere confirmación, y no hay respuesta. Es el estilo adecuado para una invocación no bloqueante.",
+  "deck": "remote-invocation",
+  "page": 7
+ },
+ "ssdd-2122-p1::q12": {
+  "text": "Si una lectura periódica se pierde, llegará otra enseguida. Maybe no requiere reintentos ni filtrado, y resulta lo más barato."
+ },
+ "ssdd-2122-p1::q13": {
+  "text": "La tabla del temario indica que at-most-once necesita reintentos, filtro de duplicados y retransmisión de la respuesta. Reenviar sin filtrar podría aplicar dos veces la operación."
+ },
+ "ssdd-2122-p1::q14": {
+  "text": "A es el cliente y B el servidor: A serializa el argumento y B lo deserializa; a la vuelta, B serializa el retorno y A lo deserializa. Pasar por valor no evita serializar.",
+  "deck": "remote-invocation",
+  "page": 18
+ },
+ "ssdd-2122-p1::q15": {
+  "text": "WSDL es el lenguaje de descripción de servicios SOAP. El temario señala que REST no tiene lenguaje de especificación de interfaz; usa HTTP y URIs.",
+  "deck": "remote-invocation",
+  "page": 61
  },
  "ssdd-2122-p1x::q1": {
+  "text": "Según la definición de Coulouris, los componentes se comunican y coordinan únicamente mediante paso de mensajes. No hay reloj global y lo habitual es la heterogeneidad.",
   "deck": "intro",
-  "page": 21,
-  "excerpt": [
-   "Basic form of communication and synchronization in a distributed system"
-  ]
+  "page": 21
+ },
+ "ssdd-2122-p1x::q2": {
+  "text": "Entre las falacias clásicas están «la red es fiable», «es segura» y «es homogénea». «La red es transparente» no forma parte de esa lista.",
+  "deck": "intro",
+  "page": 25
+ },
+ "ssdd-2122-p1x::q3": {
+  "text": "Las opciones a), b) y c) son definiciones clásicas de autores reconocidos. Incrementar productividad no define a un SD; es más bien la meta de los sistemas paralelos."
  },
  "ssdd-2122-p1x::q4": {
+  "text": "RMI es la contrapartida orientada a objetos de RPC y Java RMI es nativo de Java, de modo que encaja con poca modificación en un diseño de objetos ya existente.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 28
+ },
+ "ssdd-2122-p1x::q5": {
+  "text": "Un IDL define operaciones y tipos de datos, es decir, la estructura de los mensajes: sintaxis. No indica qué significan ni en qué orden se usan.",
+  "deck": "remote-invocation",
+  "page": 29
  },
  "ssdd-2122-p1x::q6": {
+  "text": "El temario enumera varios formatos: binario, XML, JSON o texto. Serializar permite precisamente comunicar lenguajes distintos, sin obligar a Protocol Buffers ni a TCP.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing",
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 17
+ },
+ "ssdd-2122-p1x::q7": {
+  "text": "Serializar (marshalling) es codificar los datos de usuario en el formato de red usado en los mensajes. No trata de versiones ni de ordenar mensajes.",
+  "deck": "protocol-design",
+  "page": 5
+ },
+ "ssdd-2122-p1x::q8": {
+  "text": "Según el temario, una especificación de protocolo requiere sintaxis, semántica y sincronización o temporización.",
+  "deck": "protocol-design",
+  "page": 3
+ },
+ "ssdd-2122-p1x::q9": {
+  "text": "Protocol Buffers define solo estructuras de datos y su serialización. Para un servicio hacen falta operaciones, que aporta un middleware como gRPC."
+ },
+ "ssdd-2122-p1x::q10": {
+  "text": "Definir qué mensaje debe responder a otro es fijar el patrón de intercambio, que es la temporización o sincronización.",
+  "deck": "protocol-design",
+  "page": 3
  },
  "ssdd-2122-p1x::q11": {
+  "text": "Las demás son claramente falsas: R no retransmite, lo normal es síncrono, y el dispatcher está en el servidor. Ojo: la frase marcada es discutible; una idempotente sí podría ejecutarse, solo no lo necesita.",
   "deck": "remote-invocation",
-  "page": 12,
-  "excerpt": [
-   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once.",
-   "Idempotent operations need no duplicate filtering, which simplifies the implementation."
-  ]
+  "page": 13
+ },
+ "ssdd-2122-p1x::q12": {
+  "text": "El runtime de RPC oculta conexión, marshalling y paso de mensajes, según el temario. Por tanto, de las tres cosas ya no te ocupas, y por eso la opción d) es la correcta."
+ },
+ "ssdd-2122-p1x::q13": {
+  "text": "El temario sitúa RPC y RMI en la capa de middleware, sobre primitivas como sockets y paso de mensajes."
  },
  "ssdd-2122-p1x::q14": {
+  "text": "Sin respuesta ni garantías, basta el estilo más simple: según el temario, en Request el servidor no devuelve nada y no hay reintentos.",
   "deck": "remote-invocation",
-  "page": 48,
-  "excerpt": [
-   "Asynchronous dispatching decouples incoming request and request dispatching."
-  ]
+  "page": 47
+ },
+ "ssdd-2122-p1x::q15": {
+  "text": "Según el temario, el proxy es el sustituto local del objeto remoto: el cliente lo invoca como si fuese local.",
+  "deck": "remote-invocation",
+  "page": 31
+ },
+ "ssdd-2122-p1r::q1": {
+  "text": "Es lo que dice el temario: ejecución concurrente, falta de reloj global y fallos independientes. La memoria compartida no forma parte de ello."
  },
  "ssdd-2122-p1r::q2": {
+  "text": "Acceso, localización y concurrencia son transparencias que aparecen en el temario. Las demás opciones mezclan términos que no son tipos de transparencia, como trazabilidad, tiempo o persistencia.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time."
-  ]
+  "page": 24
+ },
+ "ssdd-2122-p1r::q3": {
+  "text": "El objetivo del middleware es aislar al desarrollador de la heterogeneidad y de los aspectos no funcionales. RPC, RMI o sockets son mecanismos concretos, no esa capa completa.",
+  "deck": "intro",
+  "page": 26
  },
  "ssdd-2122-p1r::q4": {
+  "text": "Fiabilidad es la probabilidad de funcionamiento correcto conforme a lo especificado. Disponibilidad es la fracción de tiempo en que el servicio es utilizable.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Reliability: probability of correct operation over a period of time."
-  ]
+  "page": 23
  },
  "ssdd-2122-p1r::q5": {
+  "text": "Las características principales son ejecución concurrente, falta de reloj global y fallos independientes. Un reloj global común es justo lo que un SD no tiene.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "Lack of a global clock"
-  ]
+  "page": 3
+ },
+ "ssdd-2122-p1r::q6": {
+  "text": "UDP puede perder, duplicar o desordenar. Un identificador permite emparejar respuestas y filtrar repetidos, tal como dice el temario sobre requestId.",
+  "deck": "remote-invocation",
+  "page": 51
+ },
+ "ssdd-2122-p1r::q7": {
+  "text": "Protocol Buffers define y serializa la estructura de los mensajes, que es la sintaxis. No indica qué significan los campos ni en qué orden se intercambian.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-2122-p1r::q8": {
+  "text": "REST fija la semántica con métodos predefinidos y, usando HTTP, también el formato de los mensajes. Por eso define ambos aspectos."
  },
  "ssdd-2122-p1r::q9": {
+  "text": "El temario enumera varios formatos: binario, XML, JSON o texto. Serializar permite precisamente comunicar lenguajes distintos, sin obligar a Protocol Buffers ni a TCP.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing",
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 16
+ },
+ "ssdd-2122-p1r::q10": {
+  "text": "Definir qué mensaje debe responder a otro es fijar el patrón de intercambio, que es la temporización o sincronización.",
+  "deck": "protocol-design",
+  "page": 3
+ },
+ "ssdd-2122-p1r::q11": {
+  "text": "El runtime de RPC oculta conexión, marshalling y paso de mensajes, según el temario. Por tanto, de las tres cosas ya no te ocupas, y por eso la opción d) es la correcta."
  },
  "ssdd-2122-p1r::q12": {
+  "text": "Herramientas como rpcgen generan los stubs a partir de la interfaz escrita en XDR, tal como dice el temario. La interfaz y la lógica del servidor las escribe el programador.",
   "deck": "remote-invocation",
-  "page": 24,
-  "excerpt": [
-   "Client stubs client client.c executable",
-   "Server stubs server server.c executable"
-  ]
+  "page": 17
+ },
+ "ssdd-2122-p1r::q13": {
+  "text": "Maybe no hace reintentos, ni filtrado de duplicados ni historia, y por tanto gasta menos mensajes y memoria.",
+  "deck": "remote-invocation",
+  "page": 13
+ },
+ "ssdd-2122-p1r::q14": {
+  "text": "WSDL es el lenguaje de descripción de servicios SOAP. El temario señala que REST no tiene lenguaje de especificación de interfaz; usa HTTP y URIs.",
+  "deck": "remote-invocation",
+  "page": 61
  },
  "ssdd-2122-p1r::q15": {
+  "text": "El temario indica que la invocación asíncrona no bloquea al cliente, que puede proporcionar una callback para recoger el resultado.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
  },
  "ssdd-2122-p2::q1": {
+  "text": "Se envía a una dirección de grupo sin conocer a los miembros (desacoplado en espacio), pero sin almacenamiento intermedio, de modo que deben estar activos a la vez (acoplado en tiempo).",
   "deck": "indirect",
-  "page": 4,
-  "excerpt": [
-   "Participants must exist at same time."
-  ]
+  "page": 5
  },
  "ssdd-2122-p2::q2": {
+  "text": "Un evento es una notificación difundida con cierta información asociada, sin invocación ni respuesta. Las primeras opciones describen invocaciones remotas.",
   "deck": "indirect",
-  "page": 17,
-  "excerpt": [
-   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers"
-  ]
+  "page": 17
  },
  "ssdd-2122-p2::q3": {
+  "text": "Las estaciones publican datos y muchos interesados los reciben sin conocerse. Publicador-subscriptor encaja: el temario cita la monitorización del tiempo como ejemplo.",
   "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Publisher publishes structured events to an event service",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 10
  },
  "ssdd-2122-p2::q4": {
+  "text": "Desacoplado en tiempo significa que emisor y receptor pueden tener vidas distintas, incluso sin solaparse. Según el temario, no necesitan coexistir.",
   "deck": "indirect",
-  "page": 4,
-  "excerpt": [
-   "Participants must exist at same time."
-  ]
+  "page": 5
+ },
+ "ssdd-2122-p2::q5": {
+  "text": "Toda comunicación indirecta desacopla en espacio: el emisor deja el mensaje al intermediario sin conocer identificadores de destinatarios. Por eso ninguno lo implica.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-2122-p2::q6": {
+  "text": "La causalidad potencial (happened-before) implica que, si un evento es efecto de otro, la causa le precede en la historia del sistema."
+ },
+ "ssdd-2122-p2::q7": {
+  "text": "Cristian estima hora = hora del servidor + RTT/2, con un error acotado de ±RTT/2 (menos la latencia mínima, si se conoce)."
+ },
+ "ssdd-2122-p2::q8": {
+  "text": "Un corte consistente puede incluir una causa sin su efecto (mensaje en tránsito), pero nunca un efecto sin su causa."
+ },
+ "ssdd-2122-p2::q9": {
+  "text": "El sesgo es la diferencia instantánea entre dos relojes físicos. La velocidad de cambio del reloj es la deriva."
+ },
+ "ssdd-2122-p2::q10": {
+  "text": "Un reloj lógico es un contador de eventos, sin relación con el oscilador físico: no mide tiempo, solo ordena."
+ },
+ "ssdd-2122-p2::q11": {
+  "text": "Ricart y Agrawala usa marcas de Lamport, y así concede según el orden de las peticiones. El anillo sigue el orden físico del anillo, y el servidor central ve el orden de llegada."
+ },
+ "ssdd-2122-p2::q12": {
+  "text": "Chang y Roberts es un algoritmo de elección en anillo: los mensajes circulan hasta que se identifica al proceso de mayor identificador."
+ },
+ "ssdd-2122-p2::q13": {
+  "text": "«Anillo» es ambiguo: existe uno de exclusión mutua, con testigo, y otro de elección de coordinador (Chang y Roberts)."
  },
  "ssdd-2122-p2::q14": {
+  "text": "Con servidor central, todas las peticiones de entrada a la sección crítica pasan por él, y usa pocos mensajes. Al crecer el sistema, su problema es el cuello de botella.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST transfers representations of resource states"
-  ]
+  "page": 57
+ },
+ "ssdd-2122-p2::q15": {
+  "text": "La grúa es un recurso físico que debe manejar un solo operador cada vez, con varios puestos separados. Es el caso típico de acceso exclusivo distribuido."
+ },
+ "ssdd-2122-p2::q16": {
+  "text": "Replicar mejora tolerancia a fallos, disponibilidad y tiempo de respuesta, pero complica la consistencia, porque las copias deben mantenerse coordinadas. El temario lo indica."
+ },
+ "ssdd-2122-p2::q17": {
+  "text": "Cuanto mayor es el retardo, la carga o el número de réplicas por actualizar, más tarda en propagarse la escritura, y por tanto más dura la ventana."
+ },
+ "ssdd-2122-p2::q18": {
+  "text": "La consistencia estricta exige ver cada escritura de inmediato en todas partes, como si hubiera una sola copia. La lineal y la secuencial permiten un margen."
+ },
+ "ssdd-2122-p2::q19": {
+  "text": "A mayor carga, el sistema se satura y responde menos peticiones, de modo que baja la disponibilidad. La redundancia y la fiabilidad, en cambio, la favorecen."
+ },
+ "ssdd-2122-p2::q20": {
+  "text": "Tolerar fallos no es que no los haya ni que se cumpla todo: el sistema sigue funcionando, quizá degradado, a pesar de ellos.",
+  "deck": "remote-invocation",
+  "page": 11
  },
  "ssdd-2122-p2x::q1": {
+  "text": "El temario presenta RabbitMQ como ejemplo de cola de mensajes que implementa AMQP, aunque puede configurarse para otros patrones.",
   "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "Queues: Temporarily store messages from publishers"
-  ]
+  "page": 26
  },
  "ssdd-2122-p2x::q2": {
+  "text": "El broker desacopla en espacio: los publicadores solo le entregan eventos, sin conocer a los subscriptores. Quien gestiona las subscripciones es el broker.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-2122-p2x::q3": {
+  "text": "En las colas, el emisor deposita y un único receptor retira cada mensaje, determinado por el sistema. La recepción de copias por varios receptores es propia de publicación-subscripción.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
+ },
+ "ssdd-2122-p2x::q4": {
+  "text": "El temario clasifica RPC/RMI como comunicación directa. Grupos, eventos y memoria compartida distribuida son las formas de comunicación indirecta.",
+  "deck": "indirect",
+  "page": 3
  },
  "ssdd-2122-p2x::q5": {
+  "text": "Un evento es una notificación difundida con cierta información asociada, sin invocación ni respuesta. Las primeras opciones describen invocaciones remotas.",
   "deck": "indirect",
-  "page": 17,
-  "excerpt": [
-   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers"
-  ]
+  "page": 17
  },
- "ssdd-2021-ejx::q5": {
-  "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing"
-  ]
+ "ssdd-2122-p2x::q6": {
+  "text": "Cristian estima la latencia como RTT/2 para corregir la hora recibida. Su cálculo acota el error debido a ese retardo de red."
+ },
+ "ssdd-2122-p2x::q7": {
+  "text": "Cristian estima hora = hora del servidor + RTT/2. Con un RTT de 8 s, a la hora indicada por el servidor se le suman 4 s."
+ },
+ "ssdd-2122-p2x::q8": {
+  "text": "La causalidad potencial (happened-before) implica que, si un evento es efecto de otro, la causa le precede en la historia del sistema."
+ },
+ "ssdd-2122-p2x::q9": {
+  "text": "Aunque todos los procesos estén inactivos, un mensaje en tránsito puede reactivar a uno. Solo un estado global, con canales incluidos, permite afirmar que terminó."
+ },
+ "ssdd-2122-p2x::q10": {
+  "text": "El reloj software se obtiene de un dispositivo hardware local (físico). Un reloj lógico es un contador de eventos, sin relación con este."
+ },
+ "ssdd-2122-p2x::q11": {
+  "text": "Pagando por uso de la red, el testigo del anillo circula incluso sin peticiones y genera tráfico constante. Las otras opciones solo envían mensajes al pedir acceso."
+ },
+ "ssdd-2122-p2x::q12": {
+  "text": "Ricart y Agrawala usa marcas de Lamport, y así concede según el orden de las peticiones. El anillo sigue el orden físico del anillo, y el servidor central ve el orden de llegada."
+ },
+ "ssdd-2122-p2x::q13": {
+  "text": "«Anillo» es ambiguo: existe uno de exclusión mutua, con testigo, y otro de elección de coordinador (Chang y Roberts)."
+ },
+ "ssdd-2122-p2x::q14": {
+  "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
+ },
+ "ssdd-2122-p2x::q16": {
+  "text": "Replicar es mantener copias idénticas de un recurso o servicio en varios nodos, para mejorar disponibilidad y rendimiento."
+ },
+ "ssdd-2122-p2x::q17": {
+  "text": "Con réplicas repartidas geográficamente, cada cliente accede a la más cercana, y por tanto la distancia media y la latencia se reducen."
+ },
+ "ssdd-2122-p2x::q18": {
+  "text": "CAP significa Consistencia, Disponibilidad y Tolerancia a particiones. No incluye ninguna ventana de inconsistencia."
+ },
+ "ssdd-2122-p2x::q19": {
+  "text": "Si dejan de producirse escrituras, todas las réplicas acaban convergiendo y las lecturas devuelven el último valor. No exige sincronización inmediata ni transacciones."
+ },
+ "ssdd-2122-p2x::q20": {
+  "text": "Es el tiempo desde una escritura hasta que se garantiza que cualquier lectura vea ese valor, es decir, lo que tarda en propagarse."
+ },
+ "ssdd-2021-ejx::q2": {
+  "text": "Protocol Buffers usa tipos como string e int32, y un teléfono se guarda mejor como texto, por el prefijo o los ceros. El número de campo nuevo no rompe la compatibilidad."
+ },
+ "ssdd-2021-ejx::q3": {
+  "text": "El cliente paho-mqtt debe mantener un bucle que procese mensajes de red. loop_forever() lo hace, y sin él nunca se ejecutan las callbacks."
+ },
+ "ssdd-2021-ejx::q6": {
+  "text": "ParseFromString es la operación de des-serialización y luego se accede al campo. Ojo: en Python real devuelve bytes leídos, así que habría que separar la llamada y el acceso."
+ },
+ "ssdd-2021-p1::q1": {
+  "text": "Para sincronizar relojes hay que intercambiar mensajes, y su retardo es variable e impredecible. Por eso no se puede acordar un instante exacto común."
+ },
+ "ssdd-2021-p1::q2": {
+  "text": "El temario habla de la heterogeneidad de redes en cuanto a topología, tecnología y configuración. Por eso, suponer que la red es homogénea es una falacia."
  },
  "ssdd-2021-p1::q3": {
+  "text": "Al repartir trabajo entre procesos y nodos independientes, se pueden añadir procesos y recursos a medida que crece la carga. Sin embargo, nada puede crecer de forma indefinida.",
   "deck": "indirect",
-  "page": 30,
-  "excerpt": [
-   "RabbitMQ flexible binding work queues publish-subscribe topics routing"
-  ]
+  "page": 30
+ },
+ "ssdd-2021-p1::q4": {
+  "text": "El temario lo relaciona: una interfaz de comunicación, compuesta por un conjunto de operaciones, es lo que se llama API.",
+  "deck": "remote-invocation",
+  "page": 29
  },
  "ssdd-2021-p1::q5": {
+  "text": "El sistema oculta las diferencias de hardware, SO o lenguaje tras interfaces comunes, de modo que recursos heterogéneos se usan como si fueran homogéneos. No impide la heterogeneidad: la enmascara.",
   "deck": "intro",
-  "page": 24,
-  "excerpt": [
-   "Scalability: it works the same way regardless of the amount of resources or clients."
-  ]
+  "page": 29
  },
  "ssdd-2021-p1::q6": {
+  "text": "El temario indica que gestiona el marshalling entre estructuras del lenguaje y secuencias binarias, y viceversa. No define operaciones ni sincroniza mensajes.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing"
-  ]
+  "page": 17
+ },
+ "ssdd-2021-p1::q8": {
+  "text": "Serializar con Python en binario (p. ej. struct) incluye solo los valores, sin etiquetas de campo. XML y JSON son textuales, y Protocol Buffers añade identificadores de campo.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-2021-p1::q9": {
+  "text": "El temario indica que con Request el cliente no espera ni requiere confirmación, y no hay respuesta. Es el estilo adecuado para una invocación no bloqueante.",
+  "deck": "remote-invocation",
+  "page": 7
+ },
+ "ssdd-2021-p1::q10": {
+  "text": "El runtime de RPC oculta conexión, marshalling y paso de mensajes, según el temario. Por tanto, de las tres cosas ya no te ocupas, y por eso la opción d) es la correcta.",
+  "deck": "remote-invocation",
+  "page": 15
  },
  "ssdd-2021-p1::q11": {
+  "text": "Según el temario, el servidor deserializa argumentos, ejecuta y serializa el resultado (paso 7). Serializar argumentos y enviar la petición lo hace el cliente.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
  },
  "ssdd-2021-p1::q12": {
+  "text": "Según el temario, el stub del cliente serializa operación y argumentos y envía la petición. Deserializar argumentos y serializar el resultado corresponde al servidor.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
+ },
+ "ssdd-2021-p1::q13": {
+  "text": "Según el temario, at-least-once usa ACK y reintentos, pero no filtra duplicados, de ahí que el procedimiento pueda ejecutarse más de una vez.",
+  "deck": "remote-invocation",
+  "page": 13
+ },
+ "ssdd-2021-p1::q14": {
+  "text": "UDP no ofrece reintentos, ACK ni filtrado de duplicados. Sin añadir nada, el mensaje puede llegar o no: eso es maybe."
  },
  "ssdd-2021-p1::q15": {
+  "text": "El portmapper es el binder: a partir del programa y la versión, devuelve el puerto. Simplifica por tanto que el cliente localice y se vincule al servidor.",
   "deck": "remote-invocation",
-  "page": 41,
-  "excerpt": [
-   "Servers register their references (addresses) in a name server (binder)"
-  ]
+  "page": 41
+ },
+ "ssdd-2021-p1x::q1": {
+  "text": "El temario responde a «¿cómo resolvemos la heterogeneidad?» con sistemas abiertos: interfaces públicas y estándares permiten integrar tecnologías diferentes."
+ },
+ "ssdd-2021-p1x::q2": {
+  "text": "Una URL nombra el recurso con un nombre lógico sin fijar su máquina física. IP/puerto o MAC, en cambio, atan a una ubicación concreta.",
+  "deck": "intro",
+  "page": 25
  },
  "ssdd-2021-p1x::q3": {
+  "text": "Según el temario, RPC/RMI se apoyan en protocolos de petición-respuesta. Publicador-subscriptor, colas y tuplas son formas de comunicación indirecta.",
   "deck": "remote-invocation",
-  "page": 7,
-  "excerpt": [
-   "RRA Request Reply Acknowledge reply"
-  ]
+  "page": 7
+ },
+ "ssdd-2021-p1x::q4": {
+  "text": "Las capas (layers) organizan lógicamente el software; los niveles (tiers) reparten funciones en elementos de software y hardware concretos.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-2021-p1x::q5": {
+  "text": "El jitter es la variación del retardo de entrega. Si es grande, el audio no llega a ritmo constante y se oye mal."
+ },
+ "ssdd-2021-p1x::q6": {
+  "text": "UDP puede perder, duplicar o desordenar. Un identificador permite emparejar respuestas y filtrar repetidos, tal como dice el temario sobre requestId.",
+  "deck": "remote-invocation",
+  "page": 51
+ },
+ "ssdd-2021-p1x::q7": {
+  "text": "BSON es binario y por tanto compacto, adecuado para datagramas UDP. XML, JSON y YAML son textuales y mayores."
+ },
+ "ssdd-2021-p1x::q9": {
+  "text": "protoc genera código de acceso y serialización, pero no añade campos como CRC o marca de tiempo. Si hacen falta, hay que definirlos."
+ },
+ "ssdd-2021-p1x::q10": {
+  "text": "La serialización produce una representación común en la red, independiente del lenguaje. Justamente eso permite comunicar implementaciones en lenguajes distintos.",
+  "deck": "protocol-design",
+  "page": 23
+ },
+ "ssdd-2021-p1x::q11": {
+  "text": "Según el temario, Request no tiene confirmación, timeout ni retransmisión: si el mensaje se pierde, el cliente nunca lo sabe. No sirve para invocaciones confiables.",
+  "deck": "remote-invocation",
+  "page": 7
+ },
+ "ssdd-2021-p1x::q12": {
+  "text": "Una señal periódica se repite por sí sola: perder una no importa. Maybe evita sobrecarga, y justo así funciona un heartbeat."
+ },
+ "ssdd-2021-p1x::q13": {
+  "text": "A es el cliente y B el servidor: A serializa el argumento y B lo deserializa; a la vuelta, B serializa el valor de retorno y A lo deserializa.",
+  "deck": "remote-invocation",
+  "page": 18
+ },
+ "ssdd-2021-p1x::q14": {
+  "text": "El temario muestra que RRA inserta la respuesta en la historia y la retira al llegar el ack. Así el servidor puede retransmitir sin reejecutar.",
+  "deck": "remote-invocation",
+  "page": 10
  },
  "ssdd-2021-p1x::q15": {
+  "text": "El temario define el binding persistente como reutilizar las referencias en llamadas posteriores, lo que conviene si estas son frecuentes.",
   "deck": "remote-invocation",
-  "page": 41,
-  "excerpt": [
-   "Servers register their references (addresses) in a name server (binder)",
-   "Find a reference from a service identifier"
-  ]
+  "page": 41
  },
  "ssdd-2021-p1r::q1": {
+  "text": "Es la definición literal del temario. Las otras opciones describen un servidor, un protocolo y un API, respectivamente.",
   "deck": "intro",
-  "page": 13,
-  "excerpt": [
-   "SERVICE – a component managing a collection of related resources and provides functionality to users and applications",
-   "For effective sharing, each resource must be managed by a program that offers a communication interface. This communication interface composed by a set of operations is often called Application"
-  ]
+  "page": 13
+ },
+ "ssdd-2021-p1r::q2": {
+  "text": "El temario responde a «¿cómo resolvemos la heterogeneidad?» con sistemas abiertos: interfaces públicas y estándares permiten integrar tecnologías diferentes.",
+  "deck": "intro",
+  "page": 19
  },
  "ssdd-2021-p1r::q3": {
+  "text": "El middleware aumenta la productividad porque el programador se centra en los requisitos funcionales. No resuelve de forma automática fallos o escalabilidad en cualquier sistema solo por usarlo.",
   "deck": "intro",
-  "page": 26,
-  "excerpt": [
-   "Provide a common programming model for developers"
-  ]
+  "page": 28
+ },
+ "ssdd-2021-p1r::q4": {
+  "text": "Una URL permite acceder al recurso con independencia de su máquina física, que es la definición de transparencia de localización. El temario la plantea como ejercicio.",
+  "deck": "intro",
+  "page": 24
+ },
+ "ssdd-2021-p1r::q5": {
+  "text": "En Coulouris, los canales pueden sufrir omisión (pérdida de mensajes) y fallos arbitrarios (corrupción o duplicación). El fallo-parada es propio de los procesos."
  },
  "ssdd-2021-p1r::q6": {
+  "text": "La opción c) solo añade un byte de fin frente a 2 de longitud, sin relleno de tamaño fijo ni campos de más. Es el formato mínimo.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 5
+ },
+ "ssdd-2021-p1r::q7": {
+  "text": "El temario asocia integridad con detección y corrección de errores, y eso lo aporta un CRC. Marca de tiempo, versión o identificadores no sirven para ese fin."
  },
  "ssdd-2021-p1r::q9": {
+  "text": "Wireshark solo captura y analiza tráfico: sirve para ver mensajes y su encapsulado, pero no modifica lo que se envía.",
   "deck": "protocol-design",
-  "page": 15,
-  "excerpt": [
-   "Data types and formats for any of the fields and messages."
-  ]
+  "page": 5
  },
  "ssdd-2021-p1r::q10": {
+  "text": "En un varint, el bit más significativo de cada byte indica si siguen más bytes. Si vale 0, como aquí, ese byte es el último.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 5
+ },
+ "ssdd-2021-p1r::q11": {
+  "text": "El temario describe el paso de mensajes como petición y respuesta entre dos procesos. Es el modelo cliente-servidor, sin el intermediario de colas o eventos.",
+  "deck": "remote-invocation",
+  "page": 5
  },
  "ssdd-2021-p1r::q12": {
+  "text": "El temario señala que RPC busca parecerse a la programación convencional, y una llamada local también bloquea hasta terminar.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good"
-  ]
+  "page": 15
  },
  "ssdd-2021-p1r::q13": {
+  "text": "Según el temario, RRA soporta retransmisión de resultados en el servidor, que guarda la respuesta en una historia hasta recibir el ack.",
   "deck": "remote-invocation",
-  "page": 11,
-  "excerpt": [
-   "Client retransmit request message until reply/ACK is received",
-   "Server retransmit reply message without re-executing"
-  ]
+  "page": 11
+ },
+ "ssdd-2021-p1r::q14": {
+  "text": "En at-least-once hay reintentos sin filtrado de duplicados, de modo que el servidor vuelve a ejecutar la operación. La tabla del temario lo indica: «re-execute procedure».",
+  "deck": "protocol-design",
+  "page": 6
  },
  "ssdd-2021-p1r::q15": {
+  "text": "El temario define binding como el mecanismo para obtener la referencia del servidor, es decir, localizarlo. Convertir datos a bytes es marshalling.",
   "deck": "remote-invocation",
-  "page": 16,
-  "excerpt": [
-   "We name “RPC” to the generic remote invocation mechanism, and “ONC RPC” to the specific implementation by Sun Microsystems"
-  ]
+  "page": 16
+ },
+ "ssdd-2021-p2::q1": {
+  "text": "Replicar mejora tolerancia a fallos, disponibilidad y tiempo de respuesta, pero complica la consistencia, porque las copias deben mantenerse coordinadas. El temario lo indica."
+ },
+ "ssdd-2021-p2::q2": {
+  "text": "Cuanto mayor es el retardo, la carga o el número de réplicas por actualizar, más tarda en propagarse la escritura, y por tanto más dura la ventana."
+ },
+ "ssdd-2021-p2::q3": {
+  "text": "Un quórum debe cumplir R + W > N y W > N/2. Con N = 7, solo W = 4 y R = 7 cumple las dos: las otras opciones no llegan."
+ },
+ "ssdd-2021-p2::q4": {
+  "text": "El log write-ahead describe cambios a muy bajo nivel, ligados al formato de almacenamiento. Si una réplica cambia de versión, el formato puede no coincidir."
+ },
+ "ssdd-2021-p2::q5": {
+  "text": "Con log de sentencias, se reenvía la SQL y cada réplica la ejecuta por su cuenta. Con una función no determinista, como un aleatorio, cada una obtendría un valor distinto."
+ },
+ "ssdd-2021-p2::q6": {
+  "text": "La consistencia estricta exige ver cada escritura de inmediato en todas partes, como si hubiera una sola copia. La lineal y la secuencial permiten un margen."
+ },
+ "ssdd-2021-p2::q9": {
+  "text": "a → b exige que todas las componentes de a sean ≤ las de b. Aquí 1 < 3, pero 3 > 1, así que no se cumple en ningún sentido: son concurrentes."
+ },
+ "ssdd-2021-p2::q13": {
+  "text": "Liveness: toda petición acaba teniendo éxito, sin interbloqueo ni inanición. Que solo uno use el recurso es seguridad (safety)."
+ },
+ "ssdd-2021-p2::q14": {
+  "text": "En el anillo de exclusión mutua, el testigo circula siempre. El de elección solo envía mensajes cuando un proceso lo inicia."
+ },
+ "ssdd-2021-p2::q15": {
+  "text": "FIFO garantiza que los mensajes de un mismo emisor se entregan en el orden en que los envió. El orden causal es la opción b).",
+  "deck": "indirect",
+  "page": 23
+ },
+ "ssdd-2021-p2::q16": {
+  "text": "El consenso consiste en que, al terminar, todos los procesos correctos decidan el mismo valor. Conocer todos los propuestos corresponde a la consistencia interactiva."
+ },
+ "ssdd-2021-p2::q17": {
+  "text": "En consistencia interactiva, cada proceso propone un valor y todos deben acordar el mismo vector, con una componente por cada proceso participante."
+ },
+ "ssdd-2021-p2::q18": {
+  "text": "Según el temario, la comunicación directa es muy ineficiente con muchos participantes, mientras que la indirecta se recomienda para un gran número de usuarios.",
+  "deck": "indirect",
+  "page": 9
  },
  "ssdd-2021-p2::q19": {
+  "text": "RabbitMQ es de por sí indirecto, pero con colas de respuesta y correlación puede emular petición-respuesta. El temario incluye RPC entre sus patrones de uso.",
   "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "RabbitMQ implements the standard AMQP (Advanced"
-  ]
+  "page": 26
  },
  "ssdd-2021-p2::q20": {
+  "text": "Se envía a una dirección de grupo sin conocer a los miembros (desacoplado en espacio), pero sin almacenamiento intermedio, de modo que deben estar activos a la vez (acoplado en tiempo).",
   "deck": "indirect",
-  "page": 4,
-  "excerpt": [
-   "Participants must exist at same time."
-  ]
+  "page": 5
  },
  "ssdd-2021-p2::q21": {
+  "text": "En RabbitMQ, los publicadores envían a un exchange, y este implementa el enrutado hacia las colas, según dice el temario.",
   "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "RabbitMQ implements the standard AMQP (Advanced",
-   "Publishers: send messages to an exchange"
-  ]
- },
- "ssdd-2021-p2::q22": {
-  "deck": "indirect",
-  "page": 9,
-  "excerpt": [
-   "Disseminate events to multiple recipients through an intermediary (the event broker)."
-  ]
+  "page": 26
  },
  "ssdd-2021-p2::q23": {
+  "text": "Las estaciones publican datos y muchos interesados los reciben sin conocerse. Publicador-subscriptor encaja: el temario cita la monitorización del tiempo como ejemplo.",
   "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Publisher publishes structured events to an event service",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 10
  },
  "ssdd-2021-p2x::q1": {
+  "text": "Una sección crítica es un fragmento de código cuyo acceso concurrente da lugar a condiciones de carrera. Es código, no un proceso, y el problema no es de seguridad.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time.",
-   "Coordination: processes exchange messages to synchronize their actions."
-  ]
- },
- "ssdd-2021-p2x::q7": {
-  "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Publisher publishes structured events to an event service",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 22
  },
  "ssdd-2021-p2x::q8": {
+  "text": "El temario indica que los exchanges implementan el enrutado, aplicando claves mediante los tipos direct, fan-out y topic.",
   "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "RabbitMQ implements the standard AMQP (Advanced",
-   "Publishers: send messages to an exchange"
-  ]
+  "page": 26
+ },
+ "ssdd-2021-p2x::q9": {
+  "text": "RabbitMQ transporta el cuerpo del mensaje como bytes sin interpretarlos, de modo que se puede usar cualquier formato de serialización.",
+  "deck": "protocol-design",
+  "page": 17
  },
  "ssdd-2021-p2x::q10": {
+  "text": "El temario la recomienda para escenarios con muchos usuarios que se conectan y desconectan a menudo, y para difundir eventos a receptores cambiantes. No es válida para cualquier aplicación.",
   "deck": "indirect",
-  "page": 34,
-  "excerpt": [
-   "Kappa: Consume at the same time the data is produced"
-  ]
+  "page": 34
+ },
+ "ssdd-2021-p2x::q11": {
+  "text": "Toda comunicación indirecta desacopla en espacio: el emisor deja el mensaje al intermediario sin conocer identificadores de destinatarios. Por eso ninguno lo implica.",
+  "deck": "indirect",
+  "page": 9
  },
  "ssdd-2021-p2x::q12": {
+  "text": "El temario cita como desventaja la dificultad de lograr propiedades extremo a extremo, entre ellas el tiempo real, por el intermediario. Diseminación y desacoplamiento son, de hecho, sus puntos fuertes.",
   "deck": "indirect",
-  "page": 4,
-  "excerpt": [
-   "Participants must exist at same time."
-  ]
+  "page": 5
+ },
+ "ssdd-2021-p2x::q14": {
+  "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S311: 3 + 1 + 1 = 5 eventos."
+ },
+ "ssdd-2021-p2x::q18": {
+  "text": "Cristian estima hora = hora del servidor + RTT/2, con un error acotado de ±RTT/2 (menos la latencia mínima, si se conoce)."
+ },
+ "ssdd-2021-p2x::q19": {
+  "text": "En sincronización externa, cada proceso se ajusta a un servidor por su cuenta: importa la latencia hacia el servidor, no entre procesos ni su número ni el ancho de banda."
+ },
+ "ssdd-2021-p2x::q20": {
+  "text": "Si una réplica cae, otra puede responder, lo que aumenta la disponibilidad. A cambio, se complica la consistencia. La latencia de lectura incluso puede bajar."
+ },
+ "ssdd-2021-p2x::q21": {
+  "text": "El balanceo lo realiza el propio sistema, repartiendo las peticiones entre réplicas (p. ej. con un balanceador). Así el cliente no necesita conocer las réplicas ni su carga.",
+  "deck": "intro",
+  "page": 24
+ },
+ "ssdd-2021-p2x::q22": {
+  "text": "En la consistencia estricta, cualquier lectura devuelve siempre el valor de la última escritura, como si existiera una sola copia."
+ },
+ "ssdd-2021-p2x::q23": {
+  "text": "Es el tiempo desde una escritura hasta que se garantiza que cualquier lectura vea ese valor, es decir, lo que tarda en propagarse."
+ },
+ "ssdd-1920-p1::q1": {
+  "text": "Son las tres características del temario. Las alternativas incluyen fiabilidad o latencia nula, que en realidad son falacias."
+ },
+ "ssdd-1920-p1::q2": {
+  "text": "Un IDL define operaciones y tipos de datos, es decir, la estructura de los mensajes: sintaxis. No indica qué significan ni en qué orden se usan.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-1920-p1::q3": {
+  "text": "El temario define la seguridad como CIA: confidencialidad, integridad y disponibilidad. El cifrado o la disponibilidad por sí solos cubren solo una parte.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-1920-p1::q4": {
+  "text": "El middleware debe liberar al desarrollador de los requisitos no funcionales. Por tanto hay que valorar cómo soporta los que tu sistema concreto necesita, más que el número de puertos o servicios.",
+  "deck": "intro",
+  "page": 11
  },
  "ssdd-1920-p1::q5": {
+  "text": "RMI es la contrapartida orientada a objetos de RPC y Java RMI es nativo de Java, de modo que encaja con poca modificación en un diseño de objetos ya existente.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 28
+ },
+ "ssdd-1920-p1::q7": {
+  "text": "Un campo de versión permite distinguir qué formato o conjunto de operaciones usa un mensaje, de modo que el protocolo evoluciona sin romper a los clientes antiguos."
+ },
+ "ssdd-1920-p1::q8": {
+  "text": "La temporización o sincronización especifica los patrones válidos de intercambio de mensajes. No se refiere a relojes ni a marcas de tiempo.",
+  "deck": "protocol-design",
+  "page": 7
+ },
+ "ssdd-1920-p1::q11": {
+  "text": "Abrir una puerta ya abierta no cambia nada: es idempotente. Al no importar la repetición, basta reintentar sin filtrar, y at-least-once es la opción más barata que garantiza la acción."
+ },
+ "ssdd-1920-p1::q12": {
+  "text": "Computación huérfana: el servidor sigue ejecutando el procedimiento aunque el cliente haya desaparecido, malgastando recursos.",
+  "deck": "remote-invocation",
+  "page": 17
+ },
+ "ssdd-1920-p1::q13": {
+  "text": "El temario indica que el portmapper es el binder de ONC RPC: asocia programa y versión a un puerto en cada máquina.",
+  "deck": "remote-invocation",
+  "page": 44
  },
  "ssdd-1920-p1::q14": {
+  "text": "Cruzar el límite de un proceso cuesta órdenes de magnitud más que una llamada local, según el temario, incluso en la misma máquina.",
   "deck": "remote-invocation",
-  "page": 15,
-  "excerpt": [
-   "Calling a procedure that exists in a remote process memory space should look similar to local call."
-  ]
+  "page": 15
+ },
+ "ssdd-1920-p1::q15": {
+  "text": "El temario indica que RMI admite herencia de interfaces, no de implementación.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-1920-p1x::q1": {
+  "text": "La transparencia de acceso consiste en usar la misma interfaz para recursos locales y remotos, a diferencia de la de localización, que oculta dónde están.",
+  "deck": "intro",
+  "page": 24
+ },
+ "ssdd-1920-p1x::q2": {
+  "text": "Un único front-end recibe todas las peticiones y se convierte en cuello de botella al aumentar los clientes, lo que limita la escalabilidad."
+ },
+ "ssdd-1920-p1x::q3": {
+  "text": "El cuello de botella está en el coordinador. Añadir servidores de almacenamiento no reduce su carga, a diferencia de ampliar el front-end o repartir su trabajo."
+ },
+ "ssdd-1920-p1x::q4": {
+  "text": "Se trata de que todas las copias en distintos servidores estén siempre actualizadas, y esa es la coherencia entre réplicas."
+ },
+ "ssdd-1920-p1x::q5": {
+  "text": "El temario llama apertura (openness) a la capacidad de extender el sistema gracias a interfaces abiertas. De ahí el término sistemas abiertos."
+ },
+ "ssdd-1920-p1x::q6": {
+  "text": "Protocol Buffers usa campos numerados: añadir uno nuevo no rompe a los programas antiguos, que lo ignoran. El temario lo cita como compatibilidad hacia atrás.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-1920-p1x::q7": {
+  "text": "Un aviso no debe perderse, así que hacen falta reintentos, y recibirlo dos veces apenas perjudica. At-least-once ofrece eso al mínimo coste."
+ },
+ "ssdd-1920-p1x::q8": {
+  "text": "Según el temario, el adaptador de objetos es el dispatcher: localiza el sirviente correspondiente y lo invoca al llegar la petición.",
+  "deck": "remote-invocation",
+  "page": 32
+ },
+ "ssdd-1920-p1x::q9": {
+  "text": "Según el temario, el adaptador de objetos es el dispatcher: localiza el sirviente correspondiente y lo invoca al llegar la petición.",
+  "deck": "remote-invocation",
+  "page": 32
  },
  "ssdd-1920-p1x::q10": {
+  "text": "Es computación huérfana cuando el servidor sigue trabajando para un cliente que ya no recogerá el resultado. Aquí, el móvil se desconecta mientras se identifica la canción.",
   "deck": "intro",
-  "page": 10,
-  "excerpt": [
-   "Platform as a Service (PaaS): The customer is only concerned with the application build. The provider manages the IT resources.",
-   "Software as a Service (SaaS): Both the infrastructure and the application itself are managed by the provider."
-  ]
+  "page": 10
  },
  "ssdd-1920-p1x::q11": {
+  "text": "Un sirviente puede tener métodos auxiliares locales. Solo los declarados en la interfaz remota se pueden invocar remotamente, y por eso d) es falsa.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "OO devel methodologies and tools",
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 32
+ },
+ "ssdd-1920-p1r::q1": {
+  "text": "Las opciones a), b) y c) son definiciones clásicas de autores reconocidos. Incrementar productividad no define a un SD; es más bien la meta de los sistemas paralelos."
+ },
+ "ssdd-1920-p1r::q2": {
+  "text": "Un sistema con n usuarios es escalable si los recursos crecen de forma proporcional, O(n). Con el doble de usuarios, se necesitan aproximadamente el doble de recursos: 2n."
+ },
+ "ssdd-1920-p1r::q3": {
+  "text": "Entre las falacias clásicas están «la red es fiable», «es segura» y «es homogénea». «La red es transparente» no forma parte de esa lista.",
+  "deck": "intro",
+  "page": 25
+ },
+ "ssdd-1920-p1r::q4": {
+  "text": "Confidencialidad, la C de CIA, significa que solo accedan a los datos quienes estén autorizados. La corrupción es integridad, y la accesibilidad es disponibilidad."
+ },
+ "ssdd-1920-p1r::q5": {
+  "text": "El temario describe los sockets como muy eficientes, aunque complejos y propensos a errores. Las demás opciones añaden capas sobre ellos.",
+  "deck": "intro",
+  "page": 34
+ },
+ "ssdd-1920-p1r::q6": {
+  "text": "struct convierte valores a bytes con un formato definido: resuelve el formato de los campos (sintaxis). Significado e intercambio dependen de tu programa.",
+  "deck": "protocol-design",
+  "page": 5
+ },
+ "ssdd-1920-p1r::q7": {
+  "text": "El temario lo indica: el filtrado de duplicados requiere reintentos y requestId. El servidor reconoce una repetición por ese identificador."
+ },
+ "ssdd-1920-p1r::q8": {
+  "text": "Protobuf es binario y usa números en vez de nombres de campo. En el ejemplo del temario ocupa 518 bytes frente a 789 de JSON."
  },
  "ssdd-1920-p1r::q9": {
+  "text": "El puerto ya viaja en la cabecera UDP. El mensaje de aplicación no debe duplicar datos de transporte. Identificadores, marcas de tiempo o códigos de error sí son de aplicación.",
   "deck": "remote-invocation",
-  "page": 44,
-  "excerpt": [
-   "Portmapper reply with TCP/UDP port"
-  ]
+  "page": 44
+ },
+ "ssdd-1920-p1r::q10": {
+  "text": "SOCK_STREAM da transporte TCP de bytes, sin ninguna estructura. Sintaxis, semántica y temporización del protocolo de aplicación siguen por definir.",
+  "deck": "protocol-design",
+  "page": 15
  },
  "ssdd-1920-p1r::q11": {
+  "text": "Según el temario, el stub del cliente hace marshalling de la operación y argumentos y envía la petición. Es generado automáticamente a partir de la interfaz.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Client stubs: Performs param marshalling and return value unmarshalling.",
-   "Server stubs performs params unmarshalling and return value (or error) marshalling."
-  ]
+  "page": 31
+ },
+ "ssdd-1920-p1r::q12": {
+  "text": "Según la tabla del temario, at-most-once filtra duplicados y retransmite la respuesta. At-least-once reejecuta y maybe no reintenta.",
+  "deck": "remote-invocation",
+  "page": 13
  },
  "ssdd-1920-p1r::q13": {
+  "text": "El método de negocio lo implementa el sirviente, según el temario. Proxy, adaptador y skeleton solo transportan y despachan la invocación.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Object adapter is the dispatcher, locates corresponding servant and invokes it.",
-   "Sometimes called “skeleton”, because usually includes a skeleton for the servant implementation."
-  ]
+  "page": 31
+ },
+ "ssdd-1920-p2::q1": {
+  "text": "Un exchange fanout copia cada mensaje a todas las colas enlazadas, ignorando la clave. Es el comportamiento básico de publish-subscribe.",
+  "deck": "indirect",
+  "page": 13
  },
  "ssdd-1920-p2::q2": {
+  "text": "Para que cada subscriptor reciba todos los mensajes, necesita su propia cola enlazada al exchange: con una sola cola, cada mensaje se lo llevaría un único consumidor.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
  },
  "ssdd-1920-p2::q3": {
+  "text": "Un exchange topic entrega según patrones sobre la clave de enrutado, y así cada consumidor recibe solo los mensajes que le interesan. Fanout enviaría todo a todos.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel."
-  ]
+  "page": 13
  },
  "ssdd-1920-p2::q5": {
+  "text": "El temario distingue recepción bloqueante (pull), no bloqueante con sondeo (polling) y notificación (push). En polling, el consumidor sigue trabajando y consulta periódicamente.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
  },
  "ssdd-1920-p2::q6": {
+  "text": "El temario describe las colas como comunicación uno a uno: un emisor deposita y un único receptor retira. Eventos y grupos son uno a muchos.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
  },
  "ssdd-1920-p2::q7": {
+  "text": "La definición general es comunicar a través de un intermediario, lo que desacopla en espacio y tiempo. Las otras opciones describen casos particulares (grupos, eventos) o memoria compartida.",
   "deck": "indirect",
-  "page": 9,
-  "excerpt": [
-   "Disseminate events to multiple recipients through an intermediary (the event broker)."
-  ]
+  "page": 9
+ },
+ "ssdd-1920-p2::q8": {
+  "text": "Desacoplado en espacio significa que emisor y receptor no necesitan conocer la identidad o dirección del otro. Las opciones sobre tiempos de vida y coexistencia describen el desacoplamiento en tiempo.",
+  "deck": "indirect",
+  "page": 5
+ },
+ "ssdd-1920-p2::q9": {
+  "text": "El broker relaciona, enruta y entrega mensajes, pero no fija su formato: la estructura la acuerdan publicadores y subscriptores.",
+  "deck": "protocol-design",
+  "page": 5
  },
  "ssdd-1920-p2::q10": {
+  "text": "Con advertise, el publicador anuncia el tipo de eventos que va a generar, tal como dice el temario. Ayuda a los brokers a enrutar con eficiencia.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-1920-p2::q11": {
+  "text": "El temario define el modelo basado en contenido con un filtro que es una consulta compuesta de restricciones sobre valores de atributos del evento.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
  },
  "ssdd-1920-p2::q12": {
+  "text": "En una red de brokers, cada uno toma su decisión de enrutado según subscripciones conocidas y contenido del evento. Por eso es falso que lo determine un solo broker.",
   "deck": "indirect",
-  "page": 17,
-  "excerpt": [
-   "Content based-routing: exploits content information to efficiently route events to their required destination.",
-   "Partition of event space assigning responsibilities of each type of events to specific nodes"
-  ]
+  "page": 17
+ },
+ "ssdd-1920-p2::q13": {
+  "text": "El sesgo es la diferencia instantánea entre dos relojes físicos. La velocidad de cambio del reloj es la deriva."
+ },
+ "ssdd-1920-p2::q14": {
+  "text": "La causalidad potencial (happened-before) implica que, si un evento es efecto de otro, la causa le precede en la historia del sistema."
+ },
+ "ssdd-1920-p2::q15": {
+  "text": "Se promedian los relojes del grupo entre sí sin usar ninguno como referencia ni fuente externa. Por eso quedan sincronizados solo entre ellos: es interna."
+ },
+ "ssdd-1920-p2::q16": {
+  "text": "Cristian estima la latencia como RTT/2 para corregir la hora recibida. Su cálculo acota el error debido a ese retardo de red."
+ },
+ "ssdd-1920-p2::q17": {
+  "text": "Con relojes vectoriales, a → b si y solo si RV(a) < RV(b), y así representan la causalidad potencial. Si no son comparables, los eventos son concurrentes."
+ },
+ "ssdd-1920-p2::q18": {
+  "text": "Un corte consistente puede incluir una causa sin su efecto (mensaje en tránsito), pero nunca un efecto sin su causa."
+ },
+ "ssdd-1920-p2::q19": {
+  "text": "Una referencia a un objeto puede estar solo en un mensaje en tránsito. Sin examinar los canales, se podría borrar un objeto que todavía es necesario."
+ },
+ "ssdd-1920-p2::q20": {
+  "text": "La grúa es un recurso físico que debe manejar un solo operador cada vez, con varios puestos separados. Es el caso típico de acceso exclusivo distribuido."
+ },
+ "ssdd-1920-p2::q21": {
+  "text": "Un grupo cerrado solo admite mensajes de sus miembros; uno abierto admite también los de procesos externos."
+ },
+ "ssdd-1920-p2::q22": {
+  "text": "Sin cotas de tiempo, no se distingue un proceso lento de uno caído. Es la base del teorema FLP, que impide garantizar consenso determinista con un solo fallo."
+ },
+ "ssdd-1920-p2::q23": {
+  "text": "Un mensaje recibido puede cambiar el estado del receptor. Por eso debe quedar en el estado local o en el del canal; si no, la instantánea no sería coherente."
+ },
+ "ssdd-1920-p2::q24": {
+  "text": "En consistencia interactiva, cada proceso propone un valor y todos deben acordar el mismo vector, con una componente por cada proceso participante."
+ },
+ "ssdd-1920-p2::q25": {
+  "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
+ },
+ "ssdd-1920-p2::q26": {
+  "text": "Garantizar el orden de los mensajes de un mismo emisor es la definición de multicast FIFO. El orden causal y el total imponen condiciones adicionales.",
+  "deck": "indirect",
+  "page": 23
+ },
+ "ssdd-1920-p2::q27": {
+  "text": "La C de ACID garantiza que la transacción lleva el sistema de un estado consistente a otro."
+ },
+ "ssdd-1920-p2::q28": {
+  "text": "Es su definición: una transacción usa un valor obsoleto para calcular el nuevo estado y sobrescribe el efecto de otra. No aparece con solo lecturas."
+ },
+ "ssdd-1920-p2::q29": {
+  "text": "El control optimista ejecuta sin bloquear y valida al confirmar. Si detecta conflicto a posteriori, aborta la transacción."
+ },
+ "ssdd-1920-p2::q30": {
+  "text": "Al no adquirir bloqueos tras liberar alguno, las transacciones conflictivas siguen un orden equivalente a una ejecución secuencial."
+ },
+ "ssdd-1920-p2::q31": {
+  "text": "La fiabilidad mide cuánto se ajusta el comportamiento del sistema a lo especificado. La tasa de fallos es solo una forma de cuantificarla, y no causar daños es otro concepto (seguridad, safety)."
+ },
+ "ssdd-1920-p2::q32": {
+  "text": "Para evitar divergencias, la consistencia fuerte coordina antes de permitir el acceso, de modo que usa un esquema pesimista. Un esquema optimista las resuelve después."
+ },
+ "ssdd-1920-p2x::q1": {
+  "text": "Si el emisor espera el resultado, necesita un modelo petición-respuesta, como RPC. Las colas destacan justo cuando no hay coexistencia o se desea persistencia.",
+  "deck": "indirect",
+  "page": 22
+ },
+ "ssdd-1920-p2x::q2": {
+  "text": "Añadir un intermediario introduce un nivel de indirección y un salto más. El temario lo cita como sobrecarga, y su efecto típico es el aumento de la latencia."
  },
  "ssdd-1920-p2x::q3": {
+  "text": "El broker decide destinatarios, gestiona canales y entrega mensajes. El tipo de filtrado lo define el modelo de subscripción y lo expresa cada subscriptor, no lo elige el broker caso a caso.",
   "deck": "indirect",
-  "page": 7,
-  "excerpt": [
-   "scenarios where users connect and disconnect very often.",
-   "scenarios with a large number of users"
-  ]
+  "page": 7
+ },
+ "ssdd-1920-p2x::q4": {
+  "text": "El emisor entrega al intermediario y no sabe cuándo llegará al receptor, que puede ni siquiera estar activo. Por eso no cabe suponer ningún instante de entrega.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-1920-p2x::q5": {
+  "text": "Filtrar en el broker evita enviar eventos que el subscriptor descartaría: ahorra red entre broker y receptor y procesamiento en el receptor. El broker, en cambio, trabaja más.",
+  "deck": "indirect",
+  "page": 16
+ },
+ "ssdd-1920-p2x::q6": {
+  "text": "Lamport define relojes lógicos, que ordenan eventos sin medir tiempo real. Cristian y Berkeley sí sincronizan relojes físicos."
+ },
+ "ssdd-1920-p2x::q7": {
+  "text": "En un algoritmo distribuido cada proceso solo conoce su estado y los mensajes recibidos, porque no hay visión global. Por eso decide con información local."
+ },
+ "ssdd-1920-p2x::q8": {
+  "text": "Agotar memoria sugiere basura distribuida, que se detecta evaluando un predicado global sobre el estado del sistema. Marzullo-Neiger detecta predicados globales; Berkeley sincroniza relojes y Chandy-Lamport toma instantáneas."
+ },
+ "ssdd-1920-p2x::q9": {
+  "text": "Chandy-Lamport obtiene un estado global, y con él se puede analizar el uso de memoria. Ojo: en una pregunta casi idéntica de otro examen se marca Marzullo-Neiger, así que conviene confirmarlo."
+ },
+ "ssdd-1920-p2x::q10": {
+  "text": "Con un reloj a 1 Hz, dos eventos dentro del mismo segundo tienen la misma marca y no se pueden ordenar. Eso solo ocurre con eventos muy frecuentes, como los coches de una autovía de 8 carriles."
+ },
+ "ssdd-1920-p2x::q14": {
+  "text": "Sin reloj común, hay que comprobar si los estados locales registrados forman un conjunto coherente con los eventos, por ejemplo para depurar o detectar terminación."
+ },
+ "ssdd-1920-p2x::q16": {
+  "text": "Ricart y Agrawala usa marcas de Lamport, y así concede según el orden de las peticiones. El anillo sigue el orden físico del anillo, y el centralizado, el orden de llegada."
+ },
+ "ssdd-1920-p2x::q17": {
+  "text": "Seguridad y liveness son imprescindibles: como máximo uno dentro, y toda petición acaba teniendo éxito. El orden es deseable, pero opcional."
+ },
+ "ssdd-1920-p2x::q18": {
+  "text": "Sin multicast, se envían N−1 peticiones individuales. Con multicast basta uno y N−1 respuestas: en total pasa de 2(N−1) a N."
+ },
+ "ssdd-1920-p2x::q20": {
+  "text": "Ricart y Agrawala pide permiso a todos. Maekawa demuestra que basta con un subconjunto solapado, lo que reduce mensajes."
  },
  "ssdd-1920-p2x::q21": {
+  "text": "En el algoritmo del abusón, un proceso que detecta la caída inicia la elección enviando mensajes solo a los de pid mayor. Por eso, aquí se dirigen a 4 y 5.",
   "deck": "remote-invocation",
-  "page": 56,
-  "excerpt": [
-   "Crossing a process boundary costs orders of magnitude more than a local call"
-  ]
+  "page": 56
  },
  "ssdd-1920-p2x::q23": {
+  "text": "El orden total fiable exige que todos los procesos entreguen todos los mensajes en el mismo orden pese a fallos. Eso requiere consenso, mucho más costoso que FIFO o causal, sobre todo en Internet.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Reliability: probability of correct operation over a period of time."
-  ]
+  "page": 23
+ },
+ "ssdd-1920-p2x::q24": {
+  "text": "En consenso, integridad significa que, si el proponente es correcto, los procesos correctos eligen su valor. Acuerdo significa que todos eligen el mismo, sea cual sea.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-1920-p2x::q25": {
+  "text": "El anillo depende de que el testigo circule. Si la comunicación no es fiable, el testigo se puede perder y el algoritmo se detiene."
+ },
+ "ssdd-1920-p2x::q26": {
+  "text": "Las transacciones distribuidas surgen para mantener ACID cuando los datos están en varios nodos, como en bases de datos distribuidas."
+ },
+ "ssdd-1920-p2x::q27": {
+  "text": "Ver cómo aumenta el saldo por pasos muestra estados intermedios de la transacción. El aislamiento garantiza que esos estados no sean visibles."
  },
  "ssdd-1920-p2x::q29": {
+  "text": "Reservar más plazas de las que tiene el avión viola una regla de integridad de los datos. Eso es falta de consistencia, la C de ACID.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Replication and caching: copies must follow the chosen consistency rules."
-  ]
+  "page": 22
+ },
+ "ssdd-1920-p2x::q30": {
+  "text": "Dos lecturas no entran en conflicto: las transacciones que solo leen no modifican nada, así que pueden ejecutarse simultáneamente sin problemas."
+ },
+ "ssdd-1920-p2x::q31": {
+  "text": "Una ejecución secuencial no tiene paralelismo. El bloqueo estricto en dos fases mantiene los bloqueos hasta confirmar, evitando lecturas sucias y permitiendo paralelismo."
+ },
+ "ssdd-1920-p2x::q32": {
+  "text": "Con poca concurrencia, los conflictos son raros. El control optimista no bloquea y solo valida al confirmar, de modo que apenas paga costes."
+ },
+ "ssdd-1920-p2x::q33": {
+  "text": "Con mucha concurrencia, los conflictos son frecuentes y el control optimista abortaría mucho. El bloqueo estricto en dos fases los previene."
+ },
+ "ssdd-1920-p2x::q34": {
+  "text": "2PC exige unanimidad, así que el coordinador no puede confirmar sin el voto de todos. Si un participante no responde tras un timeout, aborta."
+ },
+ "ssdd-1920-p2x::q35": {
+  "text": "En 2PC anidado plano, el coordinador contacta directamente a todos, y cada participante debe saber qué subtransacciones abortaron: por eso se transporta abortList."
+ },
+ "ssdd-1819-p1::q1": {
+  "text": "La definición habla de recursos físicamente distribuidos conectados en red que cooperan para ofrecer un servicio integrado."
+ },
+ "ssdd-1819-p1::q2": {
+  "text": "Concurrencia, ausencia de reloj global y fallos independientes son las tres características principales. La ausencia de coordinador central no figura entre ellas: de hecho, muchos SD usan uno."
+ },
+ "ssdd-1819-p1::q3": {
+  "text": "El temario lista como ventaja la mayor disponibilidad gracias a la tolerancia a fallos. La interconexión, la seguridad de las comunicaciones y la complejidad del software aparecen como inconvenientes.",
+  "deck": "intro",
+  "page": 11
  },
  "ssdd-1819-p1::q4": {
+  "text": "El alto rendimiento y la alta productividad son la meta de los sistemas paralelos. La de los SD es compartir recursos, así que esa afirmación es la falsa.",
   "deck": "intro",
-  "page": 12,
-  "excerpt": [
-   "Goal: high performance (speedup) and high productivity"
-  ]
+  "page": 12
  },
  "ssdd-1819-p1::q5": {
+  "text": "El temario define fiabilidad como la probabilidad de funcionamiento correcto durante un periodo de tiempo.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Reliability: probability of correct operation over a period of time."
-  ]
+  "page": 23
  },
  "ssdd-1819-p1::q6": {
+  "text": "La red o los reintentos pueden duplicar mensajes. Un identificador único permite detectar y descartar repetidos. Un CRC solo detecta errores, no evita duplicados.",
   "deck": "protocol-design",
-  "page": 15,
-  "excerpt": [
-   "Data types and formats for any of the fields and messages."
-  ]
+  "page": 15
+ },
+ "ssdd-1819-p1::q7": {
+  "text": "Protocol Buffers define solo estructuras de datos y su serialización. Para un servicio hacen falta operaciones, que aporta un middleware como gRPC."
+ },
+ "ssdd-1819-p1::q8": {
+  "text": "CRC o checksum permite detectar que el contenido se ha alterado, y el temario relaciona la integridad con la detección de errores. Por sí mismo no recupera ni elimina duplicados.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-1819-p1::q9": {
+  "text": "La serialización produce una representación común en la red, independiente del lenguaje. Justamente eso permite comunicar implementaciones en lenguajes distintos."
+ },
+ "ssdd-1819-p1::q10": {
+  "text": "El temario indica que la elección del formato afecta a la eficiencia: el binario evita el texto y los nombres repetidos. RPC, además, no es un formato de serialización."
+ },
+ "ssdd-1819-p1::q11": {
+  "text": "Las instancias de los sirvientes residen y se crean en el proceso servidor, que las registra en el adaptador de objetos.",
+  "deck": "remote-invocation",
+  "page": 32
+ },
+ "ssdd-1819-p1::q12": {
+  "text": "El temario enumera herencia de interfaces, referencias a objetos como argumentos, y patrones y herramientas OO. Por eso son todas correctas.",
+  "deck": "remote-invocation",
+  "page": 28
  },
  "ssdd-1819-p1::q13": {
+  "text": "Hay que devolver un resultado, así que hace falta respuesta. Al ser idempotente, se puede reejecutar sin guardar historia, y RR es suficiente, sin el ack de RRA.",
   "deck": "remote-invocation",
-  "page": 9,
-  "excerpt": [
-   "Typically a blocking request (client is blocked waiting for reply)"
-  ]
+  "page": 9
  },
- "ssdd-1718-labx::q2": {
+ "ssdd-1819-p1::q14": {
+  "text": "Si una lectura periódica se pierde, llegará otra enseguida. Maybe no requiere reintentos ni filtrado, y resulta lo más barato."
+ },
+ "ssdd-1819-p1::q15": {
+  "text": "Maybe no hace reintentos, ni filtrado de duplicados ni historia, y por tanto gasta menos mensajes y memoria.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
-  ]
+  "page": 13
+ },
+ "ssdd-1718-readingsx::q1": {
+  "text": "Completitud: todo fallo acaba detectándose. Exactitud: no se acusa de fallo a un proceso correcto. Son las dos propiedades de un detector.",
+  "deck": "remote-invocation",
+  "page": 11
+ },
+ "ssdd-1718-readingsx::q2": {
+  "text": "El consenso exige terminación, acuerdo e integridad; aquí la validez se enumera aparte como condición sobre el valor elegido. Completitud y tolerancia no son propiedades del consenso."
+ },
+ "ssdd-1718-readingsx::q3": {
+  "text": "Según el temario, Protocol Buffers usa marshalling binario, con mensajes pequeños y procesado rápido, frente a JSON (789 frente a 518 bytes en su ejemplo).",
+  "deck": "protocol-design",
+  "page": 17
  },
  "ssdd-1718-readingsx::q4": {
+  "text": "MQTT comunica publicadores y subscriptores a través de un broker usando topics. El temario lo cita como ejemplo de subscripción basada en topic.",
   "deck": "indirect",
-  "page": 9,
-  "excerpt": [
-   "Disseminate events to multiple recipients through an intermediary (the event broker)."
-  ]
+  "page": 9
+ },
+ "ssdd-1718-readingsx::q5": {
+  "text": "NTP sincroniza los relojes con la hora universal coordinada (UTC), mediante una jerarquía de servidores."
+ },
+ "ssdd-1718-readingsx::q6": {
+  "text": "Se necesitan al menos 3f + 1 generales para tolerar f traidores. Con 3 generales y un traidor no hay algoritmo que garantice una solución."
  },
  "ssdd-1718-readingsx::q7": {
+  "text": "Si los N componentes forman un único sistema en serie, deben funcionar todos a la vez. Suponiendo fallos independientes, la disponibilidad total es el producto de las individuales.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Partial failure: one component may fail while others keep running."
-  ]
+  "page": 23
+ },
+ "ssdd-1718-readingsx::q8": {
+  "text": "Mosquitto es un broker que implementa MQTT."
  },
  "ssdd-1718-readingsx::q9": {
+  "text": "MQTT es publicación-subscripción: publicador y subscriptor no hablan directamente, sino a través de un broker, por lo que intervienen las tres entidades.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
+ },
+ "ssdd-1718-readingsx::q10": {
+  "text": "BSON es la representación binaria de JSON, así que no se lee directamente. YAML y JSON son texto legible."
+ },
+ "ssdd-1718-p1::q1": {
+  "text": "Asíncrono se refiere al modelo temporal: no hay cotas sobre velocidad de ejecución ni transmisión ni deriva de relojes. No se refiere a que las primitivas sean bloqueantes o no.",
+  "deck": "remote-invocation",
+  "page": 47
  },
  "ssdd-1718-p1::q2": {
+  "text": "Un modelo de fallos describe de qué modo pueden fallar procesos y canales, para razonar y diseñar frente a ello. No es un registro histórico ni un modelo arquitectónico.",
   "deck": "remote-invocation",
-  "page": 33,
-  "excerpt": [
-   "Remote objects may be called \"locally\": remote object process remote Data interface",
-   "Invocations among processes are also “remote” remote local C invocation invocation local E remote invocation invocation F"
-  ]
+  "page": 11
+ },
+ "ssdd-1718-p1::q3": {
+  "text": "Según el temario, la transparencia de prestaciones permite optimizar el sistema según la carga, y balancearla en función de los clientes consigue precisamente eso."
  },
  "ssdd-1718-p1::q4": {
+  "text": "Fiabilidad es la probabilidad de funcionamiento correcto conforme a lo especificado. Disponibilidad es la fracción de tiempo en que el servicio es utilizable.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Reliability: probability of correct operation over a period of time."
-  ]
+  "page": 23
+ },
+ "ssdd-1718-p1::q5": {
+  "text": "Protocol Buffers define y serializa la estructura de los mensajes, que es la sintaxis. No indica qué significan los campos ni en qué orden se intercambian.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-1718-p1::q6": {
+  "text": "El temario lo indica: el filtrado de duplicados requiere reintentos y requestId. El servidor reconoce una repetición por ese identificador."
+ },
+ "ssdd-1718-p1::q7": {
+  "text": "CRC o checksum permite detectar que el contenido se ha alterado, y el temario relaciona la integridad con la detección de errores. Por sí mismo no recupera ni elimina duplicados.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-1718-p1::q8": {
+  "text": "Serializar (marshalling) es codificar los datos de usuario en el formato de red usado en los mensajes. No trata de versiones ni de ordenar mensajes.",
+  "deck": "protocol-design",
+  "page": 5
  },
  "ssdd-1718-p1::q9": {
+  "text": "Enviar solo cuando cambia el valor evita mensajes innecesarios: ni consulta continua del cliente ni envío periódico sin novedades.",
   "deck": "protocol-design",
-  "page": 6,
-  "excerpt": [
-   "TFTP message types: opcode operation"
-  ]
+  "page": 6
+ },
+ "ssdd-1718-p1::q10": {
+  "text": "El temario sitúa RPC y RMI en la capa de middleware, sobre primitivas como sockets y paso de mensajes.",
+  "deck": "remote-invocation",
+  "page": 16
  },
  "ssdd-1718-p1::q11": {
+  "text": "Herramientas como rpcgen generan los stubs a partir de la interfaz escrita en XDR, tal como dice el temario. La interfaz y la lógica del servidor las escribe el programador.",
   "deck": "remote-invocation",
-  "page": 24,
-  "excerpt": [
-   "Client stubs client client.c executable",
-   "Server stubs server server.c executable"
-  ]
+  "page": 17
+ },
+ "ssdd-1718-p1::q12": {
+  "text": "Maybe no hace reintentos, ni filtrado de duplicados ni historia, y por tanto gasta menos mensajes y memoria.",
+  "deck": "remote-invocation",
+  "page": 13
  },
  "ssdd-1718-p1::q13": {
+  "text": "Sin respuesta ni garantías, basta el estilo más simple: según el temario, en Request el servidor no devuelve nada y no hay reintentos.",
   "deck": "remote-invocation",
-  "page": 48,
-  "excerpt": [
-   "Asynchronous dispatching decouples incoming request and request dispatching."
-  ]
+  "page": 47
  },
  "ssdd-1718-p1::q14": {
+  "text": "Pagando por byte interesa la representación más compacta. XDR es binario, mientras que HTTP, XML y SOAP añaden texto y cabeceras.",
   "deck": "remote-invocation",
-  "page": 22,
-  "excerpt": [
-   "XDR is the specification language for ONC RPC",
-   "The rpcgen compiler takes a XDR file to generate stubs to use on server and client."
-  ]
+  "page": 22
  },
  "ssdd-1718-p1x::q1": {
+  "text": "Las características principales son ejecución concurrente, falta de reloj global y fallos independientes. Un reloj global común es justo lo que un SD no tiene.",
   "deck": "intro",
-  "page": 3,
-  "excerpt": [
-   "Lack of a global clock"
-  ]
+  "page": 3
  },
  "ssdd-1718-p1x::q2": {
+  "text": "El temario fija compartir recursos como meta de los SD. Alto rendimiento y productividad son la meta de los sistemas paralelos.",
   "deck": "intro",
-  "page": 7,
-  "excerpt": [
-   "Resource sharing: programs make local resources available remotely."
-  ]
+  "page": 7
+ },
+ "ssdd-1718-p1x::q3": {
+  "text": "El temario lo indica: se accede a un servicio solo mediante las operaciones que exporta, y un servidor puede ofrecer varios servicios. El resto de frases invierte esa relación."
+ },
+ "ssdd-1718-p1x::q4": {
+  "text": "Según el temario, una especificación de protocolo requiere sintaxis, semántica y sincronización o temporización.",
+  "deck": "protocol-design",
+  "page": 3
+ },
+ "ssdd-1718-p1x::q5": {
+  "text": "Para detectar y descartar repetidos, cada mensaje necesita un identificador: el temario lo liga al filtrado de duplicados con requestId. Un CRC detecta errores, no repeticiones.",
+  "deck": "protocol-design",
+  "page": 15
  },
  "ssdd-1718-p1x::q6": {
+  "text": "El temario enumera varios formatos: binario, XML, JSON o texto. Serializar permite precisamente comunicar lenguajes distintos, sin obligar a Protocol Buffers ni a TCP.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing",
-   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
-  ]
+  "page": 16
+ },
+ "ssdd-1718-p1x::q7": {
+  "text": "A es el cliente y B el servidor: A serializa el argumento y B lo deserializa; a la vuelta, B serializa el retorno y A lo deserializa.",
+  "deck": "remote-invocation",
+  "page": 18
+ },
+ "ssdd-1718-p1x::q8": {
+  "text": "Según el temario, maybe no usa ACK ni filtrado de duplicados: envía la petición sin más garantías.",
+  "deck": "remote-invocation",
+  "page": 13
+ },
+ "ssdd-1718-p1x::q9": {
+  "text": "El temario lo indica: el binder de ONC RPC es el proceso portmapper (rpcbind), que escucha en el puerto 111. Los tres enteros identifican la petición, no resuelven el enlace.",
+  "deck": "remote-invocation",
+  "page": 43
  },
  "ssdd-1718-p1x::q10": {
+  "text": "El temario indica que RPC/RMI se apoyan en protocolos de petición-respuesta, y que el modelo por defecto es RR bloqueante.",
   "deck": "remote-invocation",
-  "page": 7,
-  "excerpt": [
-   "RRA Request Reply Acknowledge reply"
-  ]
+  "page": 7
+ },
+ "ssdd-1718-p1x::q11": {
+  "text": "El temario señala que el modelo síncrono (bloqueante) tiene mala escalabilidad al aumentar el número y la duración de las invocaciones, pues cada cliente queda bloqueado."
  },
  "ssdd-1718-p1x::q12": {
+  "text": "El temario indica que el sirviente contiene la implementación real de los métodos. Proxy, stub y skeleton solo gestionan la comunicación.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Object adapter is the dispatcher, locates corresponding servant and invokes it.",
-   "Sometimes called “skeleton”, because usually includes a skeleton for the servant implementation."
-  ]
+  "page": 32
  },
  "ssdd-1718-p1r::q1": {
+  "text": "Según la definición de Coulouris, los componentes se comunican y coordinan únicamente mediante paso de mensajes. No hay reloj global y lo habitual es la heterogeneidad.",
   "deck": "intro",
-  "page": 21,
-  "excerpt": [
-   "Basic form of communication and synchronization in a distributed system"
-  ]
+  "page": 21
  },
  "ssdd-1718-p1r::q2": {
+  "text": "El temario define servicio como el componente que gestiona recursos relacionados y da funcionalidad a usuarios y aplicaciones. El servidor es el proceso, y el protocolo, las reglas de interacción.",
   "deck": "intro",
-  "page": 24,
-  "excerpt": [
-   "Scalability: it works the same way regardless of the amount of resources or clients."
-  ]
+  "page": 24
+ },
+ "ssdd-1718-p1r::q3": {
+  "text": "La I de seguridad CIA es integridad: los datos no deben alterarse o corromperse.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-1718-p1r::q4": {
+  "text": "El temario describe los sockets como «muy eficientes, pero complejos y propensos a errores»: toda la funcionalidad se implementa a mano para cada aplicación.",
+  "deck": "intro",
+  "page": 32
  },
  "ssdd-1718-p1r::q5": {
+  "text": "Un SD se coordina solo mediante paso de mensajes, y el modelo cliente-servidor funciona así. La memoria compartida implica justo lo contrario.",
   "deck": "intro",
-  "page": 33,
-  "excerpt": [
-   "Client: request a service from the server",
-   "Clients and servers can be objects or processes running on different computers"
-  ]
+  "page": 34
+ },
+ "ssdd-1718-p1r::q6": {
+  "text": "El diagrama recoge los estados posibles del protocolo y las transiciones entre ellos, no solo los del software del cliente.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-1718-p1r::q7": {
+  "text": "La cabecera contiene metadatos sobre el mensaje, como longitud o CRC. El payload son los datos transportados, no un campo de cabecera."
+ },
+ "ssdd-1718-p1r::q8": {
+  "text": "La temporización o sincronización especifica los patrones válidos de intercambio de mensajes. No se refiere a relojes ni a frecuencia de envío.",
+  "deck": "protocol-design",
+  "page": 15
+ },
+ "ssdd-1718-p1r::q9": {
+  "text": "RRA intercambia tres mensajes (petición, respuesta y ack) y cada uno se serializa una vez antes de enviarse.",
+  "deck": "remote-invocation",
+  "page": 10
  },
  "ssdd-1718-p1r::q10": {
+  "text": "Protocol Buffers serializa en binario, no en XML: el temario destaca el marshalling binario, con compatibilidad y soporte multilenguaje.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing"
-  ]
+  "page": 17
+ },
+ "ssdd-1718-p1r::q11": {
+  "text": "La tabla del temario indica que at-most-once necesita reintentos, filtro de duplicados y retransmisión de la respuesta. Reenviar sin filtrar podría aplicar dos veces la operación."
  },
  "ssdd-1718-p1r::q12": {
+  "text": "El temario indica que la invocación asíncrona no bloquea al cliente, que puede proporcionar una callback para recoger el resultado.",
   "deck": "remote-invocation",
-  "page": 47,
-  "excerpt": [
-   "Asynchronous invocation decouples invocation and result collection."
-  ]
+  "page": 47
+ },
+ "ssdd-1718-p1r::q13": {
+  "text": "Según el temario, el proxy es el sustituto local del objeto remoto: el cliente lo invoca como si fuese local.",
+  "deck": "remote-invocation",
+  "page": 31
+ },
+ "ssdd-1718-p1r::q14": {
+  "text": "El temario sitúa RPC y RMI en la capa de middleware, sobre primitivas como sockets y paso de mensajes."
+ },
+ "ssdd-1718-p1r::q15": {
+  "text": "Un IDL define operaciones, parámetros y tipos, es decir, sintaxis. No indica el significado de cada operación ni el orden de invocarlas.",
+  "deck": "remote-invocation",
+  "page": 29
  },
  "ssdd-1718-p2::q1": {
+  "text": "Las estaciones publican datos y muchos interesados los reciben sin conocerse. Publicador-subscriptor encaja: el temario cita la monitorización del tiempo como ejemplo.",
   "deck": "indirect",
-  "page": 10,
-  "excerpt": [
-   "Publisher publishes structured events to an event service",
-   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
-  ]
+  "page": 10
+ },
+ "ssdd-1718-p2::q2": {
+  "text": "Se llama así porque emisor y receptor no se comunican directamente, sino a través de un intermediario, que reenvía los mensajes.",
+  "deck": "indirect",
+  "page": 9
+ },
+ "ssdd-1718-p2::q3": {
+  "text": "Un evento es información que se difunde sin esperar respuesta: el emisor nunca recibe un resultado. Esa es la diferencia con una invocación remota."
+ },
+ "ssdd-1718-p2::q4": {
+  "text": "El filtro es una consulta sobre valores de los atributos del evento (p. ej. color = \"blue\", size > 8). Es decir, el subscriptor selecciona por lo que contiene el mensaje.",
+  "deck": "indirect",
+  "page": 14
+ },
+ "ssdd-1718-p2::q5": {
+  "text": "El temario indica que IceStorm está orientado a invocaciones (publicar es invocar un método oneway), mientras que lo habitual es orientarse a datos.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
+ "ssdd-1718-p2::q6": {
+  "text": "Los exchanges reciben mensajes de los publicadores y aplican reglas de enrutado para determinar a dónde van. Quienes almacenan mensajes son las colas.",
+  "deck": "indirect",
+  "page": 26
+ },
+ "ssdd-1718-p2::q7": {
+  "text": "Si todos están cerca de la misma referencia, también lo están entre sí, con el doble de la cota como máximo. Lo contrario no es cierto.",
+  "deck": "protocol-design",
+  "page": 8
  },
  "ssdd-1718-p2::q8": {
+  "text": "El reloj software es el valor que el SO calcula a partir de los ticks del reloj hardware: C(t) es una interpretación suya, no otro reloj físico.",
   "deck": "intro",
-  "page": 27,
-  "excerpt": [
-   "Computer and network hardware Source: Colouris"
-  ]
+  "page": 27
  },
- "ssdd-1718-p2x::q4": {
-  "deck": "indirect",
-  "page": 26,
-  "excerpt": [
-   "Publishers: send messages to an exchange"
-  ]
+ "ssdd-1718-p2::q9": {
+  "text": "Los relojes lógicos no se sincronizan: ordenan eventos actualizándose con cada mensaje. Cristian es para relojes físicos."
  },
- "ssdd-1718-p2x::q10": {
+ "ssdd-1718-p2::q10": {
+  "text": "El error de Cristian depende del RTT y de su asimetría, y la carga de la red es la que más lo hace variar. El ancho de banda o la CPU del servidor influyen mucho menos."
+ },
+ "ssdd-1718-p2::q11": {
+  "text": "Berkeley sincroniza un grupo entre sí, con un coordinador que promedia los relojes físicos, sin una fuente externa. Eso es sincronización interna."
+ },
+ "ssdd-1718-p2::q12": {
+  "text": "Con relojes vectoriales, a → b si y solo si RV(a) < RV(b), y así representan la causalidad potencial, a diferencia de Lamport."
+ },
+ "ssdd-1718-p2::q13": {
+  "text": "Chang y Roberts es un algoritmo de elección en anillo, que elige como coordinador al proceso de mayor identificador."
+ },
+ "ssdd-1718-p2::q15": {
+  "text": "En el anillo, el testigo circula de forma continua aunque nadie quiera entrar en la sección crítica. Por eso consume ancho de banda aunque no se use."
+ },
+ "ssdd-1718-p2::q16": {
+  "text": "Con el tamaño óptimo √N, entrar cuesta unos 2√N mensajes (petición y voto) y salir √N (liberar), para un total de 3√N por acceso."
+ },
+ "ssdd-1718-p2::q17": {
+  "text": "Un secuenciador asigna a cada mensaje un número global y todos lo entregan según ese orden. Es sencillo, aunque el secuenciador es un punto único de fallo. IP no ofrece orden alguno."
+ },
+ "ssdd-1718-p2::q18": {
+  "text": "Respetar el orden de mensajes relacionados causalmente es la definición de multicast causal. FIFO solo garantiza el orden entre mensajes de un mismo emisor."
+ },
+ "ssdd-1718-p2::q20": {
+  "text": "Debe cumplirse R + W > N: con N = 7, R = 3 y W = 4 suman 7, sin superarlo, y una lectura podría no solapar con la última escritura."
+ },
+ "ssdd-1718-p2::q22": {
+  "text": "En serie, deben funcionar los cuatro: con fallo 0,1 por componente, R = 0,9⁴ = 0,6561. Se ha tomado 0,1, coherente con el resultado marcado."
+ },
+ "ssdd-1718-p2::q23": {
+  "text": "Un sector corrupto no se arregla solo y falla cada vez que se accede. Un fallo transitorio desaparece y uno intermitente aparece y desaparece."
+ },
+ "ssdd-1718-p2::q24": {
+  "text": "Un fallo (fault) produce un error en el estado, y este puede llevar a una avería (failure) visible. Es la cadena clásica de la fiabilidad."
+ },
+ "ssdd-1718-p2x::q2": {
+  "text": "Cristian estima hora = hora del servidor + RTT/2. Con un RTT de 2 s, a la hora indicada por el servidor se le suma 1 s."
+ },
+ "ssdd-1718-p2x::q5": {
+  "text": "Chandy-Lamport captura un estado global, útil para predicados estables como basura, interbloqueo o terminación. Saber si dos eventos son concurrentes se resuelve con relojes vectoriales."
+ },
+ "ssdd-1718-p2x::q6": {
+  "text": "Tolerar fallos no es que no los haya ni que se cumpla todo: el sistema sigue funcionando, quizá degradado, a pesar de ellos.",
   "deck": "remote-invocation",
-  "page": 50,
-  "excerpt": [
-   "A few slow requests can exhaust the pool, even with an idle node"
-  ]
+  "page": 11
+ },
+ "ssdd-1718-p2x::q7": {
+  "text": "Los vectores de versiones permiten trabajar sin bloquear y detectar conflictos a posteriori, de modo que es optimista. Copia primaria, réplicas activas y quorum previenen divergencias."
+ },
+ "ssdd-1718-p2x::q9": {
+  "text": "En paralelo, el sistema solo falla si fallan los tres: Q = 0,2³ = 0,008, y R = 1 − Q = 0,992. Se ha tomado Q = 0,2 por componente, coherente con el resultado marcado.",
+  "deck": "intro",
+  "page": 23
+ },
+ "ssdd-1718-p2x::q12": {
+  "text": "Multicast fiable se define por integridad, validez y acuerdo. La terminación es propia del problema de consenso, no de esa definición."
  },
  "ssdd-1718-p2x::q13": {
+  "text": "Desacoplado en tiempo significa que emisor y receptor pueden tener vidas distintas, incluso sin solaparse. Según el temario, no necesitan coexistir.",
   "deck": "indirect",
-  "page": 4,
-  "excerpt": [
-   "Participants must exist at same time."
-  ]
+  "page": 5
  },
  "ssdd-1718-p2x::q14": {
+  "text": "El temario define el modelo basado en contenido con un filtro que es una consulta compuesta de restricciones sobre valores de atributos del evento.",
   "deck": "indirect",
-  "page": 14,
-  "excerpt": [
-   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
-   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
-  ]
+  "page": 14
  },
- "ssdd-1718-p2x::q19": {
-  "deck": "remote-invocation",
-  "page": 50,
-  "excerpt": [
-   "A few slow requests can exhaust the pool, even with an idle node"
-  ]
+ "ssdd-1718-p2x::q17": {
+  "text": "Aquí N = 8, y debe cumplirse W > N/2: W = 3 no llega, y dos escrituras simultáneas no solaparían. Las demás cumplen también R + W > N."
+ },
+ "ssdd-1718-readings::q1": {
+  "text": "En consenso, cada proceso puede proponer un valor; en el problema de acuerdo bizantino, solo uno (el comandante) propone el valor inicial. Ojo: el texto de esta opción está cortado, consúltalo en el PDF."
+ },
+ "ssdd-1718-readings::q2": {
+  "text": "Un algoritmo de consenso debe cumplir terminación, acuerdo e integridad. Validez es otra forma de referirse a esta última, y aparece junto a ellas en esta opción."
+ },
+ "ssdd-1718-readings::q3": {
+  "text": "Crash-recovery es un modelo de fallos: los procesos caen y se recuperan. Paso de mensajes y memoria compartida distribuida sí son modelos de comunicación."
  },
  "ssdd-1718-readings::q4": {
+  "text": "JSON (texto) y BSON (su versión binaria) representan datos para transmitirlos o almacenarlos. No definen interfaces ni son protocolos RPC.",
   "deck": "protocol-design",
-  "page": 17,
-  "excerpt": [
-   "Binary marshalling: small messages and fast processing"
-  ]
+  "page": 17
+ },
+ "ssdd-1718-readings::q5": {
+  "text": "Protobuf es binario y usa números en vez de nombres de campo. En el ejemplo del temario ocupa 518 bytes frente a 789 de JSON."
+ },
+ "ssdd-1718-readings::q6": {
+  "text": "WSDL es el lenguaje de descripción de servicios SOAP. El temario señala que REST no tiene lenguaje de especificación de interfaz; usa HTTP y URIs.",
+  "deck": "remote-invocation",
+  "page": 61
  },
  "ssdd-1718-readings::q7": {
+  "text": "Según el temario, cada recurso se identifica con un URI único.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST transfers representations of resource states",
-   "Each resource is identified by a unique URI."
-  ]
+  "page": 57
+ },
+ "ssdd-1718-readings::q8": {
+  "text": "MQTT es un protocolo ligero de publicación-subscripción pensado para sensores y actuadores de IoT."
  },
  "ssdd-1718-readings::q9": {
+  "text": "El broker recibe los mensajes de los publicadores y los reparte a los subscriptores. No es un gestor de grupos ni de exclusión mutua.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
+ },
+ "ssdd-1718-readings::q10": {
+  "text": "En NTP, el estrato indica la distancia a una fuente de referencia (estrato 0): el estrato 1 está conectado a ella, el 2 a un estrato 1, etc."
+ },
+ "ssdd-1718-readings::q11": {
+  "text": "En una LAN, NTP logra una precisión de pocos milisegundos o menos, porque la latencia es baja y estable. En Internet, ronda las decenas de milisegundos."
+ },
+ "ssdd-1718-readings::q12": {
+  "text": "Se necesitan al menos 3f + 1 generales para tolerar f traidores. Con f = 1, hacen falta 4, de modo que con 3 no hay solución."
  },
  "ssdd-1718-readings::q13": {
+  "text": "El problema de los generales bizantinos consiste en que varios procesos, algunos quizá defectuosos, acuerden una decisión binaria. Cinco controladores redundantes de una válvula abierta/cerrada tienen esa misma estructura.",
   "deck": "intro",
-  "page": 23,
-  "excerpt": [
-   "Reliability: probability of correct operation over a period of time."
-  ]
+  "page": 23
+ },
+ "ssdd-1718-readings::q14": {
+  "text": "Las paradas suman 3,85 + 4,15 = 8 días. Disponibilidad = (365 − 8) / 365 = 357 / 365 ≈ 97,8 %."
+ },
+ "ssdd-1718-readings::q15": {
+  "text": "Los 4 componentes son imprescindibles, y por tanto el sistema está en serie: la disponibilidad total es el producto de las cuatro, y es menor que cualquiera de ellas."
+ },
+ "ssdd-1516-extra::q1": {
+  "text": "Las características necesarias son concurrencia, falta de reloj global y fallos independientes. Que los nodos estén en Internet no es necesario: basta cualquier red.",
+  "deck": "intro",
+  "page": 8
+ },
+ "ssdd-1516-extra::q2": {
+  "text": "El temario define semántica como el significado de los campos y sus valores permitidos. La sintaxis es la estructura y la temporización, el patrón de intercambio.",
+  "deck": "protocol-design",
+  "page": 6
+ },
+ "ssdd-1516-extra::q3": {
+  "text": "La confidencialidad consiste en que solo accedan a la información quienes estén autorizados. La integridad evita alteraciones y la disponibilidad garantiza el acceso.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-1516-extra::q4": {
+  "text": "El temario describe los sockets como «muy eficientes, pero complejos y propensos a errores». XDR, además, no es un mecanismo de comunicación sino un formato de datos.",
+  "deck": "intro",
+  "page": 32
+ },
+ "ssdd-1516-extra::q5": {
+  "text": "Publicación-subscripción se comunica a través de un intermediario, el broker, que desacopla emisores y receptores. El temario lo incluye dentro de la comunicación indirecta; RPC y RMI son directas.",
+  "deck": "indirect",
+  "page": 4
  },
  "ssdd-1516-extra::q8": {
+  "text": "Con sockets toda la funcionalidad se implementa a mano y el temario los describe como propensos a errores. Un middleware genera ese código y reduce los errores de programación.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 29
+ },
+ "ssdd-1516-extra::q11": {
+  "text": "Berkeley sincroniza relojes físicos. Marzullo-Neiger evalúa predicados globales, García Molina es de elección y Chandy-Lamport toma instantáneas."
  },
  "ssdd-1516-extra::q13": {
+  "text": "Según el temario, el broker recibe eventos de los publicadores y los entrega a los subscriptores según sus intereses. Las demás tareas son secundarias.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-1516-extra::q14": {
+  "text": "Un evento es una notificación difundida con cierta información asociada, sin invocación ni respuesta. Las primeras opciones describen invocaciones remotas.",
   "deck": "indirect",
-  "page": 17,
-  "excerpt": [
-   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers"
-  ]
+  "page": 17
  },
  "ssdd-1516-extra::q15": {
+  "text": "En colas de mensajes, routing no es encaminamiento de red: son las reglas (claves, exchanges) que deciden qué consumidores o colas reciben el mensaje.",
   "deck": "indirect",
-  "page": 17,
-  "excerpt": [
-   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers",
-   "Content based-routing: exploits content information to efficiently route events to their required destination."
-  ]
+  "page": 26
  },
  "ssdd-1516-extra::q16": {
+  "text": "Persistencia significa que el mensaje permanece almacenado en la cola hasta que un consumidor lo acepta, aunque aún no haya ningún consumidor conectado. Eso desacopla en el tiempo.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
+ },
+ "ssdd-1516-extra::q17": {
+  "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
+ },
+ "ssdd-1516-extra::q18": {
+  "text": "La multidifusión confiable garantiza que todos los miembros correctos del grupo entregan el mensaje, y una sola vez (integridad y acuerdo). No depende del soporte de red ni de firmas."
+ },
+ "ssdd-1516-extra::q19": {
+  "text": "Sin cotas de tiempo, no se distingue un proceso lento de uno caído. Es la base del teorema FLP, que impide garantizar consenso determinista con un solo fallo."
+ },
+ "ssdd-1516-extra::q20": {
+  "text": "La grúa es un recurso físico que debe manejar un solo operador cada vez, con varios puestos separados. Es el caso típico de acceso exclusivo distribuido."
+ },
+ "ssdd-1516-extra::q22": {
+  "text": "Por cada participante hay cuatro mensajes: canCommit, voto, doCommit y haveCommitted. En total, 4N."
+ },
+ "ssdd-1516-extra::q23": {
+  "text": "En 2PC anidado plano, el coordinador contacta directamente a todos, y cada participante debe saber qué subtransacciones abortaron: por eso se transporta abortList."
+ },
+ "ssdd-1516-extra::q24": {
+  "text": "Con versiones sombra, basta con conmutar a la versión anterior. Con logging, hay que recorrer y rehacer el registro."
+ },
+ "ssdd-1516-extra::q25": {
+  "text": "Actualización perdida: una transacción escribe un valor calculado a partir de una lectura ya obsoleta y machaca lo escrito por otra."
+ },
+ "ssdd-1516-p1::q1": {
+  "text": "Es lo que dice el temario: ejecución concurrente, falta de reloj global y fallos independientes. La memoria compartida no forma parte de ello."
  },
  "ssdd-1516-p1::q2": {
+  "text": "El temario define servicio como el componente que gestiona recursos relacionados y da funcionalidad a usuarios y aplicaciones. El servidor es el proceso, y el protocolo, las reglas de interacción.",
   "deck": "intro",
-  "page": 24,
-  "excerpt": [
-   "Scalability: it works the same way regardless of the amount of resources or clients."
-  ]
+  "page": 24
  },
  "ssdd-1516-p1::q3": {
+  "text": "Acceso, localización y concurrencia son transparencias que aparecen en el temario. Las demás opciones mezclan términos que no son tipos de transparencia, como trazabilidad, tiempo o persistencia.",
   "deck": "intro",
-  "page": 22,
-  "excerpt": [
-   "Concurrency: several processes access shared resources at the same time."
-  ]
+  "page": 24
+ },
+ "ssdd-1516-p1::q4": {
+  "text": "La I de seguridad CIA es integridad: los datos no deben alterarse o corromperse.",
+  "deck": "protocol-design",
+  "page": 16
+ },
+ "ssdd-1516-p1::q5": {
+  "text": "El objetivo del middleware es aislar al desarrollador de la heterogeneidad y de los aspectos no funcionales. RPC, RMI o sockets son mecanismos concretos, no esa capa completa.",
+  "deck": "intro",
+  "page": 26
+ },
+ "ssdd-1516-p1::q6": {
+  "text": "Publicación-subscripción se comunica a través de un intermediario, el broker, que desacopla emisores y receptores. El temario lo incluye dentro de la comunicación indirecta; RPC y RMI son directas.",
+  "deck": "indirect",
+  "page": 4
+ },
+ "ssdd-1516-p1::q7": {
+  "text": "El temario llama representación canónica al formato común de datos en la red. Si no existe, un mismo valor se interpreta distinto en cada nodo, por ejemplo por su endianness."
  },
  "ssdd-1516-p2::q1": {
+  "text": "Con servidor central, todas las peticiones de entrada a la sección crítica pasan por él, y usa pocos mensajes. Al crecer el sistema, su problema es el cuello de botella.",
   "deck": "remote-invocation",
-  "page": 57,
-  "excerpt": [
-   "REST transfers representations of resource states"
-  ]
+  "page": 57
+ },
+ "ssdd-1516-p2::q2": {
+  "text": "Con soporte hardware, el emisor envía una sola copia y la red la replica donde hace falta, en lugar de una copia por destinatario. Se aprovecha al máximo el ancho de banda."
+ },
+ "ssdd-1516-p2::q3": {
+  "text": "Si los componentes deben acordar una decisión aunque alguno dé valores erróneos, se trata de generales bizantinos: fallos arbitrarios con necesidad de acuerdo."
+ },
+ "ssdd-1516-p2::q5": {
+  "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
  },
  "ssdd-1516-p2::q7": {
+  "text": "Con sockets toda la funcionalidad se implementa a mano y el temario los describe como propensos a errores. Un middleware genera ese código y reduce los errores de programación.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 29
  },
  "ssdd-1516-p2::q8": {
+  "text": "El orden termina en: el servidor serializa el resultado, lo envía y el cliente lo deserializa. Así, lo último es el unmarshalling del bool devuelto.",
   "deck": "remote-invocation",
-  "page": 31,
-  "excerpt": [
-   "Client stubs: Performs param marshalling and return value unmarshalling.",
-   "Server stubs performs params unmarshalling and return value (or error) marshalling."
-  ]
+  "page": 17
+ },
+ "ssdd-1516-p2::q9": {
+  "text": "Un reloj lógico es un contador de eventos, sin relación con el oscilador físico: no mide tiempo, solo ordena."
+ },
+ "ssdd-1516-p2::q10": {
+  "text": "Si un reloj se desvía poco tiempo después de sincronizarse, su deriva es anormal, lo que apunta a un oscilador defectuoso. La carga de eventos no altera el oscilador."
+ },
+ "ssdd-1516-p2::q11": {
+  "text": "En un corte consistente no puede aparecer un efecto sin su causa: si incluye una recepción, debe incluir el envío. A la inversa no hace falta: el mensaje puede estar en tránsito."
+ },
+ "ssdd-1516-p2::q12": {
+  "text": "Un reloj vectorial tiene una componente por proceso del grupo, y cada una cuenta los eventos conocidos de ese proceso. Al recibir, se toma el máximo por componente y solo se incrementa la propia."
  },
  "ssdd-1516-p2::q13": {
+  "text": "El broker desacopla en espacio: los publicadores solo le entregan eventos, sin conocer a los subscriptores. Quien gestiona las subscripciones es el broker.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
  },
  "ssdd-1516-p2::q14": {
+  "text": "En las colas, el emisor deposita y un único receptor retira cada mensaje, determinado por el sistema. La recepción de copias por varios receptores es propia de publicación-subscripción.",
   "deck": "indirect",
-  "page": 22,
-  "excerpt": [
-   "A sender put a message into an explicit queue."
-  ]
+  "page": 22
+ },
+ "ssdd-1516-p2::q15": {
+  "text": "El temario lo destaca: IceStorm permite usar un protocolo de transporte distinto para cada publicador o subscriptor. Los topics son comunes, y su broker es centralizado, no P2P.",
+  "deck": "protocol-design",
+  "page": 15
  },
  "ssdd-1516-p3::q1": {
+  "text": "El temario define servicio como el componente que gestiona recursos relacionados y da funcionalidad a usuarios y aplicaciones. El servidor es el proceso, y el protocolo, las reglas de interacción.",
   "deck": "intro",
-  "page": 24,
-  "excerpt": [
-   "Scalability: it works the same way regardless of the amount of resources or clients."
-  ]
+  "page": 24
  },
- "ssdd-1415-p2::q2": {
-  "deck": "indirect",
-  "page": 12,
-  "excerpt": [
-   "A pattern to filter the type of events to be received"
-  ]
+ "ssdd-1516-p3::q2": {
+  "text": "Es lo que dice el temario: ejecución concurrente, falta de reloj global y fallos independientes. La memoria compartida no forma parte de ello."
+ },
+ "ssdd-1516-p3::q3": {
+  "text": "En el modelo síncrono hay límites conocidos: duración de ejecución, retardo de mensajes y deriva de los relojes locales. No implica coordinación central."
+ },
+ "ssdd-1516-p3::q4": {
+  "text": "La clasificación habitual de Coulouris distingue fallos de omisión, temporales y arbitrarios. Bizantino es otro nombre de arbitrario, y replicación no es un tipo de fallo."
+ },
+ "ssdd-1516-p3::q5": {
+  "text": "Atravesar Internet exige el protocolo de red IP. XDR es un formato de datos, Chandy-Lamport un algoritmo y HTTP o SMTP son de aplicación.",
+  "deck": "remote-invocation",
+  "page": 28
+ },
+ "ssdd-1516-p3::q8": {
+  "text": "Detectar basura exige evaluar un predicado global (que un objeto ya no sea referenciado), y eso hace Marzullo-Neiger. Cristian sincroniza relojes; García Molina y Chang-Roberts son algoritmos de elección."
+ },
+ "ssdd-1516-p3::q9": {
+  "text": "Si a causa b, entonces C(a) < C(b): Lamport respeta el orden causal. Lo contrario no es cierto: C(a) < C(b) no implica que haya causalidad."
+ },
+ "ssdd-1516-p3::q10": {
+  "text": "La grúa es un recurso físico que debe manejar un solo operador cada vez, con varios puestos separados. Es el caso típico de acceso exclusivo distribuido."
+ },
+ "ssdd-1516-p3::q11": {
+  "text": "Maekawa no necesita el voto de todos, sino solo el de un subconjunto solapado. Eso reduce los mensajes frente a Ricart y Agrawala."
+ },
+ "ssdd-1516-p3::q12": {
+  "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
+ },
+ "ssdd-1516-p3::q14": {
+  "text": "Un grupo cerrado solo admite mensajes de sus miembros; uno abierto admite también los de procesos externos."
+ },
+ "ssdd-1516-p3::q15": {
+  "text": "La multidifusión confiable garantiza que todos los miembros correctos del grupo entregan el mensaje, y una sola vez (integridad y acuerdo). No depende del soporte de red ni de firmas."
+ },
+ "ssdd-1516-p3::q16": {
+  "text": "Sin cotas de tiempo, no se distingue un proceso lento de uno caído. Es la base del teorema FLP, que impide garantizar consenso determinista con un solo fallo."
+ },
+ "ssdd-1516-p3::q18": {
+  "text": "El objetivo es aprovechar al máximo la concurrencia manteniendo la equivalencia secuencial. Ejecutar todo en serie sería correcto, pero ineficiente."
+ },
+ "ssdd-1516-p3::q19": {
+  "text": "Actualización perdida: una transacción escribe un valor calculado a partir de una lectura ya obsoleta y machaca lo escrito por otra."
+ },
+ "ssdd-1516-p3::q20": {
+  "text": "Dos lecturas no modifican nada, así que pueden intercambiarse sin afectar al resultado. Basta que haya una escritura para que exista conflicto."
+ },
+ "ssdd-1516-p3::q21": {
+  "text": "Primera fase: el coordinador pregunta a cada participante si puede confirmar (canCommit). Solo tras recibir sus votos, en la segunda fase, decide y comunica la consumación."
+ },
+ "ssdd-1516-p3::q22": {
+  "text": "Logging consiste en registrar en un fichero de recuperación la historia de las transacciones. Shadow version usa, en cambio, copias alternativas de los datos."
+ },
+ "ssdd-1516-p3::q24": {
+  "text": "Con muchas escrituras, los conflictos son frecuentes: el control optimista abortaría mucho. Los bloqueos en dos fases los previenen de antemano."
+ },
+ "ssdd-1415-p1::q1": {
+  "text": "Un SD carece de reloj global: sus componentes se coordinan solo mediante mensajes. Por eso es falso que se sincronicen con un reloj físico común."
+ },
+ "ssdd-1415-p1::q2": {
+  "text": "Las tres características según el temario son ejecución concurrente, falta de reloj global y fallos independientes. Tiempo real no forma parte de ellas."
+ },
+ "ssdd-1415-p1::q3": {
+  "text": "El servicio lo proporciona el servidor, y los clientes acceden a él mediante sus operaciones. Por eso es falso que se ejecute en el lado del cliente."
+ },
+ "ssdd-1415-p1::q4": {
+  "text": "Sigue los pasos del temario: el cliente invoca el stub, marshalling, envío, unmarshalling en el servidor, ejecución, marshalling del resultado y unmarshalling en el cliente.",
+  "deck": "remote-invocation",
+  "page": 17
+ },
+ "ssdd-1415-p1::q5": {
+  "text": "Una operación bancaria no debe perderse ni duplicarse, de modo que debe aplicarse exactamente una vez. El temario pone la transferencia bancaria como ejemplo de exactly-once, posible aunque cara."
+ },
+ "ssdd-1415-p1::q6": {
+  "text": "El temario indica que todo protocolo implica tres aspectos: sintaxis, semántica y sincronización o temporización.",
+  "deck": "protocol-design",
+  "page": 5
+ },
+ "ssdd-1415-p1::q7": {
+  "text": "Si el programador debe gestionar las dos copias, sabe que existen. El temario define la transparencia de replicación como que los usuarios no conozcan las réplicas."
+ },
+ "ssdd-1415-p2::q1": {
+  "text": "Un SD carece de reloj global: sus componentes se coordinan solo mediante mensajes. Por eso es falso que se sincronicen con un reloj físico común."
+ },
+ "ssdd-1415-p2::q4": {
+  "text": "Sin multicast, Ricart y Agrawala usa 2(N−1) mensajes. Maekawa solo contacta con un subconjunto, unos 3√N, de modo que se comporta mejor."
+ },
+ "ssdd-1415-p2::q6": {
+  "text": "El sesgo es la diferencia instantánea entre dos relojes, mientras que la deriva es la velocidad con la que cambia esa diferencia con respecto a la referencia."
+ },
+ "ssdd-1415-p2::q7": {
+  "text": "Un corte es consistente si, por cada evento incluido, también incluye los eventos que lo causaron, como el envío de un mensaje recibido."
+ },
+ "ssdd-1415-p2::q8": {
+  "text": "El error de Cristian crece con el RTT, de modo que conviene la respuesta con menor RTT. Hacer la media mezclaría también los errores más grandes."
+ },
+ "ssdd-1415-p2::q9": {
+  "text": "Un reloj lógico es un contador que aumenta con cada evento y permite ordenarlos. No mide tiempo físico."
+ },
+ "ssdd-1415-p2::q10": {
+  "text": "El temario indica que todo protocolo implica tres aspectos: sintaxis, semántica y sincronización o temporización.",
+  "deck": "protocol-design",
+  "page": 5
  },
  "ssdd-1415-p2::q11": {
+  "text": "ZeroC Ice es un middleware orientado a objetos: el temario lo incluye entre los ejemplos de RMI, con interfaces Slice y objetos remotos.",
   "deck": "remote-invocation",
-  "page": 28,
-  "excerpt": [
-   "RMI is the base of Object Oriented Middlewares"
-  ]
+  "page": 29
+ },
+ "ssdd-1415-p2::q12": {
+  "text": "El temario describe IceStorm como basado en topics, federable y con broker centralizado (aunque replicable). Las tres afirmaciones son ciertas.",
+  "deck": "indirect",
+  "page": 18
  },
  "ssdd-1415-p2::q13": {
+  "text": "El subscriptor no tiene relación directa con el publicador, ni puede devolverle una excepción: el broker los desacopla. Ojo: la opción d) también parece dudosa, ya que el canal evita esa coordinación.",
   "deck": "indirect",
-  "page": 13,
-  "excerpt": [
-   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
-   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
-  ]
+  "page": 13
+ },
+ "ssdd-1415-p2::q15": {
+  "text": "Los sockets son el mecanismo más eficiente, aunque más complejo. Un videojuego en tiempo real prioriza la latencia frente a la comodidad de un middleware.",
+  "deck": "intro",
+  "page": 34
  }
 }

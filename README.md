@@ -48,14 +48,15 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 │   ├── js/app.js             # Catálogo, visor PDF.js, respuestas y corrección
 │   ├── data/exams.json       # Catálogo, preguntas, opciones y soluciones
 │   ├── data/ssdd_temario.json# Índice de diapositivas y sugerencias por pregunta
-│   ├── data/ssdd_explicaciones.json # Extractos de diapositivas para el repaso
+│   ├── data/ssdd_explicaciones.json # Explicaciones de SSDD para el repaso
 │   ├── pdfs/                 # Copias de los PDFs que muestra la app
 │   ├── temario/ssdd/         # Copia de las diapositivas de SSDD
 │   └── vendor/pdfjs/         # PDF.js, cmaps y fuentes estándar
 ├── temario/ssdd/             # PDFs originales del temario de SSDD
 ├── tools/build_exams.py      # Genera data/exams.json y copia los PDFs
 ├── tools/build_temario.py    # Genera ssdd_temario.json y copia las diapositivas
-├── tools/build_explanations.py # Genera ssdd_explicaciones.json (extractos del temario)
+├── tools/build_explanations.py # Genera ssdd_explicaciones.json para el repaso
+├── tools/ssdd_explicaciones_redactadas.json # Textos de las explicaciones de SSDD
 ├── past-exams/               # Clon original de UCLM-ESI/past-exams (no se sube)
 ├── .github/workflows/pages.yml
 ├── LICENSE
@@ -206,15 +207,23 @@ aleatorio. Una pregunta acertada sale del registro en ese momento, así que el
 avance no se pierde si se abandona el repaso; una fallada sigue guardada. Acertar
 la pregunta al repetir el examen completo no la elimina: solo el repaso lo hace.
 
-La explicación es un **extracto literal de las diapositivas**, elegido
-automáticamente, y puede ser aproximado. Solo existe para las preguntas de SSDD con
-una coincidencia fiable; en el resto la app indica que no hay explicación. Redes I
-y Redes II no tienen temario en el proyecto. Tras regenerar el catálogo o el
-temario, vuelve a generar los extractos:
+Las explicaciones de SSDD están **redactadas con IA a partir del temario y de la
+solución de cada examen**, y **no están revisadas por el profesorado**. Algunas
+preguntas tratan temas que no están en las diapositivas (por ejemplo, relojes,
+consenso o replicación); ahí se apoyan en conocimiento general. Si una explicación
+cree que la solución es dudosa, lo indica con «Ojo». Cubren 731 de las 865 preguntas
+de SSDD; el resto depende de figuras o tiene el texto incompleto, y la app lo indica.
+Redes I y Redes II no tienen temario en el proyecto ni explicaciones.
+
+Los textos están en `tools/ssdd_explicaciones_redactadas.json`, indexados por una
+huella de la pregunta. Tras regenerar el catálogo o el temario, ejecuta:
 
 ```bash
 python3 tools/build_explanations.py
 ```
+
+Una pregunta cuyo texto o solución cambie se queda sin explicación hasta que se
+redacte de nuevo.
 
 ## Temario de Sistemas Distribuidos
 

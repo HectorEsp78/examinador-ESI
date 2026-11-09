@@ -2129,30 +2129,35 @@ function renderExplanation(item) {
     exam.subject === "ssdd"
       ? state.explanations?.[failedKey(exam.id, question.id)]
       : null;
-  const deck = explanation ? temarioDeck(explanation.deck) : null;
+  const deck = explanation?.deck ? temarioDeck(explanation.deck) : null;
+  const hasTemario = exam.subject === "ssdd" && Boolean(state.temario?.decks?.length);
 
-  if (explanation && deck) {
+  if (explanation) {
     return `
       <div class="review-explanation">
-        <h3>Qué dice el temario</h3>
-        ${explanation.excerpt
-          .map((line) => `<blockquote>${escapeHtml(line)}</blockquote>`)
-          .join("")}
+        <h3>Por qué</h3>
+        <p>${escapeHtml(explanation.text)}</p>
         <p class="review-source">
-          ${escapeHtml(deck.title)} · diapositiva ${explanation.page}.
-          Extracto elegido automáticamente; compruébalo en la diapositiva.
+          Explicación redactada con IA a partir del temario y de la solución del
+          examen. No está revisada por el profesorado.
         </p>
-        <button class="btn ghost small" type="button" id="review-temario"
-          data-deck="${escapeHtml(explanation.deck)}" data-page="${explanation.page}">
-          Ver diapositiva
-        </button>
+        ${
+          deck
+            ? `<button class="btn ghost small" type="button" id="review-temario"
+                data-deck="${escapeHtml(explanation.deck)}" data-page="${explanation.page}">
+                Ver diapositiva relacionada
+              </button>`
+            : hasTemario
+              ? `<button class="btn ghost small" type="button" id="review-temario">Explorar el temario</button>`
+              : ""
+        }
       </div>`;
   }
-  if (exam.subject === "ssdd" && state.temario?.decks?.length) {
+  if (hasTemario) {
     return `
       <div class="review-explanation muted">
-        <h3>Sin explicación automática</h3>
-        <p>No hay un pasaje del temario que justifique esta respuesta con suficiente seguridad.</p>
+        <h3>Sin explicación disponible</h3>
+        <p>Esta pregunta depende de una figura o su texto está incompleto. Consúltala en el PDF.</p>
         <button class="btn ghost small" type="button" id="review-temario">Explorar el temario</button>
       </div>`;
   }
