@@ -34,6 +34,8 @@ son correctas, cuáles fallaste y la puntuación obtenida.
   tema y página.
 - **Repaso de preguntas falladas**: desde la portada se responden en orden aleatorio
   las preguntas falladas, con corrección inmediata y resumen final.
+- **Explicación sobre el PDF**: con el examen corregido, cada pregunta muestra un
+  botón «?» que abre tu respuesta, la correcta y la explicación disponible.
 - Progreso guardado en `localStorage`: puedes cerrar y volver más tarde.
 - No necesita backend: todo se sirve como archivos estáticos desde el mismo sitio.
 - Preparada para publicarse gratis con **GitHub Pages**.

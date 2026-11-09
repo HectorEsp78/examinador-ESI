@@ -2490,6 +2490,77 @@ a {
   }
 }
 
+/* Botón de explicación sobre el PDF corregido */
+.q-info {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  /* Su borde derecho queda justo antes del número, a cualquier tamaño de página. */
+  transform: translate(calc(-100% - 3px), -50%);
+  border: 0;
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: 0 1px 4px rgba(16, 24, 40, 0.4);
+  color: #fff;
+  font: 800 12px/1 var(--font);
+  cursor: pointer;
+}
+
+/* Amplía la zona táctil sin tapar el texto del PDF. */
+.q-info::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+}
+
+.q-info.ok {
+  background: var(--green);
+}
+
+.q-info.bad {
+  background: var(--red);
+}
+
+.q-info:hover {
+  filter: brightness(1.15);
+}
+
+.q-info:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .q-info {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+  }
+}
+
+.q-info-modal {
+  width: min(620px, 100%);
+}
+
+.q-info-question {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.review-verdict.blank {
+  background: var(--bg);
+  color: var(--muted);
+}
+
 /* ==========================================================================
    Repaso de preguntas falladas
    ========================================================================== */

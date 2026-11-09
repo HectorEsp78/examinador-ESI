@@ -843,6 +843,9 @@ def attach_full_text(
         markers = [m for k, m in g.items() if re.fullmatch(r"[a-z]", k)]
         first = min(markers, key=lambda m: (m["page"], m["top"]))
         end = (first["page"], first["top"] - 1)
+        # Posición para situar elementos junto a la pregunta en el PDF. Por
+        # defecto, la primera casilla (subapartados sin cabecera propia).
+        g["anchor"] = [first["page"], round(first["left"], 2), round(first["cy"], 2)]
         if h.seq in intro_by_header and previous is not None:
             # Subapartado: enunciado común más el texto propio tras el anterior.
             last = max(
@@ -860,6 +863,11 @@ def attach_full_text(
             start_header = h
             while start_header.number == "0" and start_header.seq > 0:
                 start_header = headers[start_header.seq - 1]
+            g["anchor"] = [
+                start_header.page,
+                round(start_header.left, 2),
+                round(start_header.top + 5, 2),
+            ]
             header_line = {"text": start_header.text, "items": [], "left": start_header.left}
             lines = stem_lines_between(
                 pages, (start_header.page, start_header.top + 3), end, consumed
@@ -1038,6 +1046,7 @@ def analyze_exam(path: Path, meta: dict[str, Any]) -> dict[str, Any]:
                 "points": round(float(g["points"]), 2),
                 "multi": multi,
                 "text": qtext[:MAX_STEM_CHARS],
+                "anchor": g.get("anchor"),
                 "answer": correct,
                 "options": options,
             }

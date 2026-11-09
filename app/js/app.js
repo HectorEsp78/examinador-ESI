@@ -938,6 +938,11 @@ function renderExamShell(exam) {
     $("#btn-history")?.addEventListener("click", showHistoryModal);
     $("#panel-close")?.addEventListener("click", closePanel);
     $("#document")?.addEventListener("click", (event) => {
+      const info = event.target.closest(".q-info");
+      if (info) {
+        showQuestionInfo(info.dataset.q);
+        return;
+      }
       const zone = event.target.closest(".option-zone");
       if (zone) selectOption(zone.dataset.q, zone.dataset.letter);
     });
@@ -1075,6 +1080,23 @@ function addPageOverlays(overlay, exam, pageIndex) {
   const [pageW, pageH] = pageSize;
   if (!pageW || !pageH) return;
 
+  // Botón de explicación junto a cada pregunta; visible solo tras corregir.
+  for (const question of exam.questions) {
+    const anchor = question.anchor;
+    if (!anchor || anchor[0] !== pageIndex) continue;
+    const info = document.createElement("button");
+    info.type = "button";
+    info.className = "q-info";
+    info.dataset.q = question.id;
+    info.textContent = "?";
+    info.hidden = true;
+    info.style.left = percent(anchor[1], pageW);
+    info.style.top = percent(anchor[2], pageH);
+    info.setAttribute("aria-label", `Ver la explicación de la pregunta ${question.number}`);
+    info.title = "Ver respuesta y explicación";
+    overlay.appendChild(info);
+  }
+
   const options = [];
   for (const question of exam.questions) {
     for (const option of question.options) {
@@ -1187,6 +1209,13 @@ function updateOptionClasses() {
   const resultMap = new Map(
     (state.result?.details || []).map((detail) => [detail.qid, detail])
   );
+
+  $$(".q-info").forEach((info) => {
+    const detail = resultMap.get(info.dataset.q);
+    info.hidden = !(state.corrected && detail);
+    info.classList.toggle("ok", Boolean(detail?.correct));
+    info.classList.toggle("bad", Boolean(detail && !detail.correct && !detail.blank));
+  });
 
   $$(".option-zone").forEach((zone) => {
     const qid = zone.dataset.q;
@@ -1629,6 +1658,44 @@ function showResultModal() {
       close();
       setTimeout(() => scrollToQuestion(qid), 80);
     });
+  });
+}
+
+function showQuestionInfo(qid) {
+  const exam = state.exam;
+  const question = questionById(qid);
+  if (!exam || !question) return;
+  const labels = (letters) =>
+    letters.map((letter) => optionLabel(question, letter)).join("\n");
+  const selected = selectedFor(qid);
+  const isBlank = selected.length === 0;
+  const isCorrect = !isBlank && sameLetters(selected, question.answer);
+
+  closeModal();
+  const modal = document.createElement("div");
+  modal.className = "modal-backdrop";
+  modal.innerHTML = `
+    <div class="modal q-info-modal" role="dialog" aria-modal="true" aria-labelledby="q-info-title">
+      <button class="modal-close" type="button" aria-label="Cerrar">×</button>
+      <h2 id="q-info-title">Pregunta ${escapeHtml(question.number)}</h2>
+      <p class="q-info-question">${escapeHtml(question.text)}</p>
+      <div class="review-verdict ${isCorrect ? "ok" : isBlank ? "blank" : "bad"}">
+        <strong>${isCorrect ? "Correcta" : isBlank ? "En blanco" : "Incorrecta"}</strong>
+        ${isCorrect || isBlank ? "" : `<span>Tu respuesta: ${escapeHtml(labels(selected))}</span>`}
+        <span>Respuesta correcta: ${escapeHtml(labels(question.answer))}</span>
+      </div>
+      ${renderExplanation({ exam, question })}
+    </div>`;
+  document.body.appendChild(modal);
+  document.body.style.overflow = "hidden";
+  modal.querySelector(".modal-close")?.focus();
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+  modal.querySelector(".modal-close")?.addEventListener("click", closeModal);
+  $("#review-temario", modal)?.addEventListener("click", (event) => {
+    const { deck, page } = event.currentTarget.dataset;
+    openTemario(qid, exam, deck ? { deck, page: Number(page) } : null);
   });
 }
 
