@@ -34,6 +34,9 @@ son correctas, cuáles fallaste y la puntuación obtenida.
   tema y página.
 - **Repaso de preguntas falladas**: desde la portada se responden en orden aleatorio
   las preguntas falladas, con corrección inmediata y resumen final.
+- **Filtro por estado**: sin resolver, resueltos, aprobados o suspendidos (mejor
+  intento ≥ 50 %), combinable con la asignatura y la búsqueda. Los exámenes de solo
+  lectura solo aparecen en «Todos».
 - **Explicación sobre el PDF**: con el examen corregido, cada pregunta muestra un
   botón «?» que abre tu respuesta, la correcta y la explicación disponible.
 - Progreso guardado en `localStorage`: puedes cerrar y volver más tarde.

@@ -32,7 +32,7 @@ const state = {
   attempts: [],
   attemptsByExam: new Map(),
   panelOpen: false,
-  filter: { subject: "all", query: "" },
+  filter: { subject: "all", query: "", status: "all" },
   renderToken: 0,
   pdfDoc: null,
   zoom: 1,
@@ -575,6 +575,8 @@ function renderCatalog() {
       </div>
     </div>
 
+    <div class="tabs status-tabs" id="status-tabs" role="group" aria-label="Filtrar por estado del examen"></div>
+
     <p class="results-count" id="results-count"></p>
     <div class="year-list" id="exam-grid"></div>
 
@@ -594,15 +596,22 @@ function renderCatalog() {
     </footer>
   `;
 
-  $$(".tab").forEach((tab) => {
+  $$(".tab[data-subject]").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.subject === state.filter.subject);
     tab.addEventListener("click", () => {
       state.filter.subject = tab.dataset.subject;
-      $$(".tab").forEach((other) =>
+      $$(".tab[data-subject]").forEach((other) =>
         other.classList.toggle("active", other === tab)
       );
       renderGrid();
     });
+  });
+
+  $("#status-tabs").addEventListener("click", (event) => {
+    const tab = event.target.closest("[data-status]");
+    if (!tab) return;
+    state.filter.status = tab.dataset.status;
+    renderGrid();
   });
 
   $("#search").addEventListener("input", (event) => {
@@ -611,6 +620,41 @@ function renderCatalog() {
   });
 
   renderGrid();
+}
+
+const STATUS_FILTERS = [
+  { id: "all", label: "Todos", matches: () => true },
+  { id: "unsolved", label: "Sin resolver", matches: (status) => status === "unsolved" },
+  {
+    id: "solved",
+    label: "Resueltos",
+    matches: (status) => status === "passed" || status === "failed",
+  },
+  { id: "passed", label: "Aprobados", matches: (status) => status === "passed" },
+  { id: "failed", label: "Suspendidos", matches: (status) => status === "failed" },
+];
+
+// Los exámenes de solo lectura no se pueden resolver: no tienen estado.
+function examStatus(exam) {
+  if (!exam.interactive) return null;
+  const attempts = state.attemptsByExam.get(exam.id) || [];
+  if (!attempts.length) return "unsolved";
+  const best = Math.max(...attempts.map((attempt) => attempt.percentage));
+  return best >= PASS_PERCENTAGE ? "passed" : "failed";
+}
+
+function renderStatusTabs(exams) {
+  const container = $("#status-tabs");
+  if (!container) return;
+  container.innerHTML = STATUS_FILTERS.map((filter) => {
+    const count = exams.filter((exam) => filter.matches(examStatus(exam))).length;
+    const active = state.filter.status === filter.id;
+    return `
+      <button class="tab ${active ? "active" : ""}" type="button"
+        data-status="${filter.id}" aria-pressed="${active}">
+        ${escapeHtml(filter.label)} <span class="tab-count">${count}</span>
+      </button>`;
+  }).join("");
 }
 
 function examTypeRank(exam) {
@@ -683,7 +727,7 @@ function renderGrid() {
 
   const query = fold(state.filter.query.trim());
   const searching = Boolean(query);
-  const list = state.data.exams.filter((exam) => {
+  const matching = state.data.exams.filter((exam) => {
     if (state.filter.subject !== "all" && exam.subject !== state.filter.subject) {
       return false;
     }
@@ -701,6 +745,12 @@ function renderGrid() {
     );
     return haystack.includes(query);
   });
+
+  // Los recuentos reflejan asignatura y búsqueda, no el propio filtro de estado.
+  renderStatusTabs(matching);
+  const statusFilter =
+    STATUS_FILTERS.find((filter) => filter.id === state.filter.status) || STATUS_FILTERS[0];
+  const list = matching.filter((exam) => statusFilter.matches(examStatus(exam)));
 
   list.sort(
     (a, b) =>

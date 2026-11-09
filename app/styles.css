@@ -425,6 +425,12 @@ a {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
+.status-tabs {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 0.9rem;
+}
+
 .results-count {
   margin: 0 0 0.85rem;
   color: var(--muted);
