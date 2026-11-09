@@ -2489,3 +2489,279 @@ a {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ==========================================================================
+   Repaso de preguntas falladas
+   ========================================================================== */
+
+.failed-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--burgundy);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.failed-cta h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+}
+
+.failed-cta p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.failed-cta .btn {
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.review {
+  width: min(820px, 100%);
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+.review-empty {
+  margin-top: 1rem;
+}
+
+.review-head h1 {
+  margin: 0.6rem 0 0.8rem;
+  font-size: 1.4rem;
+}
+
+.review-card {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
+.review-exam {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.review-question {
+  margin: 0 0 0.8rem;
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+
+.review-hint {
+  margin: 0 0 0.7rem;
+  color: var(--amber);
+  font-size: 0.82rem;
+}
+
+.review-options {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.review-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.review-option:hover:not(:disabled) {
+  border-color: var(--blue);
+}
+
+.review-option:disabled {
+  cursor: default;
+}
+
+.review-letter {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--bg);
+  font-size: 0.8rem;
+  font-weight: 750;
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+.review-no-text {
+  color: var(--muted);
+}
+
+.review-option.selected {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.review-option.correct,
+.review-option.missed {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.review-option.wrong {
+  border-color: var(--red);
+  background: var(--red-soft);
+}
+
+.review-verdict {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.review-verdict.ok {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.review-verdict.bad {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.review-verdict span {
+  color: var(--ink);
+}
+
+.review-explanation {
+  margin-top: 0.75rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 0.88rem;
+}
+
+.review-explanation h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.88rem;
+}
+
+.review-explanation p {
+  margin: 0 0 0.55rem;
+}
+
+.review-explanation.muted p:last-child {
+  margin-bottom: 0;
+}
+
+.review-explanation blockquote {
+  margin: 0 0 0.5rem;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--line);
+}
+
+.review-source {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.review-actions .btn {
+  text-decoration: none;
+}
+
+.review-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.review-summary-title {
+  margin: 1.4rem 0 0.6rem;
+  font-size: 1rem;
+}
+
+.review-summary-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-summary-row {
+  display: flex;
+  gap: 0.65rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 0.86rem;
+}
+
+.review-summary-row > div {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.review-summary-row small {
+  color: var(--muted);
+}
+
+.review-pdf-modal {
+  width: min(900px, 100%);
+}
+
+.review-pdf-pages {
+  max-height: 72vh;
+  overflow: auto;
+}
+
+.review-pdf-mark {
+  position: absolute;
+  z-index: 2;
+  border-radius: 3px;
+  background: rgba(37, 99, 235, 0.1);
+  box-shadow: inset 3px 0 0 var(--blue);
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .failed-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .review-actions .btn {
+    flex: 1 1 auto;
+  }
+}

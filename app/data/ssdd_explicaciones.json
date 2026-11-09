@@ -1,0 +1,1662 @@
+{
+ "ssdd-2526-p1::q1": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
+  ]
+ },
+ "ssdd-2526-p1::q4": {
+  "deck": "intro",
+  "page": 26,
+  "excerpt": [
+   "It supports various operating systems",
+   "They provide common structural services to all applications."
+  ]
+ },
+ "ssdd-2526-p1::q12": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "Object references as arguments and return values",
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-2526-p1::q13": {
+  "deck": "remote-invocation",
+  "page": 56,
+  "excerpt": [
+   "Across the network all converge to the round-trip time"
+  ]
+ },
+ "ssdd-2526-p1::q14": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "Object references as arguments and return values",
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-2526-p1::q15": {
+  "deck": "remote-invocation",
+  "page": 9,
+  "excerpt": [
+   "Typically a blocking request (client is blocked waiting for reply)",
+   "Server reply is like an ACK for client"
+  ]
+ },
+ "ssdd-2526-p1x-es::q2": {
+  "deck": "intro",
+  "page": 10,
+  "excerpt": [
+   "Platform as a Service (PaaS): The customer is only concerned with the application build. The provider manages the IT resources.",
+   "Software as a Service (SaaS): Both the infrastructure and the application itself are managed by the provider."
+  ]
+ },
+ "ssdd-2526-p1x-es::q3": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time."
+  ]
+ },
+ "ssdd-2526-p1x-es::q5": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2526-p1x-es::q11": {
+  "deck": "remote-invocation",
+  "page": 12,
+  "excerpt": [
+   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once."
+  ]
+ },
+ "ssdd-2526-p1x-es::q12": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Client stubs: Performs param marshalling and return value unmarshalling.",
+   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
+  ]
+ },
+ "ssdd-2526-p1x-es::q13": {
+  "deck": "remote-invocation",
+  "page": 44,
+  "excerpt": [
+   "Clients invoke portmapper giving program and version numbers",
+   "Portmapper reply with TCP/UDP port"
+  ]
+ },
+ "ssdd-2526-p1x-es::q15": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2526-p1r::q2": {
+  "deck": "intro",
+  "page": 26,
+  "excerpt": [
+   "They provide common structural services to all applications."
+  ]
+ },
+ "ssdd-2526-p1r::q3": {
+  "deck": "intro",
+  "page": 10,
+  "excerpt": [
+   "Platform as a Service (PaaS): The customer is only concerned with the application build. The provider manages the IT resources."
+  ]
+ },
+ "ssdd-2526-p1r::q4": {
+  "deck": "intro",
+  "page": 13,
+  "excerpt": [
+   "SERVICE – a component managing a collection of related resources and provides functionality to users and applications"
+  ]
+ },
+ "ssdd-2526-p1r::q5": {
+  "deck": "remote-invocation",
+  "page": 46,
+  "excerpt": [
+   "Connection fails: ask again and retry; a server can move with no exception"
+  ]
+ },
+ "ssdd-2526-p1r::q8": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing"
+  ]
+ },
+ "ssdd-2526-p1r::q12": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Client stubs: Performs param marshalling and return value unmarshalling.",
+   "Server stubs performs params unmarshalling and return value (or error) marshalling."
+  ]
+ },
+ "ssdd-2526-p1r::q13": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "OO devel methodologies and tools",
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-2526-p1r::q14": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good",
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-2526-p1r::q15": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST is an architectural style. An API that fulfills the principles of this style is a \"RESTful API\".",
+   "REST transfers representations of resource states"
+  ]
+ },
+ "ssdd-2526-p2::q2": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2526-p2::q3": {
+  "deck": "indirect",
+  "page": 30,
+  "excerpt": [
+   "RabbitMQ flexible binding work queues publish-subscribe topics routing"
+  ]
+ },
+ "ssdd-2526-p2::q4": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-2526-p2x-es::q1": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2526-p2x-es::q2": {
+  "deck": "indirect",
+  "page": 30,
+  "excerpt": [
+   "RabbitMQ flexible binding work queues publish-subscribe topics routing"
+  ]
+ },
+ "ssdd-2526-p2x-es::q3": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-2526-p2x-es::q4": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "Queues: Temporarily store messages from publishers"
+  ]
+ },
+ "ssdd-2526-p2x-es::q5": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Ex: DDS publisher E subscriber",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-2526-p2x-es::q7": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2526-p2x-es::q8": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "Publishers: send messages to an exchange",
+   "Queues: Temporarily store messages from publishers"
+  ]
+ },
+ "ssdd-2526-p2x-es::q26": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Replication and caching: copies must follow the chosen consistency rules."
+  ]
+ },
+ "ssdd-2526-p2x-es::q29": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Client stubs: Performs param marshalling and return value unmarshalling.",
+   "Server stubs performs params unmarshalling and return value (or error) marshalling."
+  ]
+ },
+ "ssdd-2526-p2x-es::q30": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2425-p1::q1": {
+  "deck": "intro",
+  "page": 12,
+  "excerpt": [
+   "Set of computers connected by an heterogeneous inter- network"
+  ]
+ },
+ "ssdd-2425-p1::q2": {
+  "deck": "intro",
+  "page": 7,
+  "excerpt": [
+   "Resource sharing: programs make local resources available remotely."
+  ]
+ },
+ "ssdd-2425-p1::q3": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time."
+  ]
+ },
+ "ssdd-2425-p1::q5": {
+  "deck": "remote-invocation",
+  "page": 11,
+  "excerpt": [
+   "Client retransmit request message until reply/ACK is received"
+  ]
+ },
+ "ssdd-2425-p1::q12": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Sometimes called “skeleton”, because usually includes a skeleton for the servant implementation."
+  ]
+ },
+ "ssdd-2425-p1::q14": {
+  "deck": "remote-invocation",
+  "page": 12,
+  "excerpt": [
+   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once.",
+   "Idempotent operations need no duplicate filtering, which simplifies the implementation."
+  ]
+ },
+ "ssdd-2425-p1x::q5": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2425-p1x::q12": {
+  "deck": "remote-invocation",
+  "page": 12,
+  "excerpt": [
+   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once.",
+   "Idempotent operations need no duplicate filtering, which simplifies the implementation."
+  ]
+ },
+ "ssdd-2425-p1x::q13": {
+  "deck": "remote-invocation",
+  "page": 33,
+  "excerpt": [
+   "Remote objects may be called \"locally\": remote object process remote Data interface",
+   "Invocations among processes are also “remote” remote local C invocation invocation local E remote invocation invocation F"
+  ]
+ },
+ "ssdd-2425-p1x::q14": {
+  "deck": "remote-invocation",
+  "page": 11,
+  "excerpt": [
+   "Client retransmit request message until reply/ACK is received",
+   "Server retransmit reply message without re-executing"
+  ]
+ },
+ "ssdd-2425-p1r::q1": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-2425-p1r::q7": {
+  "deck": "intro",
+  "page": 30,
+  "excerpt": [
+   "Services exchange messages defined for each specific application."
+  ]
+ },
+ "ssdd-2425-p1r::q14": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
+  ]
+ },
+ "ssdd-2425-p2::q2": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-2425-p2::q18": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Replication and caching: copies must follow the chosen consistency rules."
+  ]
+ },
+ "ssdd-2425-p2::q19": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Coordination: processes exchange messages to synchronize their actions."
+  ]
+ },
+ "ssdd-2425-p2x::q2": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-2425-p2x::q3": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Ex: DDS publisher E subscriber",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-2425-p2x::q4": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2324-p1::q1": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Replication and caching: copies must follow the chosen consistency rules."
+  ]
+ },
+ "ssdd-2324-p1::q2": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2324-p1::q3": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Partial failure: one component may fail while others keep running."
+  ]
+ },
+ "ssdd-2324-p1::q4": {
+  "deck": "remote-invocation",
+  "page": 7,
+  "excerpt": [
+   "RRA Request Reply Acknowledge reply"
+  ]
+ },
+ "ssdd-2324-p1::q5": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
+  ]
+ },
+ "ssdd-2324-p1::q9": {
+  "deck": "remote-invocation",
+  "page": 44,
+  "excerpt": [
+   "Portmapper is the binder used by ONC RPC",
+   "Any RPC server register itself on portmapper"
+  ]
+ },
+ "ssdd-2324-p1::q13": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good",
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-2324-p1::q14": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
+  ]
+ },
+ "ssdd-2324-p1::q15": {
+  "deck": "remote-invocation",
+  "page": 46,
+  "excerpt": [
+   "Java RMI: the programmer calls rebind; the Registry stores the whole stub",
+   "Ice: the object adapter registers itself; the runtime picks the port"
+  ]
+ },
+ "ssdd-2324-p1x::q1": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
+  ]
+ },
+ "ssdd-2324-p1x::q2": {
+  "deck": "intro",
+  "page": 7,
+  "excerpt": [
+   "Resource sharing: programs make local resources available remotely."
+  ]
+ },
+ "ssdd-2324-p1x::q4": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages."
+  ]
+ },
+ "ssdd-2324-p1x::q5": {
+  "deck": "intro",
+  "page": 20,
+  "excerpt": [
+   "A system has the capacity to grow (scalability) if it maintains its effectiveness when the number of resources or users increases significantly",
+   "A system with n users is scalable if the amount of resources needed to support it is proportional to n (O(n))"
+  ]
+ },
+ "ssdd-2324-p1x::q7": {
+  "deck": "protocol-design",
+  "page": 15,
+  "excerpt": [
+   "A protocol design is not much different to an API or class interface design."
+  ]
+ },
+ "ssdd-2324-p1x::q11": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-2324-p1x::q13": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST transfers representations of resource states",
+   "Each resource is identified by a unique URI."
+  ]
+ },
+ "ssdd-2324-p1r::q5": {
+  "deck": "remote-invocation",
+  "page": 33,
+  "excerpt": [
+   "Remote objects may be called \"locally\": remote object process remote Data interface",
+   "Invocations among processes are also “remote” remote local C invocation invocation local E remote invocation invocation F"
+  ]
+ },
+ "ssdd-2324-p1r::q11": {
+  "deck": "intro",
+  "page": 35,
+  "excerpt": [
+   "Conceptually the same as invoking a local (same node) procedure"
+  ]
+ },
+ "ssdd-2324-p1r::q12": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2324-p1r::q14": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-2324-p2::q1": {
+  "deck": "indirect",
+  "page": 9,
+  "excerpt": [
+   "Disseminate events to multiple recipients through an intermediary (the event broker)."
+  ]
+ },
+ "ssdd-2324-p2::q4": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-2324-p2::q11": {
+  "deck": "remote-invocation",
+  "page": 46,
+  "excerpt": [
+   "Connection fails: ask again and retry; a server can move with no exception"
+  ]
+ },
+ "ssdd-2324-p2x::q1": {
+  "deck": "indirect",
+  "page": 9,
+  "excerpt": [
+   "Disseminate events to multiple recipients through an intermediary (the event broker)."
+  ]
+ },
+ "ssdd-2324-p2x::q2": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-2324-p2x::q3": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Subscriber expresses interest in particular events through subscriptions to an event service",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-2324-p2x::q16": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Distributed Event-based systems implement ●",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-2223-p1::q4": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time."
+  ]
+ },
+ "ssdd-2223-p1::q10": {
+  "deck": "remote-invocation",
+  "page": 9,
+  "excerpt": [
+   "Typically a blocking request (client is blocked waiting for reply)"
+  ]
+ },
+ "ssdd-2223-p1::q14": {
+  "deck": "remote-invocation",
+  "page": 41,
+  "excerpt": [
+   "Servers register their references (addresses) in a name server (binder)",
+   "Find a reference from a service identifier"
+  ]
+ },
+ "ssdd-2223-p1x::q1": {
+  "deck": "intro",
+  "page": 4,
+  "excerpt": [
+   "Client and server are independent processes potentially running on different nodes. They may have particular circumstances and restrictions."
+  ]
+ },
+ "ssdd-2223-p1x::q3": {
+  "deck": "intro",
+  "page": 7,
+  "excerpt": [
+   "Resource sharing: programs make local resources available remotely."
+  ]
+ },
+ "ssdd-2223-p1x::q5": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time.",
+   "Coordination: processes exchange messages to synchronize their actions."
+  ]
+ },
+ "ssdd-2223-p1x::q7": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing"
+  ]
+ },
+ "ssdd-2223-p1x::q9": {
+  "deck": "protocol-design",
+  "page": 6,
+  "excerpt": [
+   "TFTP message types: opcode operation"
+  ]
+ },
+ "ssdd-2223-p1x::q12": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "OO devel methodologies and tools",
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-2223-p1r::q2": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "A distributed system is one in which components located at networked computers communicate and coordinate their actions only by passing messages.",
+   "Lack of a global clock"
+  ]
+ },
+ "ssdd-2223-p1r::q4": {
+  "deck": "intro",
+  "page": 7,
+  "excerpt": [
+   "Resource sharing: programs make local resources available remotely."
+  ]
+ },
+ "ssdd-2223-p1r::q5": {
+  "deck": "intro",
+  "page": 20,
+  "excerpt": [
+   "A system has the capacity to grow (scalability) if it maintains its effectiveness when the number of resources or users increases significantly",
+   "A system with n users is scalable if the amount of resources needed to support it is proportional to n (O(n))"
+  ]
+ },
+ "ssdd-2223-p1r::q8": {
+  "deck": "protocol-design",
+  "page": 15,
+  "excerpt": [
+   "A protocol design is not much different to an API or class interface design."
+  ]
+ },
+ "ssdd-2223-p1r::q9": {
+  "deck": "protocol-design",
+  "page": 18,
+  "excerpt": [
+   "Manage marshaling from the programming language structures to binary sequences and viceversa."
+  ]
+ },
+ "ssdd-2223-p1r::q15": {
+  "deck": "remote-invocation",
+  "page": 11,
+  "excerpt": [
+   "Client retransmit request message until reply/ACK is received",
+   "Server retransmit reply message without re-executing"
+  ]
+ },
+ "ssdd-2223-p2::q1": {
+  "deck": "remote-invocation",
+  "page": 48,
+  "excerpt": [
+   "Asynchronous dispatching decouples incoming request and request dispatching."
+  ]
+ },
+ "ssdd-2223-p2::q3": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel."
+  ]
+ },
+ "ssdd-2223-p2::q11": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST transfers representations of resource states"
+  ]
+ },
+ "ssdd-2223-p2x::q1": {
+  "deck": "indirect",
+  "page": 4,
+  "excerpt": [
+   "Participants must exist at same time.",
+   "Very inefficient when there are many participants."
+  ]
+ },
+ "ssdd-2223-p2x::q2": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Publisher publishes structured events to an event service",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-2223-p2x::q4": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2223-p2x::q6": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2122-p1::q1": {
+  "deck": "intro",
+  "page": 4,
+  "excerpt": [
+   "Client and server are independent processes potentially running on different nodes. They may have particular circumstances and restrictions."
+  ]
+ },
+ "ssdd-2122-p1::q3": {
+  "deck": "intro",
+  "page": 7,
+  "excerpt": [
+   "Resource sharing: programs make local resources available remotely."
+  ]
+ },
+ "ssdd-2122-p1::q5": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time."
+  ]
+ },
+ "ssdd-2122-p1::q7": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST is an architectural style. An API that fulfills the principles of this style is a \"RESTful API\".",
+   "REST transfers representations of resource states"
+  ]
+ },
+ "ssdd-2122-p1::q9": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good",
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-2122-p1x::q1": {
+  "deck": "intro",
+  "page": 21,
+  "excerpt": [
+   "Basic form of communication and synchronization in a distributed system"
+  ]
+ },
+ "ssdd-2122-p1x::q4": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-2122-p1x::q6": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing",
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-2122-p1x::q11": {
+  "deck": "remote-invocation",
+  "page": 12,
+  "excerpt": [
+   "An operation is idempotent when executing it several times, with the same arguments, has the same effect on the server state as executing it just once.",
+   "Idempotent operations need no duplicate filtering, which simplifies the implementation."
+  ]
+ },
+ "ssdd-2122-p1x::q14": {
+  "deck": "remote-invocation",
+  "page": 48,
+  "excerpt": [
+   "Asynchronous dispatching decouples incoming request and request dispatching."
+  ]
+ },
+ "ssdd-2122-p1r::q2": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time."
+  ]
+ },
+ "ssdd-2122-p1r::q4": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Reliability: probability of correct operation over a period of time."
+  ]
+ },
+ "ssdd-2122-p1r::q5": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "Lack of a global clock"
+  ]
+ },
+ "ssdd-2122-p1r::q9": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing",
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-2122-p1r::q12": {
+  "deck": "remote-invocation",
+  "page": 24,
+  "excerpt": [
+   "Client stubs client client.c executable",
+   "Server stubs server server.c executable"
+  ]
+ },
+ "ssdd-2122-p1r::q15": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-2122-p2::q1": {
+  "deck": "indirect",
+  "page": 4,
+  "excerpt": [
+   "Participants must exist at same time."
+  ]
+ },
+ "ssdd-2122-p2::q2": {
+  "deck": "indirect",
+  "page": 17,
+  "excerpt": [
+   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers"
+  ]
+ },
+ "ssdd-2122-p2::q3": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Publisher publishes structured events to an event service",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-2122-p2::q4": {
+  "deck": "indirect",
+  "page": 4,
+  "excerpt": [
+   "Participants must exist at same time."
+  ]
+ },
+ "ssdd-2122-p2::q14": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST transfers representations of resource states"
+  ]
+ },
+ "ssdd-2122-p2x::q1": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "Queues: Temporarily store messages from publishers"
+  ]
+ },
+ "ssdd-2122-p2x::q2": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-2122-p2x::q3": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-2122-p2x::q5": {
+  "deck": "indirect",
+  "page": 17,
+  "excerpt": [
+   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers"
+  ]
+ },
+ "ssdd-2021-ejx::q5": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing"
+  ]
+ },
+ "ssdd-2021-p1::q3": {
+  "deck": "indirect",
+  "page": 30,
+  "excerpt": [
+   "RabbitMQ flexible binding work queues publish-subscribe topics routing"
+  ]
+ },
+ "ssdd-2021-p1::q5": {
+  "deck": "intro",
+  "page": 24,
+  "excerpt": [
+   "Scalability: it works the same way regardless of the amount of resources or clients."
+  ]
+ },
+ "ssdd-2021-p1::q6": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing"
+  ]
+ },
+ "ssdd-2021-p1::q11": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-2021-p1::q12": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-2021-p1::q15": {
+  "deck": "remote-invocation",
+  "page": 41,
+  "excerpt": [
+   "Servers register their references (addresses) in a name server (binder)"
+  ]
+ },
+ "ssdd-2021-p1x::q3": {
+  "deck": "remote-invocation",
+  "page": 7,
+  "excerpt": [
+   "RRA Request Reply Acknowledge reply"
+  ]
+ },
+ "ssdd-2021-p1x::q15": {
+  "deck": "remote-invocation",
+  "page": 41,
+  "excerpt": [
+   "Servers register their references (addresses) in a name server (binder)",
+   "Find a reference from a service identifier"
+  ]
+ },
+ "ssdd-2021-p1r::q1": {
+  "deck": "intro",
+  "page": 13,
+  "excerpt": [
+   "SERVICE – a component managing a collection of related resources and provides functionality to users and applications",
+   "For effective sharing, each resource must be managed by a program that offers a communication interface. This communication interface composed by a set of operations is often called Application"
+  ]
+ },
+ "ssdd-2021-p1r::q3": {
+  "deck": "intro",
+  "page": 26,
+  "excerpt": [
+   "Provide a common programming model for developers"
+  ]
+ },
+ "ssdd-2021-p1r::q6": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-2021-p1r::q9": {
+  "deck": "protocol-design",
+  "page": 15,
+  "excerpt": [
+   "Data types and formats for any of the fields and messages."
+  ]
+ },
+ "ssdd-2021-p1r::q10": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-2021-p1r::q12": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Goal: make distributed programming looks as close as possible to conventional programming. t necessarily good"
+  ]
+ },
+ "ssdd-2021-p1r::q13": {
+  "deck": "remote-invocation",
+  "page": 11,
+  "excerpt": [
+   "Client retransmit request message until reply/ACK is received",
+   "Server retransmit reply message without re-executing"
+  ]
+ },
+ "ssdd-2021-p1r::q15": {
+  "deck": "remote-invocation",
+  "page": 16,
+  "excerpt": [
+   "We name “RPC” to the generic remote invocation mechanism, and “ONC RPC” to the specific implementation by Sun Microsystems"
+  ]
+ },
+ "ssdd-2021-p2::q19": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "RabbitMQ implements the standard AMQP (Advanced"
+  ]
+ },
+ "ssdd-2021-p2::q20": {
+  "deck": "indirect",
+  "page": 4,
+  "excerpt": [
+   "Participants must exist at same time."
+  ]
+ },
+ "ssdd-2021-p2::q21": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "RabbitMQ implements the standard AMQP (Advanced",
+   "Publishers: send messages to an exchange"
+  ]
+ },
+ "ssdd-2021-p2::q22": {
+  "deck": "indirect",
+  "page": 9,
+  "excerpt": [
+   "Disseminate events to multiple recipients through an intermediary (the event broker)."
+  ]
+ },
+ "ssdd-2021-p2::q23": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Publisher publishes structured events to an event service",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-2021-p2x::q1": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time.",
+   "Coordination: processes exchange messages to synchronize their actions."
+  ]
+ },
+ "ssdd-2021-p2x::q7": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Publisher publishes structured events to an event service",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-2021-p2x::q8": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "RabbitMQ implements the standard AMQP (Advanced",
+   "Publishers: send messages to an exchange"
+  ]
+ },
+ "ssdd-2021-p2x::q10": {
+  "deck": "indirect",
+  "page": 34,
+  "excerpt": [
+   "Kappa: Consume at the same time the data is produced"
+  ]
+ },
+ "ssdd-2021-p2x::q12": {
+  "deck": "indirect",
+  "page": 4,
+  "excerpt": [
+   "Participants must exist at same time."
+  ]
+ },
+ "ssdd-1920-p1::q5": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-1920-p1::q14": {
+  "deck": "remote-invocation",
+  "page": 15,
+  "excerpt": [
+   "Calling a procedure that exists in a remote process memory space should look similar to local call."
+  ]
+ },
+ "ssdd-1920-p1x::q10": {
+  "deck": "intro",
+  "page": 10,
+  "excerpt": [
+   "Platform as a Service (PaaS): The customer is only concerned with the application build. The provider manages the IT resources.",
+   "Software as a Service (SaaS): Both the infrastructure and the application itself are managed by the provider."
+  ]
+ },
+ "ssdd-1920-p1x::q11": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "OO devel methodologies and tools",
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-1920-p1r::q9": {
+  "deck": "remote-invocation",
+  "page": 44,
+  "excerpt": [
+   "Portmapper reply with TCP/UDP port"
+  ]
+ },
+ "ssdd-1920-p1r::q11": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Client stubs: Performs param marshalling and return value unmarshalling.",
+   "Server stubs performs params unmarshalling and return value (or error) marshalling."
+  ]
+ },
+ "ssdd-1920-p1r::q13": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Object adapter is the dispatcher, locates corresponding servant and invokes it.",
+   "Sometimes called “skeleton”, because usually includes a skeleton for the servant implementation."
+  ]
+ },
+ "ssdd-1920-p2::q2": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-1920-p2::q3": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel."
+  ]
+ },
+ "ssdd-1920-p2::q5": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-1920-p2::q6": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-1920-p2::q7": {
+  "deck": "indirect",
+  "page": 9,
+  "excerpt": [
+   "Disseminate events to multiple recipients through an intermediary (the event broker)."
+  ]
+ },
+ "ssdd-1920-p2::q10": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-1920-p2::q11": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-1920-p2::q12": {
+  "deck": "indirect",
+  "page": 17,
+  "excerpt": [
+   "Content based-routing: exploits content information to efficiently route events to their required destination.",
+   "Partition of event space assigning responsibilities of each type of events to specific nodes"
+  ]
+ },
+ "ssdd-1920-p2x::q3": {
+  "deck": "indirect",
+  "page": 7,
+  "excerpt": [
+   "scenarios where users connect and disconnect very often.",
+   "scenarios with a large number of users"
+  ]
+ },
+ "ssdd-1920-p2x::q21": {
+  "deck": "remote-invocation",
+  "page": 56,
+  "excerpt": [
+   "Crossing a process boundary costs orders of magnitude more than a local call"
+  ]
+ },
+ "ssdd-1920-p2x::q23": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Reliability: probability of correct operation over a period of time."
+  ]
+ },
+ "ssdd-1920-p2x::q29": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Replication and caching: copies must follow the chosen consistency rules."
+  ]
+ },
+ "ssdd-1819-p1::q4": {
+  "deck": "intro",
+  "page": 12,
+  "excerpt": [
+   "Goal: high performance (speedup) and high productivity"
+  ]
+ },
+ "ssdd-1819-p1::q5": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Reliability: probability of correct operation over a period of time."
+  ]
+ },
+ "ssdd-1819-p1::q6": {
+  "deck": "protocol-design",
+  "page": 15,
+  "excerpt": [
+   "Data types and formats for any of the fields and messages."
+  ]
+ },
+ "ssdd-1819-p1::q13": {
+  "deck": "remote-invocation",
+  "page": 9,
+  "excerpt": [
+   "Typically a blocking request (client is blocked waiting for reply)"
+  ]
+ },
+ "ssdd-1718-labx::q2": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Object adapter is the dispatcher, locates corresponding servant and invokes it."
+  ]
+ },
+ "ssdd-1718-readingsx::q4": {
+  "deck": "indirect",
+  "page": 9,
+  "excerpt": [
+   "Disseminate events to multiple recipients through an intermediary (the event broker)."
+  ]
+ },
+ "ssdd-1718-readingsx::q7": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Partial failure: one component may fail while others keep running."
+  ]
+ },
+ "ssdd-1718-readingsx::q9": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-1718-p1::q2": {
+  "deck": "remote-invocation",
+  "page": 33,
+  "excerpt": [
+   "Remote objects may be called \"locally\": remote object process remote Data interface",
+   "Invocations among processes are also “remote” remote local C invocation invocation local E remote invocation invocation F"
+  ]
+ },
+ "ssdd-1718-p1::q4": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Reliability: probability of correct operation over a period of time."
+  ]
+ },
+ "ssdd-1718-p1::q9": {
+  "deck": "protocol-design",
+  "page": 6,
+  "excerpt": [
+   "TFTP message types: opcode operation"
+  ]
+ },
+ "ssdd-1718-p1::q11": {
+  "deck": "remote-invocation",
+  "page": 24,
+  "excerpt": [
+   "Client stubs client client.c executable",
+   "Server stubs server server.c executable"
+  ]
+ },
+ "ssdd-1718-p1::q13": {
+  "deck": "remote-invocation",
+  "page": 48,
+  "excerpt": [
+   "Asynchronous dispatching decouples incoming request and request dispatching."
+  ]
+ },
+ "ssdd-1718-p1::q14": {
+  "deck": "remote-invocation",
+  "page": 22,
+  "excerpt": [
+   "XDR is the specification language for ONC RPC",
+   "The rpcgen compiler takes a XDR file to generate stubs to use on server and client."
+  ]
+ },
+ "ssdd-1718-p1x::q1": {
+  "deck": "intro",
+  "page": 3,
+  "excerpt": [
+   "Lack of a global clock"
+  ]
+ },
+ "ssdd-1718-p1x::q2": {
+  "deck": "intro",
+  "page": 7,
+  "excerpt": [
+   "Resource sharing: programs make local resources available remotely."
+  ]
+ },
+ "ssdd-1718-p1x::q6": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing",
+   "JSON request was 789 bytes versus the Protobuf at 518 bytes."
+  ]
+ },
+ "ssdd-1718-p1x::q10": {
+  "deck": "remote-invocation",
+  "page": 7,
+  "excerpt": [
+   "RRA Request Reply Acknowledge reply"
+  ]
+ },
+ "ssdd-1718-p1x::q12": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Object adapter is the dispatcher, locates corresponding servant and invokes it.",
+   "Sometimes called “skeleton”, because usually includes a skeleton for the servant implementation."
+  ]
+ },
+ "ssdd-1718-p1r::q1": {
+  "deck": "intro",
+  "page": 21,
+  "excerpt": [
+   "Basic form of communication and synchronization in a distributed system"
+  ]
+ },
+ "ssdd-1718-p1r::q2": {
+  "deck": "intro",
+  "page": 24,
+  "excerpt": [
+   "Scalability: it works the same way regardless of the amount of resources or clients."
+  ]
+ },
+ "ssdd-1718-p1r::q5": {
+  "deck": "intro",
+  "page": 33,
+  "excerpt": [
+   "Client: request a service from the server",
+   "Clients and servers can be objects or processes running on different computers"
+  ]
+ },
+ "ssdd-1718-p1r::q10": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing"
+  ]
+ },
+ "ssdd-1718-p1r::q12": {
+  "deck": "remote-invocation",
+  "page": 47,
+  "excerpt": [
+   "Asynchronous invocation decouples invocation and result collection."
+  ]
+ },
+ "ssdd-1718-p2::q1": {
+  "deck": "indirect",
+  "page": 10,
+  "excerpt": [
+   "Publisher publishes structured events to an event service",
+   "Event service or broker receives events from publishers and delivers events to subscribers according to its interests."
+  ]
+ },
+ "ssdd-1718-p2::q8": {
+  "deck": "intro",
+  "page": 27,
+  "excerpt": [
+   "Computer and network hardware Source: Colouris"
+  ]
+ },
+ "ssdd-1718-p2x::q4": {
+  "deck": "indirect",
+  "page": 26,
+  "excerpt": [
+   "Publishers: send messages to an exchange"
+  ]
+ },
+ "ssdd-1718-p2x::q10": {
+  "deck": "remote-invocation",
+  "page": 50,
+  "excerpt": [
+   "A few slow requests can exhaust the pool, even with an idle node"
+  ]
+ },
+ "ssdd-1718-p2x::q13": {
+  "deck": "indirect",
+  "page": 4,
+  "excerpt": [
+   "Participants must exist at same time."
+  ]
+ },
+ "ssdd-1718-p2x::q14": {
+  "deck": "indirect",
+  "page": 14,
+  "excerpt": [
+   "Content-based: generalization of topic-based where the filter is a query defined in terms of compositions of constraints over the values of event attributes.",
+   "Type-based: subscriptions are defined in terms of types of events and matching is defined in terms of types or subtypes of the given filter. publisher E subscriber"
+  ]
+ },
+ "ssdd-1718-p2x::q19": {
+  "deck": "remote-invocation",
+  "page": 50,
+  "excerpt": [
+   "A few slow requests can exhaust the pool, even with an idle node"
+  ]
+ },
+ "ssdd-1718-readings::q4": {
+  "deck": "protocol-design",
+  "page": 17,
+  "excerpt": [
+   "Binary marshalling: small messages and fast processing"
+  ]
+ },
+ "ssdd-1718-readings::q7": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST transfers representations of resource states",
+   "Each resource is identified by a unique URI."
+  ]
+ },
+ "ssdd-1718-readings::q9": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-1718-readings::q13": {
+  "deck": "intro",
+  "page": 23,
+  "excerpt": [
+   "Reliability: probability of correct operation over a period of time."
+  ]
+ },
+ "ssdd-1516-extra::q8": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-1516-extra::q13": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-1516-extra::q14": {
+  "deck": "indirect",
+  "page": 17,
+  "excerpt": [
+   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers"
+  ]
+ },
+ "ssdd-1516-extra::q15": {
+  "deck": "indirect",
+  "page": 17,
+  "excerpt": [
+   "Event routing performs the task of ensuring that event notifications are routed as efficiently as possible to appropriate subscribers",
+   "Content based-routing: exploits content information to efficiently route events to their required destination."
+  ]
+ },
+ "ssdd-1516-extra::q16": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-1516-p1::q2": {
+  "deck": "intro",
+  "page": 24,
+  "excerpt": [
+   "Scalability: it works the same way regardless of the amount of resources or clients."
+  ]
+ },
+ "ssdd-1516-p1::q3": {
+  "deck": "intro",
+  "page": 22,
+  "excerpt": [
+   "Concurrency: several processes access shared resources at the same time."
+  ]
+ },
+ "ssdd-1516-p2::q1": {
+  "deck": "remote-invocation",
+  "page": 57,
+  "excerpt": [
+   "REST transfers representations of resource states"
+  ]
+ },
+ "ssdd-1516-p2::q7": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-1516-p2::q8": {
+  "deck": "remote-invocation",
+  "page": 31,
+  "excerpt": [
+   "Client stubs: Performs param marshalling and return value unmarshalling.",
+   "Server stubs performs params unmarshalling and return value (or error) marshalling."
+  ]
+ },
+ "ssdd-1516-p2::q13": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ },
+ "ssdd-1516-p2::q14": {
+  "deck": "indirect",
+  "page": 22,
+  "excerpt": [
+   "A sender put a message into an explicit queue."
+  ]
+ },
+ "ssdd-1516-p3::q1": {
+  "deck": "intro",
+  "page": 24,
+  "excerpt": [
+   "Scalability: it works the same way regardless of the amount of resources or clients."
+  ]
+ },
+ "ssdd-1415-p2::q2": {
+  "deck": "indirect",
+  "page": 12,
+  "excerpt": [
+   "A pattern to filter the type of events to be received"
+  ]
+ },
+ "ssdd-1415-p2::q11": {
+  "deck": "remote-invocation",
+  "page": 28,
+  "excerpt": [
+   "RMI is the base of Object Oriented Middlewares"
+  ]
+ },
+ "ssdd-1415-p2::q13": {
+  "deck": "indirect",
+  "page": 13,
+  "excerpt": [
+   "Channel-based: publishers publish events to named channels and subscribers then subscribe to one of these named channels to receive all events sent to the channel.",
+   "Ex: CORBA Event service, notification service, ZeroC IceStorm publisher E subscriber"
+  ]
+ }
+}

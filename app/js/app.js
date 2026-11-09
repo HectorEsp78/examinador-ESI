@@ -21,6 +21,7 @@ const SUBJECT_ORDER = { redes1: 0, redes2: 1, ssdd: 2 };
 
 const STORAGE_PREFIX = "examinador:v1:";
 const PASS_PERCENTAGE = 50;
+const FAILED_STORAGE_KEY = `${STORAGE_PREFIX}__failed`;
 
 const state = {
   data: null,
@@ -39,6 +40,8 @@ const state = {
   temario: null,
   temarioDocs: new Map(),
   temarioToken: 0,
+  explanations: null,
+  review: null,
 };
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -184,7 +187,98 @@ function recordAttempt(result) {
   const attempt = makeAttempt(result);
   if (!attempt) return null;
   state.attempts.push(attempt);
+  rememberFailed(
+    state.exam,
+    result.details
+      .filter((detail) => !detail.blank && !detail.correct)
+      .map((detail) => detail.qid)
+  );
   return attempt;
+}
+
+/* --------------------------------------------------------------------------
+   Registro de preguntas falladas
+   -------------------------------------------------------------------------- */
+
+function sameLetters(selected, answer) {
+  const a = [...selected].sort();
+  const b = [...answer].sort();
+  return a.length === b.length && a.every((letter, index) => letter === b[index]);
+}
+
+function failedKey(examId, qid) {
+  return `${examId}::${qid}`;
+}
+
+function loadFailed() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(FAILED_STORAGE_KEY));
+    if (parsed?.items && typeof parsed.items === "object") return parsed;
+  } catch {
+    /* registro dañado o almacenamiento bloqueado: se empieza de cero */
+  }
+  return { items: {}, backfilled: false };
+}
+
+function saveFailed(registry) {
+  try {
+    localStorage.setItem(FAILED_STORAGE_KEY, JSON.stringify(registry));
+  } catch {
+    /* almacenamiento lleno o bloqueado: la app sigue funcionando */
+  }
+}
+
+function addFailedItems(registry, exam, qids) {
+  for (const qid of qids) {
+    registry.items[failedKey(exam.id, qid)] = { examId: exam.id, qid };
+  }
+}
+
+function rememberFailed(exam, qids) {
+  if (!exam || !qids.length) return;
+  const registry = loadFailed();
+  addFailedItems(registry, exam, qids);
+  saveFailed(registry);
+}
+
+function forgetFailed(exam, qid) {
+  const registry = loadFailed();
+  delete registry.items[failedKey(exam.id, qid)];
+  saveFailed(registry);
+}
+
+// Incorpora una sola vez los fallos de los intentos hechos antes de existir el registro.
+function backfillFailedFromHistory() {
+  const registry = loadFailed();
+  if (registry.backfilled) return;
+  for (const exam of state.data.exams) {
+    if (!exam.interactive) continue;
+    for (const attempt of loadProgress(exam).attempts) {
+      addFailedItems(
+        registry,
+        exam,
+        exam.questions
+          .filter((question) => {
+            const selected = attempt.answers[question.id];
+            return selected?.length && !sameLetters(selected, question.answer);
+          })
+          .map((question) => question.id)
+      );
+    }
+  }
+  registry.backfilled = true;
+  saveFailed(registry);
+}
+
+// Entradas del registro que siguen existiendo en el catálogo actual.
+function failedEntries() {
+  return Object.values(loadFailed().items)
+    .map(({ examId, qid }) => {
+      const exam = getExam(examId);
+      const question = exam?.questions?.find((item) => item.id === qid);
+      return question ? { exam, question } : null;
+    })
+    .filter(Boolean);
 }
 
 function loadAllProgress() {
@@ -241,9 +335,10 @@ function pdfUrl(exam) {
 
 async function init() {
   try {
-    const [response, temarioResponse] = await Promise.all([
+    const [response, temarioResponse, explanationsResponse] = await Promise.all([
       fetch("data/exams.json", { cache: "no-cache" }),
       fetch("data/ssdd_temario.json", { cache: "no-cache" }).catch(() => null),
+      fetch("data/ssdd_explicaciones.json", { cache: "no-cache" }).catch(() => null),
     ]);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     state.data = await response.json();
@@ -252,6 +347,13 @@ async function init() {
         state.temario = await temarioResponse.json();
       } catch {
         state.temario = null;
+      }
+    }
+    if (explanationsResponse?.ok) {
+      try {
+        state.explanations = await explanationsResponse.json();
+      } catch {
+        state.explanations = null;
       }
     }
   } catch (error) {
@@ -273,6 +375,7 @@ async function init() {
     }
   });
   $("#panel-backdrop")?.addEventListener("click", closePanel);
+  backfillFailedFromHistory();
   route();
 }
 
@@ -280,6 +383,8 @@ async function route() {
   const match = location.hash.match(/^#\/exam\/([^/?#]+)/);
   if (match) {
     await openExam(decodeURIComponent(match[1]));
+  } else if (location.hash.startsWith("#/repaso")) {
+    startReview();
   } else {
     renderCatalog();
   }
@@ -340,16 +445,44 @@ function renderProgressSummary(progress) {
     </section>`;
 }
 
-function renderCatalog() {
+function renderFailedCta() {
+  const count = failedEntries().length;
+  return `
+    <section class="failed-cta" aria-labelledby="failed-cta-title">
+      <div>
+        <h2 id="failed-cta-title">Preguntas falladas</h2>
+        <p>
+          ${
+            count
+              ? `Tienes ${plural(count, "pregunta", "preguntas")} por repasar. Las que aciertes saldrán del registro.`
+              : "Aún no hay preguntas guardadas. Se añaden al corregir un examen."
+          }
+        </p>
+      </div>
+      ${
+        count
+          ? `<a class="btn primary" href="#/repaso">Responder preguntas fallidas</a>`
+          : `<button class="btn primary" type="button" disabled>Responder preguntas fallidas</button>`
+      }
+    </section>`;
+}
+
+function leaveCurrentView() {
   state.renderToken += 1;
   state.exam = null;
+  state.review = null;
   state.panelOpen = false;
   if (state.pdfDoc) {
     state.pdfDoc.destroy().catch(() => {});
     state.pdfDoc = null;
   }
+  closeModal();
   closePanel();
   $("#topbar-right").innerHTML = "";
+}
+
+function renderCatalog() {
+  leaveCurrentView();
 
   loadAllProgress();
   const progressStats = subjectProgress();
@@ -408,6 +541,8 @@ function renderCatalog() {
     </section>
 
     ${renderProgressSummary(progressStats)}
+
+    ${renderFailedCta()}
 
     <div class="catalog-toolbar">
       <div class="tabs" role="tablist" aria-label="Asignaturas">
@@ -593,27 +728,16 @@ function renderGrid() {
       <div class="empty-state">
         No hay exámenes que coincidan con el filtro.
       </div>`;
-    grid.dataset.rendered = "true";
-    grid.dataset.searching = String(searching);
     return;
   }
 
-  const openYears = new Set(
-    $$(".year-group[open]", grid).map((group) => group.dataset.year)
+  // Todos los cursos salen desplegados; solo se respetan los que el usuario ha
+  // plegado a mano mientras cambia de filtro. Al buscar se despliega todo.
+  const closedYears = new Set(
+    searching
+      ? []
+      : $$(".year-group:not([open])", grid).map((group) => group.dataset.year)
   );
-  const firstYear = byYear.keys().next().value;
-  const noOpenYear = ![...openYears].some((year) => byYear.has(year));
-  if (
-    !grid.dataset.rendered ||
-    (grid.dataset.searching === "true" && !searching) ||
-    noOpenYear
-  ) {
-    openYears.clear();
-    if (firstYear) openYears.add(firstYear);
-  }
-  if (searching) {
-    for (const year of byYear.keys()) openYears.add(year);
-  }
 
   grid.innerHTML = [...byYear.entries()]
     .map(([year, yearExams]) => {
@@ -651,7 +775,7 @@ function renderGrid() {
 
       return `
         <details class="year-group" data-year="${escapeHtml(year)}"${
-          openYears.has(year) ? " open" : ""
+          closedYears.has(year) ? "" : " open"
         }>
           <summary class="year-summary">
             <span class="year-title">
@@ -670,9 +794,6 @@ function renderGrid() {
         </details>`;
     })
     .join("");
-
-  grid.dataset.rendered = "true";
-  grid.dataset.searching = String(searching);
 }
 
 /* --------------------------------------------------------------------------
@@ -935,6 +1056,19 @@ async function renderPdfPage(pdf, pageNumber, exam, token, container) {
   updateOptionClasses();
 }
 
+function addMarkerCovers(overlay, options, pageW, pageH) {
+  for (const option of options) {
+    const [x, y, w, h] = option.rect;
+    const cover = document.createElement("span");
+    cover.className = "marker-cover";
+    cover.style.left = percent(x, pageW);
+    cover.style.top = percent(y, pageH);
+    cover.style.width = percent(w, pageW);
+    cover.style.height = percent(h, pageH);
+    overlay.appendChild(cover);
+  }
+}
+
 function addPageOverlays(overlay, exam, pageIndex) {
   const pageSize =
     exam.pageSizes?.[pageIndex] || [exam.pageWidth || 595, exam.pageHeight || 842];
@@ -949,16 +1083,7 @@ function addPageOverlays(overlay, exam, pageIndex) {
   }
 
   // Primero las tapas blancas que ocultan los cuadros originales del PDF.
-  for (const { option } of options) {
-    const [x, y, w, h] = option.rect;
-    const cover = document.createElement("span");
-    cover.className = "marker-cover";
-    cover.style.left = percent(x, pageW);
-    cover.style.top = percent(y, pageH);
-    cover.style.width = percent(w, pageW);
-    cover.style.height = percent(h, pageH);
-    overlay.appendChild(cover);
-  }
+  addMarkerCovers(overlay, options.map(({ option }) => option), pageW, pageH);
 
   // Calcula zonas clicables que cubren también las respuestas partidas en dos
   // líneas. La zona llega hasta la siguiente opción de la misma columna, sin
@@ -1241,10 +1366,7 @@ function gradeExam() {
     const selected = selectedFor(question.id).slice().sort();
     const answer = question.answer.slice().sort();
     const isBlank = selected.length === 0;
-    const isCorrect =
-      !isBlank &&
-      selected.length === answer.length &&
-      selected.every((letter, index) => letter === answer[index]);
+    const isCorrect = !isBlank && sameLetters(selected, answer);
 
     if (isBlank) blank += 1;
     else if (isCorrect) {
@@ -1627,18 +1749,20 @@ async function loadTemarioDoc(deck) {
   return doc;
 }
 
-function openTemario(qid) {
+function openTemario(qid, exam = state.exam, startSlide = null) {
   if (!state.temario?.decks?.length) {
     showToast("El temario no está disponible.");
     return;
   }
 
-  const question = qid ? questionById(qid) : null;
+  const question = qid
+    ? exam?.questions.find((item) => item.id === qid) || null
+    : null;
   const info = question
-    ? state.temario.questions?.[`${state.exam.id}::${question.id}`]
+    ? state.temario.questions?.[failedKey(exam.id, question.id)]
     : null;
   const suggestions = Array.isArray(info?.slides) ? info.slides : [];
-  const firstSuggestion = suggestions[0] || null;
+  const firstSuggestion = startSlide || suggestions[0] || null;
   // Si no hay sugerencias, empieza por el primer tema para poder explorar el
   // temario completo; el tema detectado puede ser poco fiable sin diapositivas.
   let currentDeckId = firstSuggestion?.deck || state.temario.decks[0].id;
@@ -1660,7 +1784,7 @@ function openTemario(qid) {
         ${
           question
             ? `Pregunta ${escapeHtml(question.number)} · ${escapeHtml(
-                state.exam.codeLabel
+                exam.codeLabel
               )}`
             : "Explora las diapositivas del temario"
         }
@@ -1939,6 +2063,402 @@ function closePanel() {
   state.panelOpen = false;
   panel?.classList.remove("open");
   if (backdrop) backdrop.hidden = true;
+}
+
+/* --------------------------------------------------------------------------
+   Repaso de preguntas falladas
+   -------------------------------------------------------------------------- */
+
+function shuffled(list) {
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function startReview() {
+  leaveCurrentView();
+  const entries = failedEntries();
+  if (!entries.length) {
+    $("#view").innerHTML = `
+      <div class="review">
+        <a class="back-link" href="#/">← Exámenes</a>
+        <div class="empty-state review-empty">
+          <strong>No tienes preguntas falladas por repasar.</strong><br />
+          Las preguntas que falles al corregir un examen aparecerán aquí.
+        </div>
+      </div>`;
+    return;
+  }
+  state.review = {
+    items: shuffled(entries).map((entry) => ({
+      ...entry,
+      selected: [],
+      answered: false,
+      correct: false,
+    })),
+    index: 0,
+  };
+  renderReviewQuestion();
+}
+
+function optionLabel(question, letter) {
+  const text = question.options.find((option) => option.letter === letter)?.text;
+  return text ? `${letter}) ${text}` : `${letter})`;
+}
+
+function needsPdf(question) {
+  return (
+    question.options.some((option) => !option.text) ||
+    /figura|diagrama|captura|listado|topolog|siguiente (c[oó]digo|tabla|esquema|programa|fragmento)|figure|diagram|following (code|table)|-$/i.test(
+      question.text
+    )
+  );
+}
+
+function reviewMeta(exam) {
+  const meta = SUBJECT_META[exam.subject] || { color: "#8b1e3f" };
+  return `style="--accent:${meta.color}"`;
+}
+
+function renderExplanation(item) {
+  const { exam, question } = item;
+  const explanation =
+    exam.subject === "ssdd"
+      ? state.explanations?.[failedKey(exam.id, question.id)]
+      : null;
+  const deck = explanation ? temarioDeck(explanation.deck) : null;
+
+  if (explanation && deck) {
+    return `
+      <div class="review-explanation">
+        <h3>Qué dice el temario</h3>
+        ${explanation.excerpt
+          .map((line) => `<blockquote>${escapeHtml(line)}</blockquote>`)
+          .join("")}
+        <p class="review-source">
+          ${escapeHtml(deck.title)} · diapositiva ${explanation.page}.
+          Extracto elegido automáticamente; compruébalo en la diapositiva.
+        </p>
+        <button class="btn ghost small" type="button" id="review-temario"
+          data-deck="${escapeHtml(explanation.deck)}" data-page="${explanation.page}">
+          Ver diapositiva
+        </button>
+      </div>`;
+  }
+  if (exam.subject === "ssdd" && state.temario?.decks?.length) {
+    return `
+      <div class="review-explanation muted">
+        <h3>Sin explicación automática</h3>
+        <p>No hay un pasaje del temario que justifique esta respuesta con suficiente seguridad.</p>
+        <button class="btn ghost small" type="button" id="review-temario">Explorar el temario</button>
+      </div>`;
+  }
+  return `
+    <div class="review-explanation muted">
+      <h3>Sin explicación disponible</h3>
+      <p>El proyecto no incluye diapositivas de ${escapeHtml(exam.subjectName)}.</p>
+    </div>`;
+}
+
+function renderReviewQuestion() {
+  const review = state.review;
+  const item = review.items[review.index];
+  const { exam, question } = item;
+  const total = review.items.length;
+  const isLast = review.index === total - 1;
+
+  const options = question.options
+    .map((option) => {
+      const selected = item.selected.includes(option.letter);
+      const correct = question.answer.includes(option.letter);
+      let status = selected ? "selected" : "";
+      if (item.answered) {
+        if (correct) status = selected ? "correct" : "missed";
+        else status = selected ? "wrong" : "";
+      }
+      return `
+        <button class="review-option ${status}" type="button"
+          data-letter="${escapeHtml(option.letter)}"
+          aria-pressed="${selected}" ${item.answered ? "disabled" : ""}>
+          <span class="review-letter">${escapeHtml(option.letter)}</span>
+          <span>${
+            option.text
+              ? escapeHtml(option.text)
+              : '<em class="review-no-text">Texto disponible solo en el PDF</em>'
+          }</span>
+        </button>`;
+    })
+    .join("");
+
+  const feedback = item.answered
+    ? `
+      <div class="review-verdict ${item.correct ? "ok" : "bad"}" role="status">
+        <strong>${
+          item.correct
+            ? "¡Correcto! Sale del registro de fallos."
+            : "Incorrecto. Sigue en el registro de fallos."
+        }</strong>
+        <span>Respuesta correcta: ${escapeHtml(
+          question.answer.map((letter) => optionLabel(question, letter)).join(" · ")
+        )}</span>
+      </div>
+      ${renderExplanation(item)}`
+    : "";
+
+  $("#view").innerHTML = `
+    <div class="review">
+      <div class="review-head">
+        <a class="back-link" href="#/">← Exámenes</a>
+        <h1>Repaso de preguntas falladas</h1>
+        <div class="exam-progress-label">
+          <span>Pregunta ${review.index + 1} de ${total}</span>
+          <strong>${Math.round(((review.index + (item.answered ? 1 : 0)) / total) * 100)}%</strong>
+        </div>
+        <div class="progress-track">
+          <span style="width:${percent(review.index + (item.answered ? 1 : 0), total)}"></span>
+        </div>
+      </div>
+
+      <article class="review-card" ${reviewMeta(exam)}>
+        <p class="review-exam">
+          <span class="subject-dot" aria-hidden="true"></span>
+          ${escapeHtml(exam.subjectName)} · ${escapeHtml(exam.codeLabel)}
+          · ${escapeHtml(exam.year || "")} · pregunta ${escapeHtml(question.number)}
+        </p>
+        <h2 class="review-question">${escapeHtml(question.text)}</h2>
+        ${
+          question.multi
+            ? '<p class="review-hint">Puede haber varias respuestas correctas: marca todas las que correspondan.</p>'
+            : ""
+        }
+        ${
+          needsPdf(question)
+            ? '<p class="review-hint">Esta pregunta puede necesitar el PDF para verse completa.</p>'
+            : ""
+        }
+        <div class="review-options">${options}</div>
+        ${feedback}
+        <div class="review-actions">
+          <button class="btn ghost" type="button" id="review-pdf">Ver en el PDF</button>
+          ${
+            item.answered
+              ? `<button class="btn primary" type="button" id="review-next">${
+                  isLast ? "Ver resumen" : "Siguiente pregunta"
+                }</button>`
+              : `<button class="btn primary" type="button" id="review-answer" ${
+                  item.selected.length ? "" : "disabled"
+                }>Responder</button>`
+          }
+        </div>
+      </article>
+    </div>`;
+
+  $$(".review-option").forEach((button) => {
+    button.addEventListener("click", () => {
+      const letter = button.dataset.letter;
+      if (question.multi) {
+        item.selected = item.selected.includes(letter)
+          ? item.selected.filter((value) => value !== letter)
+          : [...item.selected, letter];
+      } else {
+        item.selected = item.selected.includes(letter) ? [] : [letter];
+      }
+      renderReviewQuestion();
+    });
+  });
+  $("#review-answer")?.addEventListener("click", () => {
+    item.answered = true;
+    item.correct = sameLetters(item.selected, question.answer);
+    // Se aplica ya para no perder el avance si se abandona el repaso a medias.
+    if (item.correct) forgetFailed(exam, question.id);
+    renderReviewQuestion();
+    $("#review-next")?.focus();
+  });
+  $("#review-next")?.addEventListener("click", () => {
+    if (isLast) {
+      renderReviewSummary();
+    } else {
+      review.index += 1;
+      renderReviewQuestion();
+    }
+    window.scrollTo({ top: 0 });
+  });
+  $("#review-pdf")?.addEventListener("click", () => showQuestionPdf(exam, question));
+  $("#review-temario")?.addEventListener("click", (event) => {
+    const { deck, page } = event.currentTarget.dataset;
+    openTemario(question.id, exam, deck ? { deck, page: Number(page) } : null);
+  });
+}
+
+function renderSummaryRow(item) {
+  const { exam, question } = item;
+  const labels = (letters) =>
+    letters.map((letter) => optionLabel(question, letter)).join(" · ");
+  return `
+    <li class="review-summary-row ${item.correct ? "ok" : "bad"}">
+      <span class="r-status ${item.correct ? "ok" : "bad"}">${item.correct ? "✓" : "✕"}</span>
+      <div>
+        <strong>${escapeHtml(question.text)}</strong>
+        <small>${escapeHtml(exam.subjectName)} · ${escapeHtml(exam.codeLabel)} · ${escapeHtml(exam.year || "")}</small>
+        ${
+          item.correct
+            ? ""
+            : `<span>Tu respuesta: ${escapeHtml(labels(item.selected))}</span>`
+        }
+        <span>Correcta: ${escapeHtml(labels(question.answer))}</span>
+      </div>
+    </li>`;
+}
+
+function renderReviewSummary() {
+  const { items } = state.review;
+  const failed = items.filter((item) => !item.correct);
+  const correct = items.filter((item) => item.correct);
+  const section = (title, list) =>
+    list.length
+      ? `<h2 class="review-summary-title">${title} (${list.length})</h2>
+         <ul class="review-summary-list">${list.map(renderSummaryRow).join("")}</ul>`
+      : "";
+
+  $("#view").innerHTML = `
+    <div class="review">
+      <div class="review-head">
+        <a class="back-link" href="#/">← Exámenes</a>
+        <h1>Resumen del repaso</h1>
+      </div>
+      <div class="stats-grid review-stats">
+        <div class="stat ok"><strong>${correct.length}</strong><span>Acertadas · eliminadas</span></div>
+        <div class="stat bad"><strong>${failed.length}</strong><span>Falladas · siguen guardadas</span></div>
+      </div>
+      ${section("Preguntas falladas", failed)}
+      ${section("Preguntas acertadas", correct)}
+      <div class="review-actions">
+        ${
+          failed.length
+            ? `<button class="btn ghost" type="button" id="review-again">Repasar las ${failed.length} falladas</button>`
+            : ""
+        }
+        <a class="btn primary" href="#/">Volver a la portada</a>
+      </div>
+    </div>`;
+
+  $("#review-again")?.addEventListener("click", () => {
+    startReview();
+    window.scrollTo({ top: 0 });
+  });
+}
+
+// Muestra el PDF del examen (con figuras y código) tapando las marcas de solución.
+async function showQuestionPdf(exam, question) {
+  closeModal();
+  const token = ++state.renderToken;
+  const modal = document.createElement("div");
+  modal.className = "modal-backdrop";
+  modal.innerHTML = `
+    <div class="modal review-pdf-modal" role="dialog" aria-modal="true" aria-labelledby="review-pdf-title">
+      <button class="modal-close" type="button" aria-label="Cerrar">×</button>
+      <h2 id="review-pdf-title">Pregunta ${escapeHtml(question.number)} en el PDF</h2>
+      <p class="modal-sub">${escapeHtml(exam.title)} · ${escapeHtml(exam.year || "")}</p>
+      <div class="review-pdf-pages" id="review-pdf-pages">
+        <div class="pdf-loading"><span class="spinner"></span> Cargando documento…</div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  document.body.style.overflow = "hidden";
+  modal.querySelector(".modal-close")?.focus();
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+  modal.querySelector(".modal-close")?.addEventListener("click", closeModal);
+
+  const container = $("#review-pdf-pages", modal);
+  const isCurrent = () => token === state.renderToken && document.body.contains(modal);
+  try {
+    state.pdfDoc?.destroy().catch(() => {});
+    state.pdfDoc = null;
+    const pdf = await pdfjsLib.getDocument({
+      url: pdfUrl(exam),
+      cMapUrl: CMAP_URL,
+      cMapPacked: true,
+      standardFontDataUrl: STANDARD_FONTS_URL,
+    }).promise;
+    if (token !== state.renderToken) {
+      pdf.destroy().catch(() => {});
+      return;
+    }
+    state.pdfDoc = pdf;
+    if (!isCurrent()) return;
+    container.innerHTML = "";
+
+    const shells = [];
+    for (let number = 1; number <= pdf.numPages; number += 1) {
+      const page = await pdf.getPage(number);
+      if (!isCurrent()) return;
+      const pageIndex = number - 1;
+      const base = page.getViewport({ scale: 1 });
+      const pageEl = document.createElement("div");
+      pageEl.className = "pdf-page";
+      pageEl.style.aspectRatio = `${base.width} / ${base.height}`;
+      const canvas = document.createElement("canvas");
+      const overlay = document.createElement("div");
+      overlay.className = "page-overlay";
+      pageEl.append(canvas, overlay);
+      container.appendChild(pageEl);
+
+      const [pageW, pageH] =
+        exam.pageSizes?.[pageIndex] || [exam.pageWidth || 595, exam.pageHeight || 842];
+      // Se tapan todas las casillas: el PDF es la versión corregida.
+      addMarkerCovers(
+        overlay,
+        exam.questions.flatMap((item) =>
+          item.options.filter((option) => option.page === pageIndex)
+        ),
+        pageW,
+        pageH
+      );
+      for (const option of question.options) {
+        if (option.page !== pageIndex) continue;
+        const [x, y, w, h] = option.zone;
+        const mark = document.createElement("span");
+        mark.className = "review-pdf-mark";
+        mark.style.left = percent(x, pageW);
+        mark.style.top = percent(y, pageH);
+        mark.style.width = percent(w, pageW);
+        mark.style.height = percent(h, pageH);
+        overlay.appendChild(mark);
+      }
+      shells.push({ page, pageEl, canvas, pageIndex });
+    }
+
+    const target = question.options[0]?.page ?? 0;
+    shells[target]?.pageEl.scrollIntoView({ block: "start" });
+    // Primero la página de la pregunta; después el resto.
+    shells.sort(
+      (a, b) => Number(b.pageIndex === target) - Number(a.pageIndex === target)
+    );
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    for (const { page, canvas } of shells) {
+      const base = page.getViewport({ scale: 1 });
+      const viewport = page.getViewport({ scale: (1000 / base.width) * dpr });
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+      await page.render({
+        canvasContext: canvas.getContext("2d", { alpha: false }),
+        viewport,
+      }).promise;
+      if (!isCurrent()) return;
+    }
+  } catch (error) {
+    if (!isCurrent() || isRenderCancellation(error)) return;
+    console.error(error);
+    container.innerHTML = `
+      <div class="empty-state">
+        <strong>No se pudo mostrar el PDF.</strong>
+      </div>`;
+  }
 }
 
 /* --------------------------------------------------------------------------

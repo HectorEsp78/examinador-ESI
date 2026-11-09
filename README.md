@@ -32,6 +32,8 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 - **Temario de Sistemas Distribuidos**: cada pregunta de SSDD puede abrir las
   diapositivas relacionadas del temario, con un visor PDF y un explorador por
   tema y página.
+- **Repaso de preguntas falladas**: desde la portada se responden en orden aleatorio
+  las preguntas falladas, con corrección inmediata y resumen final.
 - Progreso guardado en `localStorage`: puedes cerrar y volver más tarde.
 - No necesita backend: todo se sirve como archivos estáticos desde el mismo sitio.
 - Preparada para publicarse gratis con **GitHub Pages**.
@@ -46,12 +48,14 @@ son correctas, cuáles fallaste y la puntuación obtenida.
 │   ├── js/app.js             # Catálogo, visor PDF.js, respuestas y corrección
 │   ├── data/exams.json       # Catálogo, preguntas, opciones y soluciones
 │   ├── data/ssdd_temario.json# Índice de diapositivas y sugerencias por pregunta
+│   ├── data/ssdd_explicaciones.json # Extractos de diapositivas para el repaso
 │   ├── pdfs/                 # Copias de los PDFs que muestra la app
 │   ├── temario/ssdd/         # Copia de las diapositivas de SSDD
 │   └── vendor/pdfjs/         # PDF.js, cmaps y fuentes estándar
 ├── temario/ssdd/             # PDFs originales del temario de SSDD
 ├── tools/build_exams.py      # Genera data/exams.json y copia los PDFs
 ├── tools/build_temario.py    # Genera ssdd_temario.json y copia las diapositivas
+├── tools/build_explanations.py # Genera ssdd_explicaciones.json (extractos del temario)
 ├── past-exams/               # Clon original de UCLM-ESI/past-exams (no se sube)
 ├── .github/workflows/pages.yml
 ├── LICENSE
@@ -189,6 +193,28 @@ El histórico de un examen concreto muestra la fecha, la puntuación, el porcent
 la etiqueta Aprobado/Suspenso y el desglose de aciertos, fallos y preguntas en
 blanco. Las correcciones antiguas guardadas antes de existir el historial se
 migran como primer intento al abrir el examen.
+
+## Repaso de preguntas falladas
+
+Al pulsar **Corregir**, las preguntas respondidas mal se añaden a un registro en
+`localStorage`; las dejadas en blanco no cuentan como fallo. La primera vez que se
+abre la app con esta función también se incorporan los fallos de los intentos ya
+guardados en el historial.
+
+El botón **Responder preguntas fallidas** de la portada las presenta en orden
+aleatorio. Una pregunta acertada sale del registro en ese momento, así que el
+avance no se pierde si se abandona el repaso; una fallada sigue guardada. Acertar
+la pregunta al repetir el examen completo no la elimina: solo el repaso lo hace.
+
+La explicación es un **extracto literal de las diapositivas**, elegido
+automáticamente, y puede ser aproximado. Solo existe para las preguntas de SSDD con
+una coincidencia fiable; en el resto la app indica que no hay explicación. Redes I
+y Redes II no tienen temario en el proyecto. Tras regenerar el catálogo o el
+temario, vuelve a generar los extractos:
+
+```bash
+python3 tools/build_explanations.py
+```
 
 ## Temario de Sistemas Distribuidos
 
