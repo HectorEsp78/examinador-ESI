@@ -2562,6 +2562,8 @@ a {
   margin: 0 0 0.8rem;
   font-size: 1.08rem;
   line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .review-hint {
@@ -2611,6 +2613,14 @@ a {
   text-align: center;
 }
 
+.review-option-text,
+.review-summary-row strong,
+.review-summary-row span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
 .review-no-text {
   color: var(--muted);
 }
@@ -2652,6 +2662,8 @@ a {
 
 .review-verdict span {
   color: var(--ink);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .review-explanation {

@@ -546,6 +546,330 @@ def md5(path: Path) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Texto completo de enunciados y opciones
+# ---------------------------------------------------------------------------
+
+MONO_FONT_RE = re.compile(r"mono|nimbusmon|typewriter|courier|cmtt|consol|menlo", re.I)
+RUNNING_TEXT_RE = re.compile(r"^\d+(\s*/\s*\d+)?$|Escuela Superior de Inform|^Página\s+\d+", re.I)
+OPTION_PREFIX_RE = re.compile(r"^\(?([A-Za-z])\s*[.\)]\s*")
+MAX_STEM_CHARS = 2000
+MAX_OPTION_CHARS = 600
+
+
+SPACED_TEXT_RE = re.compile(r"(?:^|\s)\S\s\S\s\S(?:\s|$)")
+
+
+def bbox_words(path: Path) -> list[list[dict[str, Any]]]:
+    """Palabras de cada página con su posición, según pdftotext."""
+    out = run(["pdftotext", "-bbox", str(path), "-"])
+    pages: list[list[dict[str, Any]]] = []
+    for pm in re.finditer(r"<page [^>]*>(.*?)</page>", out, re.S):
+        words = []
+        for wm in re.finditer(
+            r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">(.*?)</word>',
+            pm.group(1),
+            re.S,
+        ):
+            x0, y0, x1, _y1, text = wm.groups()
+            words.append(
+                {"x0": float(x0), "y0": float(y0), "x1": float(x1), "text": html.unescape(text)}
+            )
+        pages.append(words)
+    return pages
+
+
+def repair_spaced_items(pages: list[dict[str, Any]], words_by_page: list[list[dict[str, Any]]]) -> None:
+    """pdftohtml separa las letras de los listados; pdftotext las une bien."""
+    for pi, page in enumerate(pages):
+        words = words_by_page[pi] if pi < len(words_by_page) else []
+        for it in page["items"]:
+            family = page["fonts"].get(it["font"], {}).get("family", "")
+            if not it["text"] or not (MONO_FONT_RE.search(family) or SPACED_TEXT_RE.search(it["text"])):
+                continue
+            inside = sorted(
+                (
+                    w
+                    for w in words
+                    if abs(w["y0"] - it["top"]) < 3
+                    and w["x0"] >= it["left"] - 1
+                    and w["x1"] <= it["left"] + it["w"] + 1
+                ),
+                key=lambda w: w["x0"],
+            )
+            if inside:
+                it["text"] = " ".join(w["text"] for w in inside)
+
+
+def is_mono(line: dict[str, Any], page: dict[str, Any]) -> bool:
+    """Línea de listado: predomina la fuente monoespaciada (no un término suelto)."""
+    # Los listados numerados llevan el número de línea como primera caja.
+    if len(line["items"]) > 1 and re.fullmatch(r"\d{1,3}", line["items"][0]["text"].strip()):
+        return True
+    total = sum(len(it["text"]) for it in line["items"])
+    mono = sum(
+        len(it["text"])
+        for it in line["items"]
+        if MONO_FONT_RE.search(page["fonts"].get(it["font"], {}).get("family", ""))
+    )
+    return total > 0 and mono / total >= 0.6
+
+
+def join_lines(lines: list[dict[str, Any]]) -> str:
+    """Une líneas de un PDF: repara guiones finales y respeta los listados de código."""
+    text = ""
+    previous_mono = False
+    mono_left = min(
+        (ln["left"] for ln in lines if ln.get("mono")), default=0.0
+    )
+    for ln in lines:
+        piece = ln["text"].strip()
+        if not piece:
+            continue
+        mono = bool(ln.get("mono"))
+        if mono:
+            first = ln["items"][0]
+            char_w = first["w"] / max(1, len(first["text"])) or 5.0
+            piece = " " * max(0, round((ln["left"] - mono_left) / char_w)) + piece
+        if not text:
+            text = piece
+        elif mono or previous_mono:
+            text += "\n" + piece
+        elif re.search(r"\w-$", text) and piece[0].islower():
+            text = text[:-1] + piece
+        else:
+            text += " " + piece
+        previous_mono = mono
+    return text.strip()
+
+
+def option_full_text(
+    m: dict[str, Any],
+    page: dict[str, Any],
+    page_markers_list: list[dict[str, Any]],
+    page_headers: list[Header],
+    consumed: set[int],
+) -> str:
+    """Texto completo de una opción, incluidas sus líneas de continuación."""
+    limit_y = page["H"]
+    for other in page_markers_list:
+        if abs(other["left"] - m["left"]) < 6 and other["cy"] > m["cy"] + 3:
+            limit_y = min(limit_y, other["top"])
+    for h in page_headers:
+        if h.top > m["cy"] + 3:
+            limit_y = min(limit_y, h.top)
+    col_right = page["W"]
+    for other in page_markers_list:
+        if other["left"] > m["left"] + 10 and m["cy"] - 5 <= other["cy"] < limit_y:
+            col_right = min(col_right, other["left"])
+
+    candidates = [
+        it
+        for it in page["items"]
+        if it["text"]
+        and it["left"] > m["left"] - 15
+        and (it["left"] > m["left"] + 1 or it["top"] + it["h"] / 2 > m["cy"] + 5.5)
+        and it["left"] < col_right - 1
+        and m["cy"] - 5.5 <= it["top"] + it["h"] / 2 < limit_y
+    ]
+    lines = build_lines({"items": candidates})
+    if not lines:
+        return m.get("otext", "")
+    for ln in lines:
+        ln["mono"] = is_mono(ln, page)
+
+    first = lines[0]
+    if abs(first["cy"] - m["cy"]) > 5.5:
+        return m.get("otext", "")
+    kept = [first]
+    text_left = first["left"]
+    # La letra puede ir en su propia caja: la sangría real es la del texto.
+    if len(first["items"]) > 1 and len(first["items"][0]["text"]) <= 2:
+        text_left = first["items"][1]["left"]
+    # Si bajo la letra no hay texto, la opción es un bloque (código, tabla) que
+    # puede empezar más a la izquierda que la letra.
+    letter_only = bool(re.fullmatch(r"\(?[A-Za-z]\s*[.\)]?", first["text"].strip()))
+    min_left = m["left"] - 15 if letter_only else min(text_left, first["left"]) - 3
+    for ln in lines[1:]:
+        gap = ln["cy"] - kept[-1]["cy"]
+        height = max(it["h"] for it in kept[-1]["items"])
+        if gap > max(1.7 * height, 16) or ln["left"] < min_left:
+            break
+        kept.append(ln)
+
+    for ln in kept:
+        for it in ln["items"]:
+            consumed.add(id(it))
+    text = join_lines(kept)
+    prefix = OPTION_PREFIX_RE.match(text)
+    if not prefix or prefix.group(1).lower() != m["letter"]:
+        return m.get("otext", "")
+    rest = text[prefix.end():].strip()
+    return "" if not rest.strip(" .") else rest
+
+
+def stem_lines_between(
+    pages: list[dict[str, Any]],
+    start: tuple[int, float],
+    end: tuple[int, float],
+    consumed: set[int],
+) -> list[dict[str, Any]]:
+    """Líneas no usadas por opciones entre dos posiciones (página, y) del examen."""
+    collected: list[dict[str, Any]] = []
+    for pi in range(start[0], end[0] + 1):
+        page = pages[pi]
+        items = []
+        for it in page["items"]:
+            if not it["text"] or id(it) in consumed:
+                continue
+            top = it["top"]
+            if pi == start[0] and top <= start[1]:
+                continue
+            if pi == end[0] and top >= end[1]:
+                continue
+            # Al cambiar de página se saltan cabeceras y pies.
+            if start[0] != end[0] and (top < page["H"] * 0.07 or top > page["H"] * 0.93):
+                continue
+            items.append(it)
+        for ln in build_lines({"items": items}):
+            if RUNNING_TEXT_RE.search(ln["text"].strip()):
+                continue
+            ln["mono"] = is_mono(ln, page)
+            collected.append(ln)
+    return collected
+
+
+BLOCK_LABEL_RE = re.compile(r"^(?://\s*)?\(?([A-Za-z])\)\.?(?:\s+(.*))?$")
+
+
+def assign_block_options(
+    g: dict[str, Any],
+    start: tuple[int, float],
+    pages: list[dict[str, Any]],
+    consumed: set[int],
+) -> None:
+    """Opciones con forma de bloque (código, tablas) etiquetado sobre las casillas.
+
+    Estos exámenes muestran "a) <bloque>  c) <bloque>" y debajo las casillas sin
+    texto. Se reparten los bloques por su etiqueta y su columna.
+    """
+    markers = {k: m for k, m in g.items() if re.fullmatch(r"[a-z]", k)}
+    empty = {k for k, m in markers.items() if not m.get("otext", "").strip(" .")}
+    if not empty:
+        return
+    first = min(markers.values(), key=lambda m: (m["page"], m["top"]))
+    page = pages[first["page"]]
+    top_limit = start[1] if start[0] == first["page"] else 0.0
+    region = [
+        it
+        for it in page["items"]
+        if it["text"] and id(it) not in consumed and top_limit < it["top"] < first["top"] - 1
+    ]
+    labels: dict[str, dict[str, Any]] = {}
+    for it in region:
+        match = BLOCK_LABEL_RE.match(it["text"].strip())
+        if match:
+            labels[match.group(1).lower()] = it
+    if not empty <= set(labels):
+        return
+
+    for letter in empty:
+        label = labels[letter]
+        right = page["W"]
+        bottom = first["top"] - 1
+        for other in labels.values():
+            if other is label:
+                continue
+            if other["left"] > label["left"] + 40:
+                right = min(right, other["left"] - 20)
+            elif other["top"] > label["top"] + 4 and abs(other["left"] - label["left"]) <= 40:
+                bottom = min(bottom, other["top"] - 1)
+        block = [
+            it
+            for it in region
+            if it is not label
+            and label["top"] < it["top"] < bottom
+            and label["left"] - 20 <= it["left"] < right
+            and it not in labels.values()
+        ]
+        lines = [ln for ln in build_lines({"items": block}) if not ln["text"].isdigit()]
+        for ln in lines:
+            ln["mono"] = is_mono(ln, page)
+        inline = BLOCK_LABEL_RE.match(label["text"].strip()).group(2) or ""
+        body = "\n".join(p for p in (inline, join_lines(lines)) if p)
+        markers[letter]["otext"] = re.sub(r"(\w)-\n([a-záéíóúñ])", r"\1\2", body)
+
+    # Todo lo que hay desde la primera etiqueta son opciones, no enunciado.
+    first_label_top = min(label["top"] for label in labels.values())
+    for it in region:
+        if it["top"] >= first_label_top - 2:
+            consumed.add(id(it))
+
+
+def attach_full_text(
+    groups: list[dict[str, Any]],
+    pages: list[dict[str, Any]],
+    headers: list[Header],
+    all_markers: list[dict[str, Any]],
+    words_by_page: list[list[dict[str, Any]]],
+) -> None:
+    """Completa g["questionText"] y m["otext"] con todas las líneas del PDF."""
+    repair_spaced_items(pages, words_by_page)
+    consumed: set[int] = set()
+    markers_by_page: dict[int, list[dict[str, Any]]] = {}
+    for marker in all_markers:
+        markers_by_page.setdefault(marker["page"], []).append(marker)
+    headers_by_page: dict[int, list[Header]] = {}
+    for h in headers:
+        headers_by_page.setdefault(h.page, []).append(h)
+
+    for g in groups:
+        for letter, m in g.items():
+            if re.fullmatch(r"[a-z]", letter):
+                m["otext"] = option_full_text(
+                    m,
+                    pages[m["page"]],
+                    markers_by_page[m["page"]],
+                    headers_by_page.get(m["page"], []),
+                    consumed,
+                )
+
+    previous: dict[str, Any] | None = None
+    intro_by_header: dict[int, str] = {}
+    for g in groups:
+        h = g["header"]
+        if h is None:
+            previous = g
+            continue
+        markers = [m for k, m in g.items() if re.fullmatch(r"[a-z]", k)]
+        first = min(markers, key=lambda m: (m["page"], m["top"]))
+        end = (first["page"], first["top"] - 1)
+        if h.seq in intro_by_header and previous is not None:
+            # Subapartado: enunciado común más el texto propio tras el anterior.
+            last = max(
+                (m for k, m in previous.items() if re.fullmatch(r"[a-z]", k)),
+                key=lambda m: (m["page"], m["top"]),
+            )
+            assign_block_options(g, (last["page"], last["top"] + 1), pages, consumed)
+            own = join_lines(
+                stem_lines_between(pages, (last["page"], last["top"] + 1), end, consumed)
+            )
+            g["questionText"] = "\n".join(p for p in (intro_by_header[h.seq], own) if p)
+        else:
+            assign_block_options(g, (h.page, h.top + 3), pages, consumed)
+            # Una línea de datos ("0.000754 ...") puede pasar por cabecera.
+            start_header = h
+            while start_header.number == "0" and start_header.seq > 0:
+                start_header = headers[start_header.seq - 1]
+            header_line = {"text": start_header.text, "items": [], "left": start_header.left}
+            lines = stem_lines_between(
+                pages, (start_header.page, start_header.top + 3), end, consumed
+            )
+            g["questionText"] = join_lines([header_line] + lines)
+            intro_by_header[h.seq] = g["questionText"]
+        previous = g
+
+
+# ---------------------------------------------------------------------------
 # Análisis de un examen
 # ---------------------------------------------------------------------------
 
@@ -647,6 +971,8 @@ def analyze_exam(path: Path, meta: dict[str, Any]) -> dict[str, Any]:
         if g["points"] is None:
             g["points"] = 1.0
 
+    attach_full_text(groups, pages, headers, all_markers, bbox_words(path))
+
     # Construir preguntas corregibles
     questions: list[dict[str, Any]] = []
     for idx, g in enumerate(groups):
@@ -702,7 +1028,7 @@ def analyze_exam(path: Path, meta: dict[str, Any]) -> dict[str, Any]:
                     "rect": [rect_x, rect_y, rect_w, rect_h],
                     "zone": [zone_x, zone_y, zone_w, zone_h],
                     "correct": letter in correct,
-                    "text": m.get("otext", "")[:180],
+                    "text": m.get("otext", "")[:MAX_OPTION_CHARS],
                 }
             )
         questions.append(
@@ -711,7 +1037,7 @@ def analyze_exam(path: Path, meta: dict[str, Any]) -> dict[str, Any]:
                 "number": qnum,
                 "points": round(float(g["points"]), 2),
                 "multi": multi,
-                "text": qtext[:400],
+                "text": qtext[:MAX_STEM_CHARS],
                 "answer": correct,
                 "options": options,
             }

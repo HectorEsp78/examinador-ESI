@@ -37,6 +37,11 @@
   "deck": "protocol-design",
   "page": 3
  },
+ "ssdd-2526-p1::q9": {
+  "text": "El mensaje debe indicar de qué motor es la lectura, junto con sus dos valores, usando lo justo. La d) añade IP y puerto, que corresponden al transporte; las otras no identifican al motor.",
+  "deck": "protocol-design",
+  "page": 15
+ },
  "ssdd-2526-p1::q10": {
   "text": "El temario cita la extensibilidad entre los aspectos no funcionales del diseño. Un protocolo debe ser independiente de lenguajes y sistemas operativos concretos.",
   "deck": "protocol-design",
@@ -236,6 +241,9 @@
  "ssdd-2526-p2::q5": {
   "text": "La diferencia instantánea entre relojes es el sesgo (skew). La deriva es la velocidad con que cambia, y la resolución es el periodo entre incrementos."
  },
+ "ssdd-2526-p2::q6": {
+  "text": "Respecto al maestro, los desfases son 0, +17, −10 y +37 min, y su media es +11. Cada nodo se ajusta a esa media: +11, −6, +21 y −26."
+ },
  "ssdd-2526-p2::q9": {
   "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S321: 3 + 2 + 1 = 6 eventos."
  },
@@ -244,6 +252,9 @@
  },
  "ssdd-2526-p2::q13": {
   "text": "Si dos mensajes son del mismo emisor, hay relación causal entre ellos. Por tanto, respetar la causalidad implica respetar el orden FIFO."
+ },
+ "ssdd-2526-p2::q14": {
+  "text": "Ricart y Agrawala pasa a WANTED, difunde la petición con su marca, espera N−1 respuestas y pasa a HELD. La c) acaba en RELEASED, y la d) es Maekawa (subconjunto Vi)."
  },
  "ssdd-2526-p2::q16": {
   "text": "Varios sensores deben acordar un único valor de velocidad, aun si alguno falla o da lecturas distintas. Eso es consenso distribuido, no elección ni exclusión."
@@ -306,6 +317,9 @@
  "ssdd-2526-p2x-es::q18": {
   "text": "El anillo funciona solo si el testigo sigue circulando: si no lo necesita, el proceso lo pasa de inmediato al siguiente. Retenerlo bloquearía a los demás."
  },
+ "ssdd-2526-p2x-es::q19": {
+  "text": "En el anillo cada proceso recibe del anterior y envía al siguiente. El proceso 2 envía a 3 (send(3,2)) y recibe de 1 (receive(2,1)), con el receptor como primer argumento."
+ },
  "ssdd-2526-p2x-es::q20": {
   "text": "Liveness significa que el algoritmo progresa y termina con un resultado: si queda algún proceso vivo, habrá coordinador."
  },
@@ -314,6 +328,9 @@
  },
  "ssdd-2526-p2x-es::q22": {
   "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
+ },
+ "ssdd-2526-p2x-es::q23": {
+  "text": "El servidor central solo usa 3 mensajes por acceso (petición, concesión y liberación), sin depender de N. El anillo gasta ancho de banda sin parar y los otros dos crecen con el número de procesos."
  },
  "ssdd-2526-p2x-es::q24": {
   "text": "Aunque se les llame «de coordinador», sirven para elegir un proceso para cualquier rol especial, no solo uno concreto."
@@ -376,6 +393,11 @@
  "ssdd-2425-p1::q7": {
   "text": "El temario lo indica: el filtrado de duplicados requiere reintentos y requestId. El servidor reconoce una repetición por ese identificador."
  },
+ "ssdd-2425-p1::q8": {
+  "text": "Un campo de 1 byte solo puede indicar hasta 255 bytes, así que no permite cualquier longitud. Con un terminador no hay ese límite, pero no se puede enviar un 0.",
+  "deck": "protocol-design",
+  "page": 5
+ },
  "ssdd-2425-p1::q9": {
   "text": "El temario define protocolo como las reglas que permiten comunicarse a varias entidades. Su objetivo es que los procesos se entiendan y coordinen; el rendimiento es secundario."
  },
@@ -433,6 +455,11 @@
   "deck": "protocol-design",
   "page": 15
  },
+ "ssdd-2425-p1x::q7": {
+  "text": "Para un mensaje periódico basta un identificador y dos enteros compactos. La b) usa cadena y pierde detalle con un bool, la c) omite los datos, y la d) no es sintaxis de Protocol Buffers.",
+  "deck": "protocol-design",
+  "page": 17
+ },
  "ssdd-2425-p1x::q8": {
   "text": "CRC o checksum permite detectar que el contenido se ha alterado, y el temario relaciona la integridad con la detección de errores. Por sí mismo no recupera ni elimina duplicados.",
   "deck": "protocol-design",
@@ -476,6 +503,9 @@
   "deck": "protocol-design",
   "page": 6
  },
+ "ssdd-2425-p1r::q3": {
+  "text": "En proto3 no existe required, lo que descarta b) y d). Tampoco hace falta enviar el carácter de fin ni la longitud del nombre: la serialización ya delimita los campos."
+ },
  "ssdd-2425-p1r::q4": {
   "text": "Concurrencia, ausencia de reloj global y fallos independientes son las tres características principales. La ausencia de coordinador central no figura entre ellas: de hecho, muchos SD usan uno."
  },
@@ -503,7 +533,7 @@
   "page": 23
  },
  "ssdd-2425-p1r::q10": {
-  "text": "Sobre una misma conexión pueden viajar invocaciones concurrentes. El identificador asocia cada respuesta con su petición, algo que TCP no hace.",
+  "text": "TCP elimina duplicados dentro de una conexión, pero no los reintentos de la aplicación, por ejemplo tras reconectar. Un identificador permite reconocer esas peticiones repetidas.",
   "deck": "remote-invocation",
   "page": 51
  },
@@ -511,6 +541,11 @@
   "text": "El temario sitúa sockets, paso de mensajes y multicast como primitivas IPC. La comunicación indirecta es un paradigma construido por encima de ellas.",
   "deck": "indirect",
   "page": 9
+ },
+ "ssdd-2425-p1r::q12": {
+  "text": "Son medidas periódicas sin necesidad de respuesta: si se pierde una, llega otra a los 5 minutos. Request es el estilo más simple y, según el temario, no espera confirmación.",
+  "deck": "remote-invocation",
+  "page": 7
  },
  "ssdd-2425-p1r::q13": {
   "text": "Según la tabla del temario, solo at-most-once filtra duplicados (y retransmite la respuesta). Maybe no reintenta, y at-least-once reejecuta.",
@@ -548,8 +583,11 @@
  "ssdd-2425-p2::q13": {
   "text": "Liveness significa que el algoritmo progresa y termina: todos deciden un resultado. Las opciones a) y d) hablan de sección crítica, propia de exclusión mutua."
  },
+ "ssdd-2425-p2::q14": {
+  "text": "El servidor central solo usa 3 mensajes por acceso (petición, concesión y liberación), sin depender de N. El anillo gasta ancho de banda sin parar y los otros dos crecen con el número de procesos."
+ },
  "ssdd-2425-p2::q15": {
-  "text": "El óptimo teórico de Maekawa es un tamaño de subconjunto de aproximadamente √N, con el que cada acceso cuesta unos 3√N mensajes."
+  "text": "El óptimo teórico de Maekawa es un tamaño de subconjunto de √N, con el que cada acceso cuesta unos 3√N mensajes. El símbolo √ puede verse separado de la N: compruébalo en el PDF."
  },
  "ssdd-2425-p2::q16": {
   "text": "Varios sensores deben acordar si disparar, aunque alguno dé valores erróneos o contradictorios. Eso es acuerdo con fallos arbitrarios: generales bizantinos."
@@ -604,6 +642,9 @@
  "ssdd-2425-p2x::q8": {
   "text": "CAP significa Consistencia, Disponibilidad y Tolerancia a particiones. No incluye ninguna ventana de inconsistencia."
  },
+ "ssdd-2425-p2x::q9": {
+  "text": "La deriva (drift) es la variación sistemática de la frecuencia de un reloj respecto a una referencia. El sesgo es la diferencia instantánea entre relojes, y la opción b) define mal el jitter."
+ },
  "ssdd-2425-p2x::q14": {
   "text": "Pagando por uso de la red, el testigo del anillo circula incluso sin peticiones y genera tráfico constante. Las otras opciones solo envían mensajes al pedir acceso."
  },
@@ -615,6 +656,11 @@
  },
  "ssdd-2425-p2x::q17": {
   "text": "En la notación Sijk, cada índice cuenta los eventos ocurridos en cada proceso. Para S221: 2 + 2 + 1 = 5 eventos."
+ },
+ "ssdd-2324-p1::q1": {
+  "text": "Coherencia: un nodo refleja la última escritura. Consistencia: todos ven los mismos datos en el mismo orden. No son lo mismo, ni tratan de disponibilidad o fragmentación.",
+  "deck": "intro",
+  "page": 22
  },
  "ssdd-2324-p1::q2": {
   "text": "Asíncrona significa que el emisor no espera: envía y continúa. Las dos primeras opciones hablan de mensajería síncrona, y por eso son contradictorias.",
@@ -643,6 +689,11 @@
  },
  "ssdd-2324-p1::q7": {
   "text": "En Protocol Buffers, repeated define un campo que aparece cualquier número de veces, como repeated string interests del ejemplo del temario."
+ },
+ "ssdd-2324-p1::q8": {
+  "text": "Un campo de 1 byte solo puede indicar hasta 255 bytes, así que no permite cualquier longitud. Con un terminador no hay ese límite, pero no se puede enviar un 0.",
+  "deck": "protocol-design",
+  "page": 5
  },
  "ssdd-2324-p1::q9": {
   "text": "El binder traduce un nombre estable a un endpoint variable, de modo que el cliente nombra el servicio sin indicar dónde está. Es lo que el temario llama transparencia de localización.",
@@ -803,6 +854,11 @@
   "deck": "indirect",
   "page": 16
  },
+ "ssdd-2324-p2::q1": {
+  "text": "Publicar, filtrar y subscribirse son las operaciones que publicadores y consumidores invocan sobre el intermediario. Por eso esa interfaz la implementa el broker.",
+  "deck": "indirect",
+  "page": 18
+ },
  "ssdd-2324-p2::q2": {
   "text": "Si el publicador da una callback, el broker le pide los datos cuando los necesita (pull); si la da el subscriptor, el broker se los entrega al llegar (push).",
   "deck": "indirect",
@@ -823,6 +879,9 @@
  },
  "ssdd-2324-p2::q6": {
   "text": "El consenso distribuido permite que los nodos decidan sin un único coordinador, evitando un cuello de botella y un punto de fallo."
+ },
+ "ssdd-2324-p2::q7": {
+  "text": "Hay que elegir otra estación si cae la coordinadora: es un problema de elección, y García Molina lo resuelve. Ricart-Agrawala y Maekawa son de exclusión mutua."
  },
  "ssdd-2324-p2::q8": {
   "text": "Maekawa evita preguntar a todos: cada proceso solicita permiso a un subconjunto que se solapa con los demás, y así se garantiza la exclusión con menos mensajes."
@@ -848,7 +907,7 @@
   "text": "La replicación asíncrona confirma antes de propagar, y ofrece baja latencia y consistencia eventual. Eso no garantiza ACID: se pueden ver datos antiguos o perder escrituras."
  },
  "ssdd-2324-p2::q15": {
-  "text": "Con N = 7 debe cumplirse R + W > 7 y W > 3,5. R = 1, W = 7 cumple las dos y hace las lecturas muy baratas; las opciones a) y c) no cumplen R + W > N."
+  "text": "ROWA significa Read One, Write All: se lee de una réplica y se escribe en todas. Con 7 nodos, eso es R = 1 y W = 7."
  },
  "ssdd-2324-p2x::q1": {
   "text": "El temario la define como comunicación entre emisor y receptor a través de un intermediario.",
@@ -880,6 +939,9 @@
  },
  "ssdd-2324-p2x::q7": {
   "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
+ },
+ "ssdd-2324-p2x::q8": {
+  "text": "Servidor central: petición y concesión, 2 mensajes. Ricart-Agrawala con multicast: 1 + 3 = 4. Ojo: el anillo también usa 2 (P3→P4→P1), pero el testigo circula siempre, y por eso se considera peor."
  },
  "ssdd-2324-p2x::q9": {
   "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
@@ -1043,6 +1105,11 @@
  "ssdd-2223-p1x::q13": {
   "text": "At-least-once requiere reintentos, por lo que necesita respuesta para saber cuándo parar. RR es suficiente, mientras que RRA solo hace falta para la historia de respuestas."
  },
+ "ssdd-2223-p1x::q14": {
+  "text": "Protocol Buffers resuelve la serialización, pero las operaciones del servicio no las define. Ojo: la conexión y el API de socket también siguen a tu cargo, así que la opción marcada es discutible.",
+  "deck": "remote-invocation",
+  "page": 29
+ },
  "ssdd-2223-p1x::q15": {
   "text": "Según el temario, en REST «se usa la misma interfaz para cualquier recurso», mientras que en RPC/RMI cada servicio define sus operaciones.",
   "deck": "remote-invocation",
@@ -1145,6 +1212,12 @@
   "text": "Con servidor central, todas las peticiones de entrada a la sección crítica pasan por él, y usa pocos mensajes. Al crecer el sistema, su problema es el cuello de botella.",
   "deck": "remote-invocation",
   "page": 11
+ },
+ "ssdd-2223-p2::q13": {
+  "text": "Atiende a 1, 4 y 5 en ese orden: 3 peticiones + concesión y liberación de 1 (2) + concesión y liberación de 4 (2) + concesión a 5 (1) = 8 mensajes."
+ },
+ "ssdd-2223-p2::q14": {
+  "text": "El testigo va en orden creciente desde el proceso 3: pasa a 4 y luego a 5. Son 2 mensajes."
  },
  "ssdd-2223-p2::q15": {
   "text": "El proceso envía N−1 peticiones y espera N−1 respuestas. En total, 2(N−1) mensajes sin multicast."
@@ -1293,7 +1366,7 @@
   "text": "La tabla del temario indica que at-most-once necesita reintentos, filtro de duplicados y retransmisión de la respuesta. Reenviar sin filtrar podría aplicar dos veces la operación."
  },
  "ssdd-2122-p1::q14": {
-  "text": "A es el cliente y B el servidor: A serializa el argumento y B lo deserializa; a la vuelta, B serializa el retorno y A lo deserializa. Pasar por valor no evita serializar.",
+  "text": "A es el cliente y B el servidor: A serializa el argumento antes de enviarlo y B lo deserializa al recibirlo. Pasar por valor no evita serializar.",
   "deck": "remote-invocation",
   "page": 18
  },
@@ -1564,6 +1637,9 @@
  "ssdd-2122-p2x::q14": {
   "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
  },
+ "ssdd-2122-p2x::q15": {
+  "text": "Servidor central: petición y concesión, 2 mensajes. Ricart-Agrawala con multicast: 1 + 3 = 4. Ojo: el anillo también usa 2 (P3→P4→P1), pero el testigo circula siempre, y por eso se considera peor."
+ },
  "ssdd-2122-p2x::q16": {
   "text": "Replicar es mantener copias idénticas de un recurso o servicio en varios nodos, para mejorar disponibilidad y rendimiento."
  },
@@ -1584,6 +1660,11 @@
  },
  "ssdd-2021-ejx::q3": {
   "text": "El cliente paho-mqtt debe mantener un bucle que procese mensajes de red. loop_forever() lo hace, y sin él nunca se ejecutan las callbacks."
+ },
+ "ssdd-2021-ejx::q5": {
+  "text": "struct.unpack convierte bytes en campos a partir de un formato: eso es des-serializar al recibir. Para enviar se usaría struct.pack.",
+  "deck": "protocol-design",
+  "page": 17
  },
  "ssdd-2021-ejx::q6": {
   "text": "ParseFromString es la operación de des-serialización y luego se accede al campo. Ojo: en Python real devuelve bytes leídos, así que habría que separar la llamada y el acceso."
@@ -1613,6 +1694,9 @@
   "text": "El temario indica que gestiona el marshalling entre estructuras del lenguaje y secuencias binarias, y viceversa. No define operaciones ni sincroniza mensajes.",
   "deck": "protocol-design",
   "page": 17
+ },
+ "ssdd-2021-p1::q7": {
+  "text": "Con struct, cliente y servidor mantienen a mano el mismo formato binario, y cualquier desajuste provoca errores. Por eso es falso que sea menos propenso a errores."
  },
  "ssdd-2021-p1::q8": {
   "text": "Serializar con Python en binario (p. ej. struct) incluye solo los valores, sin etiquetas de campo. XML y JSON son textuales, y Protocol Buffers añade identificadores de campo.",
@@ -1681,6 +1765,9 @@
  "ssdd-2021-p1x::q7": {
   "text": "BSON es binario y por tanto compacto, adecuado para datagramas UDP. XML, JSON y YAML son textuales y mayores."
  },
+ "ssdd-2021-p1x::q8": {
+  "text": "El diagrama aporta el orden de invocaciones y sus argumentos (temporización y parte de la sintaxis), y el documento explica formatos y significado. Cubren los tres aspectos."
+ },
  "ssdd-2021-p1x::q9": {
   "text": "protoc genera código de acceso y serialización, pero no añade campos como CRC o marca de tiempo. Si hacen falta, hay que definirlos."
  },
@@ -1742,6 +1829,9 @@
  },
  "ssdd-2021-p1r::q7": {
   "text": "El temario asocia integridad con detección y corrección de errores, y eso lo aporta un CRC. Marca de tiempo, versión o identificadores no sirven para ese fin."
+ },
+ "ssdd-2021-p1r::q8": {
+  "text": "En proto3 no existe required, lo que descarta c) y d). La versión es un dato de la respuesta, no de la petición, así que se modela con su propio mensaje."
  },
  "ssdd-2021-p1r::q9": {
   "text": "Wireshark solo captura y analiza tráfico: sirve para ver mensajes y su encapsulado, pero no modifica lo que se envía.",
@@ -1836,6 +1926,11 @@
   "deck": "indirect",
   "page": 26
  },
+ "ssdd-2021-p2::q22": {
+  "text": "Publicar, filtrar y subscribirse son las operaciones que publicadores y consumidores invocan sobre el intermediario. Por eso esa interfaz la implementa el broker.",
+  "deck": "indirect",
+  "page": 18
+ },
  "ssdd-2021-p2::q23": {
   "text": "Las estaciones publican datos y muchos interesados los reciben sin conocerse. Publicador-subscriptor encaja: el temario cita la monitorización del tiempo como ejemplo.",
   "deck": "indirect",
@@ -1845,6 +1940,22 @@
   "text": "Una sección crítica es un fragmento de código cuyo acceso concurrente da lugar a condiciones de carrera. Es código, no un proceso, y el problema no es de seguridad.",
   "deck": "intro",
   "page": 22
+ },
+ "ssdd-2021-p2x::q3": {
+  "text": "3 peticiones + concesión y liberación de 3 (2) + concesión y liberación de 6 (2) + concesión a 9 (1) = 8 mensajes.",
+  "deck": "intro",
+  "page": 22
+ },
+ "ssdd-2021-p2x::q4": {
+  "text": "Cada acceso cuesta 2(N−1) mensajes. Con los 10 procesos del enunciado anterior son 18 por proceso; el 5 tiene marca menor y entra antes, así que el 4 necesita ambas tandas: 36."
+ },
+ "ssdd-2021-p2x::q6": {
+  "text": "Orden total significa que todos los procesos entregan los mensajes en la misma secuencia. Solo la d) lo cumple, con m1, m2, m3 en los tres."
+ },
+ "ssdd-2021-p2x::q7": {
+  "text": "Si el gestor almacena los eventos, el subscriptor no tiene que estar presente. Basta que el publicador y el gestor coexistan en el momento del envío.",
+  "deck": "indirect",
+  "page": 10
  },
  "ssdd-2021-p2x::q8": {
   "text": "El temario indica que los exchanges implementan el enrutado, aplicando claves mediante los tipos direct, fan-out y topic.",
@@ -1894,6 +2005,9 @@
  "ssdd-2021-p2x::q23": {
   "text": "Es el tiempo desde una escritura hasta que se garantiza que cualquier lectura vea ese valor, es decir, lo que tarda en propagarse."
  },
+ "ssdd-2021-p2x::q24": {
+  "text": "Con líder y seguidores, todo se hace sobre el líder, que después propaga. Es lo más sencillo, y los seguidores pueden quedar retrasados: consistencia débil."
+ },
  "ssdd-1920-p1::q1": {
   "text": "Son las tres características del temario. Las alternativas incluyen fiabilidad o latencia nula, que en realidad son falacias."
  },
@@ -1917,6 +2031,11 @@
   "deck": "remote-invocation",
   "page": 28
  },
+ "ssdd-1920-p1::q6": {
+  "text": "Indica protocolo, LED y operación, y en la respuesta el resultado. IP y puerto pertenecen a capas inferiores, y la b) carece de la operación.",
+  "deck": "protocol-design",
+  "page": 15
+ },
  "ssdd-1920-p1::q7": {
   "text": "Un campo de versión permite distinguir qué formato o conjunto de operaciones usa un mensaje, de modo que el protocolo evoluciona sin romper a los clientes antiguos."
  },
@@ -1924,6 +2043,14 @@
   "text": "La temporización o sincronización especifica los patrones válidos de intercambio de mensajes. No se refiere a relojes ni a marcas de tiempo.",
   "deck": "protocol-design",
   "page": 7
+ },
+ "ssdd-1920-p1::q9": {
+  "text": "Tiene operación e identificador obligatorios, y value es opcional porque solo lo usan ciertas operaciones. La a) añade versión innecesaria, la b) mezcla respuesta, y la c) obliga siempre a value.",
+  "deck": "protocol-design",
+  "page": 17
+ },
+ "ssdd-1920-p1::q10": {
+  "text": "En Protocol Buffers con Python, ParseFromString rellena el objeto a partir de bytes. SerializeToString hace lo contrario; unpack y ntohs pertenecen a struct y a sockets."
  },
  "ssdd-1920-p1::q11": {
   "text": "Abrir una puerta ya abierta no cambia nada: es idempotente. Al no importar la repetición, basta reintentar sin filtrar, y at-least-once es la opción más barata que garantiza la acción."
@@ -1966,7 +2093,7 @@
   "text": "El temario llama apertura (openness) a la capacidad de extender el sistema gracias a interfaces abiertas. De ahí el término sistemas abiertos."
  },
  "ssdd-1920-p1x::q6": {
-  "text": "Protocol Buffers usa campos numerados: añadir uno nuevo no rompe a los programas antiguos, que lo ignoran. El temario lo cita como compatibilidad hacia atrás.",
+  "text": "Protocol Buffers usa campos numerados, así que añadir uno al final apenas afecta al resto. Ojo: en la versión 2, un campo required rompería a los programas antiguos; optional sería más seguro.",
   "deck": "protocol-design",
   "page": 17
  },
@@ -2062,6 +2189,11 @@
   "text": "Un exchange topic entrega según patrones sobre la clave de enrutado, y así cada consumidor recibe solo los mensajes que le interesan. Fanout enviaría todo a todos.",
   "deck": "indirect",
   "page": 13
+ },
+ "ssdd-1920-p2::q4": {
+  "text": "En un topic exchange, * equivale a una palabra. La clave tiene dos palabras: encajan *.* y *.comunicacionindirecta, pero no ssdd.*.*, que requiere tres.",
+  "deck": "remote-invocation",
+  "page": 43
  },
  "ssdd-1920-p2::q5": {
   "text": "El temario distingue recepción bloqueante (pull), no bloqueante con sondeo (polling) y notificación (push). En polling, el consumidor sigue trabajando y consulta periódicamente.",
@@ -2198,7 +2330,7 @@
   "text": "Agotar memoria sugiere basura distribuida, que se detecta evaluando un predicado global sobre el estado del sistema. Marzullo-Neiger detecta predicados globales; Berkeley sincroniza relojes y Chandy-Lamport toma instantáneas."
  },
  "ssdd-1920-p2x::q9": {
-  "text": "Chandy-Lamport obtiene un estado global, y con él se puede analizar el uso de memoria. Ojo: en una pregunta casi idéntica de otro examen se marca Marzullo-Neiger, así que conviene confirmarlo."
+  "text": "Para obtener un estado global se usa el algoritmo de instantánea de Chandy-Lamport. Marzullo-Neiger evalúa predicados sobre esos estados, y Berkeley sincroniza relojes."
  },
  "ssdd-1920-p2x::q10": {
   "text": "Con un reloj a 1 Hz, dos eventos dentro del mismo segundo tienen la misma marca y no se pueden ordenar. Eso solo ocurre con eventos muy frecuentes, como los coches de una autovía de 8 carriles."
@@ -2214,6 +2346,9 @@
  },
  "ssdd-1920-p2x::q18": {
   "text": "Sin multicast, se envían N−1 peticiones individuales. Con multicast basta uno y N−1 respuestas: en total pasa de 2(N−1) a N."
+ },
+ "ssdd-1920-p2x::q19": {
+  "text": "En el mejor caso, el proceso ya tiene el testigo y entra sin enviar ningún mensaje. El centralizado siempre necesita petición y concesión. Cristian ni siquiera es de exclusión mutua."
  },
  "ssdd-1920-p2x::q20": {
   "text": "Ricart y Agrawala pide permiso a todos. Maekawa demuestra que basta con un subconjunto solapado, lo que reduce mensajes."
@@ -2241,6 +2376,9 @@
  },
  "ssdd-1920-p2x::q27": {
   "text": "Ver cómo aumenta el saldo por pasos muestra estados intermedios de la transacción. El aislamiento garantiza que esos estados no sean visibles."
+ },
+ "ssdd-1920-p2x::q28": {
+  "text": "Falta dinero al terminar: puede deberse a que no se aplicó todo, a un estado incorrecto o a interferencias. La durabilidad solo protege lo ya confirmado, y no tiene relación con esto."
  },
  "ssdd-1920-p2x::q29": {
   "text": "Reservar más plazas de las que tiene el avión viola una regla de integridad de los datos. Eso es falta de consistencia, la C de ACID.",
@@ -2327,6 +2465,16 @@
   "text": "Maybe no hace reintentos, ni filtrado de duplicados ni historia, y por tanto gasta menos mensajes y memoria.",
   "deck": "remote-invocation",
   "page": 13
+ },
+ "ssdd-1718-labx::q1": {
+  "text": "Con el container, el Player solo necesita un proxy, y desde él puede obtener todas las factorías, sin conocerlas por separado.",
+  "deck": "intro",
+  "page": 11
+ },
+ "ssdd-1718-labx::q2": {
+  "text": "Una factoría crea los objetos en su propio proceso y devuelve sus proxies. Con esta interfaz, todos quedan en el mismo nodo que la factoría.",
+  "deck": "remote-invocation",
+  "page": 31
  },
  "ssdd-1718-readingsx::q1": {
   "text": "Completitud: todo fallo acaba detectándose. Exactitud: no se acusa de fallo a un proceso correcto. Son las dos propiedades de un detector.",
@@ -2463,7 +2611,7 @@
   "page": 16
  },
  "ssdd-1718-p1x::q7": {
-  "text": "A es el cliente y B el servidor: A serializa el argumento y B lo deserializa; a la vuelta, B serializa el retorno y A lo deserializa.",
+  "text": "A es el cliente y B el servidor: A serializa el argumento antes de enviarlo y B lo deserializa al recibirlo.",
   "deck": "remote-invocation",
   "page": 18
  },
@@ -2612,11 +2760,14 @@
  "ssdd-1718-p2::q13": {
   "text": "Chang y Roberts es un algoritmo de elección en anillo, que elige como coordinador al proceso de mayor identificador."
  },
+ "ssdd-1718-p2::q14": {
+  "text": "Hay que elegir otra estación si cae la coordinadora. García Molina tolera esos fallos; el anillo básico no los tolera tan bien, y Ricart-Agrawala es de exclusión mutua."
+ },
  "ssdd-1718-p2::q15": {
   "text": "En el anillo, el testigo circula de forma continua aunque nadie quiera entrar en la sección crítica. Por eso consume ancho de banda aunque no se use."
  },
  "ssdd-1718-p2::q16": {
-  "text": "Con el tamaño óptimo √N, entrar cuesta unos 2√N mensajes (petición y voto) y salir √N (liberar), para un total de 3√N por acceso."
+  "text": "Con el tamaño óptimo √N, entrar cuesta 2√N mensajes (petición y voto), y salir √N más. El símbolo √ puede verse separado: compruébalo en el PDF."
  },
  "ssdd-1718-p2::q17": {
   "text": "Un secuenciador asigna a cada mensaje un número global y todos lo entregan según ese orden. Es sencillo, aunque el secuenciador es un punto único de fallo. IP no ofrece orden alguno."
@@ -2624,17 +2775,26 @@
  "ssdd-1718-p2::q18": {
   "text": "Respetar el orden de mensajes relacionados causalmente es la definición de multicast causal. FIFO solo garantiza el orden entre mensajes de un mismo emisor."
  },
+ "ssdd-1718-p2::q19": {
+  "text": "La partición (1,2,4) tiene mayoría de 3 sobre 5, así que puede actualizar: NV sube a 4 y SC pasa a 3. Los nodos 3 y 5 no participan y se quedan en (3,5)."
+ },
  "ssdd-1718-p2::q20": {
   "text": "Debe cumplirse R + W > N: con N = 7, R = 3 y W = 4 suman 7, sin superarlo, y una lectura podría no solapar con la última escritura."
  },
+ "ssdd-1718-p2::q21": {
+  "text": "Coste medio = 0,7 · 3 + 0,3 · 8 = 2,1 + 2,4 = 4,5 veces el coste de una operación."
+ },
  "ssdd-1718-p2::q22": {
-  "text": "En serie, deben funcionar los cuatro: con fallo 0,1 por componente, R = 0,9⁴ = 0,6561. Se ha tomado 0,1, coherente con el resultado marcado."
+  "text": "En serie, deben funcionar los cuatro. Con probabilidad de fallo 0,1 por componente, R = 0,9⁴ = 0,6561. Ojo: el dato del fallo se lee mal en el texto; compruébalo en el PDF."
  },
  "ssdd-1718-p2::q23": {
   "text": "Un sector corrupto no se arregla solo y falla cada vez que se accede. Un fallo transitorio desaparece y uno intermitente aparece y desaparece."
  },
  "ssdd-1718-p2::q24": {
   "text": "Un fallo (fault) produce un error en el estado, y este puede llevar a una avería (failure) visible. Es la cadena clásica de la fiabilidad."
+ },
+ "ssdd-1718-p2x::q1": {
+  "text": "En el anillo cada proceso recibe del anterior y envía al siguiente. El proceso 2 envía a 3 (send(3,2)) y recibe de 1 (receive(2,1)), con el receptor como primer argumento."
  },
  "ssdd-1718-p2x::q2": {
   "text": "Cristian estima hora = hora del servidor + RTT/2. Con un RTT de 2 s, a la hora indicada por el servidor se le suma 1 s."
@@ -2650,10 +2810,16 @@
  "ssdd-1718-p2x::q7": {
   "text": "Los vectores de versiones permiten trabajar sin bloquear y detectar conflictos a posteriori, de modo que es optimista. Copia primaria, réplicas activas y quorum previenen divergencias."
  },
+ "ssdd-1718-p2x::q8": {
+  "text": "Con dos niveles equilibrados, se agrupan √49 = 7 hojas en cada una de las 7 réplicas intermedias."
+ },
  "ssdd-1718-p2x::q9": {
-  "text": "En paralelo, el sistema solo falla si fallan los tres: Q = 0,2³ = 0,008, y R = 1 − Q = 0,992. Se ha tomado Q = 0,2 por componente, coherente con el resultado marcado.",
+  "text": "En paralelo, el sistema solo falla si fallan los tres. Cada componente falla con 1 − 0,8 = 0,2, así que Q = 0,2³ = 0,008 y R = 1 − Q = 0,992.",
   "deck": "intro",
   "page": 23
+ },
+ "ssdd-1718-p2x::q11": {
+  "text": "P1 y P3 ven m3 antes que m4, y P2 y P4 al revés. Se viola el FIFO de P2 y, con él, el causal; además, cada proceso ve un orden distinto, así que tampoco hay orden total."
  },
  "ssdd-1718-p2x::q12": {
   "text": "Multicast fiable se define por integridad, validez y acuerdo. La terminación es propia del problema de consenso, no de esa definición."
@@ -2671,8 +2837,28 @@
  "ssdd-1718-p2x::q17": {
   "text": "Aquí N = 8, y debe cumplirse W > N/2: W = 3 no llega, y dos escrituras simultáneas no solaparían. Las demás cumplen también R + W > N."
  },
+ "ssdd-1718-p2x::q18": {
+  "text": "Lectura: 5 réplicas × 5 = 25. Escritura: 5 réplicas × 15 = 75. Media: 0,8 · 25 + 0,2 · 75 = 20 + 15 = 35."
+ },
+ "ssdd-1718-p2x::q19": {
+  "text": "Actualiza p1, con 5 de 8 nodos: tiene mayoría. Sus nodos pasan a NV=16 y SC=5, mientras que el nodo 8, en p2, no participa y sigue en (15,8).",
+  "deck": "remote-invocation",
+  "page": 56
+ },
+ "ssdd-1718-p2x::q20": {
+  "text": "4 peticiones + concesión y liberación de los procesos 1, 2 y 3 (6) + concesión al 4 (1) = 11 mensajes."
+ },
+ "ssdd-1718-p2x::q21": {
+  "text": "El testigo pasa de 1 a 2, de 2 a 3 y de 3 a 4: son 3 mensajes."
+ },
+ "ssdd-1718-p2x::q22": {
+  "text": "Si hay 4 procesos, 1 y 3 envían 3 peticiones cada uno (6) y el proceso 1, con marca menor, recibe 3 respuestas: 9 mensajes. La cifra de procesos se deduce del escenario."
+ },
+ "ssdd-1718-p2x::q23": {
+  "text": "Con multicast, cada petición es un solo mensaje (2 en total), más las 3 respuestas que recibe el proceso 1: 5 mensajes."
+ },
  "ssdd-1718-readings::q1": {
-  "text": "En consenso, cada proceso puede proponer un valor; en el problema de acuerdo bizantino, solo uno (el comandante) propone el valor inicial. Ojo: el texto de esta opción está cortado, consúltalo en el PDF."
+  "text": "La solución marcada dice que el consenso parte de un valor propuesto por un proceso, y el acuerdo no. Ojo: en la bibliografía es común lo contrario, con todos proponiendo en consenso y un comandante en el acuerdo bizantino."
  },
  "ssdd-1718-readings::q2": {
   "text": "Un algoritmo de consenso debe cumplir terminación, acuerdo e integridad. Validez es otra forma de referirse a esta última, y aparece junto a ellas en esta opción."
@@ -2724,7 +2910,7 @@
   "text": "Las paradas suman 3,85 + 4,15 = 8 días. Disponibilidad = (365 − 8) / 365 = 357 / 365 ≈ 97,8 %."
  },
  "ssdd-1718-readings::q15": {
-  "text": "Los 4 componentes son imprescindibles, y por tanto el sistema está en serie: la disponibilidad total es el producto de las cuatro, y es menor que cualquiera de ellas."
+  "text": "Los 4 componentes son imprescindibles, y por tanto el sistema está en serie: 0,85 · 0,99 · 0,98 · 0,88 ≈ 0,7257, es decir, 72,57 %."
  },
  "ssdd-1516-extra::q1": {
   "text": "Las características necesarias son concurrencia, falta de reloj global y fallos independientes. Que los nodos estén en Internet no es necesario: basta cualquier red.",
@@ -2751,13 +2937,30 @@
   "deck": "indirect",
   "page": 4
  },
+ "ssdd-1516-extra::q6": {
+  "text": "La bombilla es el servidor: implementa el sirviente con on(). El teléfono solo invoca mediante un proxy."
+ },
+ "ssdd-1516-extra::q7": {
+  "text": "Los sensores deben reintentar explícitamente hasta tener confirmación: el fallo no está oculto, sino resuelto en la aplicación. Por eso no hay transparencia.",
+  "deck": "remote-invocation",
+  "page": 28
+ },
  "ssdd-1516-extra::q8": {
   "text": "Con sockets toda la funcionalidad se implementa a mano y el temario los describe como propensos a errores. Un middleware genera ese código y reduce los errores de programación.",
   "deck": "remote-invocation",
   "page": 29
  },
+ "ssdd-1516-extra::q9": {
+  "text": "RTT = 25 − 5 = 20. Cristian asume RTT/2, de modo que la cota de error es ±10."
+ },
+ "ssdd-1516-extra::q10": {
+  "text": "Un corte es inconsistente si incluye un efecto sin su causa. Aquí, la recepción e4 sin el envío e3."
+ },
  "ssdd-1516-extra::q11": {
   "text": "Berkeley sincroniza relojes físicos. Marzullo-Neiger evalúa predicados globales, García Molina es de elección y Chandy-Lamport toma instantáneas."
+ },
+ "ssdd-1516-extra::q12": {
+  "text": "Se paga por byte, así que importa enviar pocos mensajes. El anillo gasta sin parar, Ricart-Agrawala pide a todos, y Maekawa reduce el grupo. Chang y Roberts no es de exclusión mutua."
  },
  "ssdd-1516-extra::q13": {
   "text": "Según el temario, el broker recibe eventos de los publicadores y los entrega a los subscriptores según sus intereses. Las demás tareas son secundarias.",
@@ -2790,6 +2993,9 @@
  },
  "ssdd-1516-extra::q20": {
   "text": "La grúa es un recurso físico que debe manejar un solo operador cada vez, con varios puestos separados. Es el caso típico de acceso exclusivo distribuido."
+ },
+ "ssdd-1516-extra::q21": {
+  "text": "Si el recién llegado no se proclama, no sabría quién coordina. Por eso, en el abusón, el proceso de mayor identificador que revive inicia la elección y gana."
  },
  "ssdd-1516-extra::q22": {
   "text": "Por cada participante hay cuatro mensajes: canCommit, voto, doCommit y haveCommitted. En total, 4N."
@@ -2845,8 +3051,14 @@
  "ssdd-1516-p2::q3": {
   "text": "Si los componentes deben acordar una decisión aunque alguno dé valores erróneos, se trata de generales bizantinos: fallos arbitrarios con necesidad de acuerdo."
  },
+ "ssdd-1516-p2::q4": {
+  "text": "Servidor central: petición y concesión, 2 mensajes. Ricart-Agrawala con multicast: 1 + 3 = 4. Ojo: el anillo también usa 2 (P3→P4→P1), pero el testigo circula siempre, y por eso se considera peor."
+ },
  "ssdd-1516-p2::q5": {
   "text": "IP multicast no tiene conexiones punto a punto, de modo que no puede usar TCP. Por eso se implementa sobre UDP."
+ },
+ "ssdd-1516-p2::q6": {
+  "text": "El cliente llama a una sola función, y la existencia de 4 copias queda oculta. Esa es la transparencia de replicación, que el temario define como no ser consciente de las réplicas."
  },
  "ssdd-1516-p2::q7": {
   "text": "Con sockets toda la funcionalidad se implementa a mano y el temario los describe como propensos a errores. Un middleware genera ese código y reduce los errores de programación.",
@@ -2904,6 +3116,14 @@
   "deck": "remote-invocation",
   "page": 28
  },
+ "ssdd-1516-p3::q6": {
+  "text": "RTT = 12:00:40 − 12:00:18 = 22 s. Cristian corrige con RTT/2, de modo que la cota de error es ±11 s."
+ },
+ "ssdd-1516-p3::q7": {
+  "text": "Cristian: hora del servidor + RTT/2 = 12:00:35 + 22/2 = 12:00:46.",
+  "deck": "remote-invocation",
+  "page": 12
+ },
  "ssdd-1516-p3::q8": {
   "text": "Detectar basura exige evaluar un predicado global (que un objeto ya no sea referenciado), y eso hace Marzullo-Neiger. Cristian sincroniza relojes; García Molina y Chang-Roberts son algoritmos de elección."
  },
@@ -2918,6 +3138,9 @@
  },
  "ssdd-1516-p3::q12": {
   "text": "Un fallo bizantino es arbitrario: el componente puede actuar como si fuese malicioso, como enviar datos distintos a cada proceso. No se limita a procesos o a comunicaciones."
+ },
+ "ssdd-1516-p3::q13": {
+  "text": "Si el recién llegado no se proclama, no sabría quién coordina. Por eso, en el abusón, el proceso de mayor identificador que revive inicia la elección y gana."
  },
  "ssdd-1516-p3::q14": {
   "text": "Un grupo cerrado solo admite mensajes de sus miembros; uno abierto admite también los de procesos externos."
@@ -2943,6 +3166,9 @@
  "ssdd-1516-p3::q22": {
   "text": "Logging consiste en registrar en un fichero de recuperación la historia de las transacciones. Shadow version usa, en cambio, copias alternativas de los datos."
  },
+ "ssdd-1516-p3::q23": {
+  "text": "Bloquear todo al principio mantiene los recursos ocupados aunque aún no se usen, y por tanto limita más que el resto la concurrencia."
+ },
  "ssdd-1516-p3::q24": {
   "text": "Con muchas escrituras, los conflictos son frecuentes: el control optimista abortaría mucho. Los bloqueos en dos fases los previenen de antemano."
  },
@@ -2961,7 +3187,7 @@
   "page": 17
  },
  "ssdd-1415-p1::q5": {
-  "text": "Una operación bancaria no debe perderse ni duplicarse, de modo que debe aplicarse exactamente una vez. El temario pone la transferencia bancaria como ejemplo de exactly-once, posible aunque cara."
+  "text": "El examen marca exactly-once como imposible porque, con fallos, el cliente no siempre puede saber si la operación se ejecutó. Ojo: el temario dice que es «posible, pero cara», así que hay discrepancia con esta solución."
  },
  "ssdd-1415-p1::q6": {
   "text": "El temario indica que todo protocolo implica tres aspectos: sintaxis, semántica y sincronización o temporización.",
@@ -2974,8 +3200,19 @@
  "ssdd-1415-p2::q1": {
   "text": "Un SD carece de reloj global: sus componentes se coordinan solo mediante mensajes. Por eso es falso que se sincronicen con un reloj físico común."
  },
+ "ssdd-1415-p2::q2": {
+  "text": "Muchas empresas publican y otras reciben según sus intereses, sin conocerse. Eso es el modelo de eventos, más desacoplado que RMI o RPC, según el temario.",
+  "deck": "indirect",
+  "page": 12
+ },
+ "ssdd-1415-p2::q3": {
+  "text": "Piden elegir un coordinador, y García Molina (abusón) es un algoritmo de elección tolerante a fallos. Berkeley sincroniza relojes, y Ricart-Agrawala es de exclusión mutua."
+ },
  "ssdd-1415-p2::q4": {
   "text": "Sin multicast, Ricart y Agrawala usa 2(N−1) mensajes. Maekawa solo contacta con un subconjunto, unos 3√N, de modo que se comporta mejor."
+ },
+ "ssdd-1415-p2::q5": {
+  "text": "Una dirección privada no es única en Internet, y un puerto puede cambiar o compartirse. Por eso no identifica de forma estable; UUID e IP pública + proceso sí son mejores."
  },
  "ssdd-1415-p2::q6": {
   "text": "El sesgo es la diferencia instantánea entre dos relojes, mientras que la deriva es la velocidad con la que cambia esa diferencia con respecto a la referencia."
@@ -3008,6 +3245,9 @@
   "text": "El subscriptor no tiene relación directa con el publicador, ni puede devolverle una excepción: el broker los desacopla. Ojo: la opción d) también parece dudosa, ya que el canal evita esa coordinación.",
   "deck": "indirect",
   "page": 13
+ },
+ "ssdd-1415-p2::q14": {
+  "text": "Chang y Roberts es un algoritmo de elección de líder en anillo, de modo que el problema era ese."
  },
  "ssdd-1415-p2::q15": {
   "text": "Los sockets son el mecanismo más eficiente, aunque más complejo. Un videojuego en tiempo real prioriza la latencia frente a la comodidad de un middleware.",

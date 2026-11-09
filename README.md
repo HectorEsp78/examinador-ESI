@@ -106,7 +106,8 @@ El script:
 
 1. Empareja cada PDF sin corregir con su versión `.solved.pdf`.
 2. Usa el PDF corregido como documento visible y oculta los cuadros marcados.
-3. Extrae coordenadas de preguntas, opciones y marcas de solución.
+3. Extrae coordenadas de preguntas, opciones y marcas de solución, y el texto
+   completo de enunciados y opciones (varias líneas, listados y opciones en bloque).
 4. Reparte los puntos de bloques y subapartados.
 5. Detecta la penalización en el enunciado.
 6. Copia los PDFs a `app/pdfs/` y escribe `app/data/exams.json`.
@@ -211,8 +212,9 @@ Las explicaciones de SSDD están **redactadas con IA a partir del temario y de l
 solución de cada examen**, y **no están revisadas por el profesorado**. Algunas
 preguntas tratan temas que no están en las diapositivas (por ejemplo, relojes,
 consenso o replicación); ahí se apoyan en conocimiento general. Si una explicación
-cree que la solución es dudosa, lo indica con «Ojo». Cubren 731 de las 865 preguntas
-de SSDD; el resto depende de figuras o tiene el texto incompleto, y la app lo indica.
+cree que la solución es dudosa, lo indica con «Ojo». Cubren 797 de las 865 preguntas
+de SSDD; el resto depende sobre todo de figuras o de datos de otra parte del examen, y
+la app lo indica.
 Redes I y Redes II no tienen temario en el proyecto ni explicaciones.
 
 Los textos están en `tools/ssdd_explicaciones_redactadas.json`, indexados por una

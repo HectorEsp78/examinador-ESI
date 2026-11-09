@@ -2112,7 +2112,7 @@ function optionLabel(question, letter) {
 function needsPdf(question) {
   return (
     question.options.some((option) => !option.text) ||
-    /figura|diagrama|captura|listado|topolog|siguiente (c[oó]digo|tabla|esquema|programa|fragmento)|figure|diagram|following (code|table)|-$/i.test(
+    /figura|diagrama|captura|topolog|siguiente (tabla|esquema)|figure|diagram|following table|√/i.test(
       question.text
     )
   );
@@ -2157,7 +2157,7 @@ function renderExplanation(item) {
     return `
       <div class="review-explanation muted">
         <h3>Sin explicación disponible</h3>
-        <p>Esta pregunta depende de una figura o su texto está incompleto. Consúltala en el PDF.</p>
+        <p>Esta pregunta depende de una figura o de datos de otra parte del examen. Consúltala en el PDF.</p>
         <button class="btn ghost small" type="button" id="review-temario">Explorar el temario</button>
       </div>`;
   }
@@ -2189,7 +2189,7 @@ function renderReviewQuestion() {
           data-letter="${escapeHtml(option.letter)}"
           aria-pressed="${selected}" ${item.answered ? "disabled" : ""}>
           <span class="review-letter">${escapeHtml(option.letter)}</span>
-          <span>${
+          <span class="review-option-text">${
             option.text
               ? escapeHtml(option.text)
               : '<em class="review-no-text">Texto disponible solo en el PDF</em>'
